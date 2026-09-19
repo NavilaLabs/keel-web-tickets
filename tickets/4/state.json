@@ -5,7 +5,7 @@
   "code_repo": "keel-web",
   "phase": "blocks",
   "intake_step": "5",
-  "as_is_base_commit": "efa015347ac18a7ab9d3f75f57d43baafb9629ac",
+  "as_is_base_commit": "b690c95dd214d58771f050d41ac48e6e418c3462",
   "to_be_branch": "ticket/4",
   "artifacts": {
     "knowledge": "tickets/4/knowledge.md",
