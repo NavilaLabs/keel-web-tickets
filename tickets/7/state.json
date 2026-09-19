@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "ticket_id": "7",
+  "ticket_source": "github",
+  "code_repo": "NavilaLabs/keel-web",
+  "pr": {
+    "host": "github",
+    "state": "none"
+  },
+  "phase": "intake",
+  "intake_step": "5",
+  "blocks": [
+    {
+      "id": "b1",
+      "title": "Claude Code on the host, keel-web beside it",
+      "step": "6",
+      "status": "pending"
+    },
+    {
+      "id": "b2",
+      "title": "Workspaces the developer adds, selects and keeps",
+      "step": "6",
+      "status": "pending"
+    }
+  ],
+  "consultations": [
+    {
+      "id": "c1",
+      "block": null,
+      "step": "2",
+      "question": "Are the functional goals and problems read correctly, and where does the keel-web process itself run once Claude Code runs on the host?",
+      "options": [
+        "keel-web stays containerised, host paths reach it through a mount or a host-side helper",
+        "keel-web moves to the host as well, the container becomes a convenience only",
+        "undecided, treat it as a step 6 option"
+      ],
+      "answer": "keel-web itself moves to the host alongside Claude Code, so server, registry, transcript log and agent share one filesystem; compose stays as a development convenience. Distribution as an image is a constraint to keep open, not a deliverable of this ticket. Goals and problems confirmed as stated.",
+      "status": "answered",
+      "asked_at": "2026-09-19T21:53:38.504040Z",
+      "answered_at": "2026-09-19T21:57:49.047772Z"
+    },
+    {
+      "id": "c2",
+      "block": null,
+      "step": "4",
+      "question": "Is the split into b1 (host runtime and agent) and b2 (workspace management) the right cut, and is b1 first the right order?",
+      "options": [
+        "Two blocks as proposed, b1 before b2",
+        "Two blocks, b2 before b1",
+        "One block for the whole ticket",
+        "A different cut"
+      ],
+      "answer": "Two blocks as proposed, b1 (host runtime and agent) before b2 (workspace management).",
+      "status": "answered",
+      "asked_at": "2026-09-19T22:02:52.194853Z",
+      "answered_at": "2026-09-19T22:04:07.440453Z"
+    }
+  ],
+  "jump_log": [],
+  "artifacts": {
+    "knowledge": "tickets/7/knowledge.md"
+  }
+}
