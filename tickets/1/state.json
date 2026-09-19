@@ -133,5 +133,11 @@
     ]
   },
   "as_is_base_commit": "5881545372a8c6993e45fe979a30a6dff13c7bc1",
-  "to_be_branch": "ticket/1"
+  "to_be_branch": "ticket/1",
+  "pr": {
+    "host": "github",
+    "url": "https://github.com/NavilaLabs/keel-web/pull/3",
+    "number": 3,
+    "state": "open"
+  }
 }
