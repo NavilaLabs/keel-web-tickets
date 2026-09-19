@@ -12,8 +12,8 @@
     {
       "id": "b1",
       "title": "Claude Code on the host, keel-web beside it",
-      "step": "8",
-      "status": "in_progress",
+      "step": "9",
+      "status": "done",
       "claimed_components": [
         "developerMachine",
         "developerMachine.browser",
