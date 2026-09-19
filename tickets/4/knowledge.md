@@ -49,10 +49,11 @@ with the developer there.
   configuration.  `open: addressed in b2`
 - No tests exist yet. Ticket 2 set the rule that the first ticket needing one writes
   it, and this is that ticket.  `open`
-- The as-is model lags the code by one ticket: ticket 2's `keelWeb.server.logger`
-  component is merged in code but lives only on branch `ticket/2` in the ticket repo,
-  so `main` has no component level for the server at all.  `open: the to-be branch
-  ticket/4 is cut from main 9dd0982, re-check at 7.0`
+- The as-is model lagged the code by one ticket: ticket 2's `keelWeb.server.logger`
+  component was merged in code but lived only on branch `ticket/2`, so `main` had no
+  component level for the server at all.  `resolved: ticket 2 synced into main at
+  efa0153, the HTTP app component ticket 1 never modelled added at b690c95, and
+  ticket/4 rebased onto it`
 
 ## Open questions
 
@@ -86,3 +87,11 @@ and the claimed components do not overlap: server against client.
   the agent running in the code repo with permission prompts answered in the browser,
   a sidebar plus main plus chat column shell, and localhost-only access without
   authentication.
+- 2026-09-19 - b1 stopped at 7.0. `as_is_base_commit` had not drifted, but `main` was
+  missing merged work: ticket 2's model changes were never synced. `/keel:sync-architecture 2`
+  ran, found no drift between ticket 2's to-be model and its merged code, and merged the
+  three-file diff into `main`. The extraction also surfaced structure the model never had:
+  `server/src/index.ts` and its relation to the logger, present since ticket 1 and made
+  visible by ticket 2's first component view. Modelled as `keelWeb.server.app` on `main`
+  rather than inside ticket 4's diff, so ticket 4 shows only ticket 4's changes.
+  `as_is_base_commit` is now b690c95.

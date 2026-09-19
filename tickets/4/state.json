@@ -16,8 +16,8 @@
     {
       "id": "b1",
       "title": "Server: run Claude Code sessions through the Agent SDK and expose them over a streaming API",
-      "step": "7.0",
-      "status": "blocked",
+      "step": "7.1",
+      "status": "in_progress",
       "claimed_components": [],
       "claimed_stubs": [],
       "adrs": []
