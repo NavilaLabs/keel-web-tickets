@@ -7,14 +7,37 @@
     "host": "github",
     "state": "none"
   },
-  "phase": "intake",
-  "intake_step": "5",
+  "phase": "blocks",
   "blocks": [
     {
       "id": "b1",
       "title": "Claude Code on the host, keel-web beside it",
-      "step": "6",
-      "status": "pending"
+      "step": "7",
+      "status": "awaiting_consultation",
+      "claimed_components": [
+        "developerMachine",
+        "developerMachine.browser",
+        "developerMachine.server",
+        "developerMachine.agent",
+        "keelWeb.server.sessions",
+        "keelWeb.server.chatApi"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "server/src/sessions/types.ts",
+          "symbol": "SessionRegistry",
+          "fingerprint": "27b3bf6fc63e18a49e5f998b8ea3b31c8c3df9f6b9f6645d4a250c86ccca7889"
+        },
+        {
+          "path": "server/src/chat/types.ts",
+          "symbol": "CreateChatRoutes",
+          "fingerprint": "2c0eb9723092e2cb0fcd2244f37e9f3c587d24213f91293d77c56cadafa1b380"
+        }
+      ],
+      "adrs": [
+        "tickets/7/adr/0009-claude-code-and-keel-web-on-the-developer-host.md",
+        "tickets/7/adr/0010-no-pre-flight-login-probe.md"
+      ]
     },
     {
       "id": "b2",
@@ -54,10 +77,68 @@
       "status": "answered",
       "asked_at": "2026-09-19T22:02:52.194853Z",
       "answered_at": "2026-09-19T22:04:07.440453Z"
+    },
+    {
+      "id": "c3",
+      "block": null,
+      "step": "5",
+      "question": "Does knowledge.md record the ticket correctly before the block zone starts?",
+      "options": [
+        "Accept as written",
+        "Correct a goal, problem or answer first"
+      ],
+      "answer": "Accepted as written. Proceed to block b1, step 6.",
+      "status": "answered",
+      "asked_at": "2026-09-19T22:05:02.303968Z",
+      "answered_at": "2026-09-19T22:06:56.703469Z"
+    },
+    {
+      "id": "c4",
+      "block": "b1",
+      "step": "6",
+      "question": "Which solution options does b1 take: how 'not logged in' is detected, what happens to configDirectory, what happens to the container, and whether the SSE invariant is observed or enforced?",
+      "options": [
+        "Auth: file probe / claude auth status --json / through the SDK with no pre-flight",
+        "configDirectory: keep as an explicit input passed into the agent env / delete it",
+        "Container: equal second path / delete / tests and CI only",
+        "SSE invariant: read in the log / asserted by an automated test"
+      ],
+      "answer": "Auth: no pre-flight probe; a start that fails before system:init ever arrived is classified as not logged in. configDirectory: kept, and now actually passed to the agent as Options.env spread over process.env. Container: kept for tests and CI only, no Claude login inside it, claude_config volume and the devcontainer Claude feature removed. SSE: the one-detach-per-reload invariant becomes an automated in-process test against the Hono router, no new route. Also agreed without a question: serve() binds 127.0.0.1 and vite's host: true is dropped.",
+      "status": "answered",
+      "asked_at": "2026-09-19T22:18:41.247558Z",
+      "answered_at": "2026-09-19T22:23:31.989019Z"
+    },
+    {
+      "id": "c5",
+      "block": "b1",
+      "step": "7",
+      "question": "Are the LikeC4 deployment model, the frozen contracts and the two ADRs right for b1? Everything after this is implemented against them.",
+      "options": [
+        "Accept model, stubs and ADRs",
+        "Change something first"
+      ],
+      "answer": null,
+      "status": "open",
+      "asked_at": "2026-09-19T22:27:48.205928Z",
+      "answered_at": null
     }
   ],
   "jump_log": [],
   "artifacts": {
-    "knowledge": "tickets/7/knowledge.md"
-  }
+    "knowledge": "tickets/7/knowledge.md",
+    "adrs": [
+      "tickets/7/adr/0009-claude-code-and-keel-web-on-the-developer-host.md",
+      "tickets/7/adr/0010-no-pre-flight-login-probe.md",
+      "tickets/1/adr/0002-claude-code-config-as-named-volume.md"
+    ],
+    "c4_views": [
+      "context",
+      "containers",
+      "server",
+      "client",
+      "runtime"
+    ]
+  },
+  "as_is_base_commit": "f9593a605814144ca8007cb7fd6b9dd8eff9b36f",
+  "to_be_branch": "ticket/7"
 }

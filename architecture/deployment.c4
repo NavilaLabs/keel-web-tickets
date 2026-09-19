@@ -1,0 +1,17 @@
+deployment {
+  developerMachine = machine 'Developer machine' {
+    description 'The machine the developer works on. The repositories, the Claude Code login and every keel-web process live here, under one login.'
+
+    browser = machine 'Browser' {
+      instanceOf keelWeb.client
+    }
+
+    server = instanceOf keelWeb.server {
+      description 'Started from a clone with an npm script and bound to 127.0.0.1, so it is reachable from this machine and nowhere else'
+    }
+
+    agent = instanceOf claudeCode {
+      description 'Spawned by the server through the Agent SDK, so it runs as the developer and sees the same repositories'
+    }
+  }
+}

@@ -18,4 +18,9 @@ views {
     title 'keel-web client components'
     include *
   }
+
+  deployment view runtime {
+    title 'Where keel-web runs'
+    include *
+  }
 }
