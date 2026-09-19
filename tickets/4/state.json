@@ -3,7 +3,7 @@
   "ticket_id": "4",
   "ticket_source": "github",
   "code_repo": "keel-web",
-  "phase": "delivery",
+  "phase": "done",
   "intake_step": "4",
   "as_is_base_commit": "9b565b9acfd443ccd3c5607f96edb22083ad5bb2",
   "to_be_branch": "ticket/4",
