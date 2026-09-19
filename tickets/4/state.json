@@ -1,0 +1,455 @@
+{
+  "schema_version": 1,
+  "ticket_id": "4",
+  "ticket_source": "github",
+  "code_repo": "keel-web",
+  "phase": "delivery",
+  "intake_step": "4",
+  "as_is_base_commit": "9b565b9acfd443ccd3c5607f96edb22083ad5bb2",
+  "to_be_branch": "ticket/4",
+  "artifacts": {
+    "knowledge": "tickets/4/knowledge.md",
+    "adrs": [
+      "tickets/4/adr/0005-sse-with-an-application-owned-event-log.md",
+      "tickets/4/adr/0006-every-tool-call-is-gated-in-the-browser.md",
+      "tickets/4/adr/0007-tailwind-and-shadcn-for-the-client.md",
+      "tickets/4/adr/0008-the-transcript-lives-outside-react.md"
+    ],
+    "c4_views": [
+      "context",
+      "containers",
+      "server",
+      "client"
+    ]
+  },
+  "blocks": [
+    {
+      "id": "b1",
+      "title": "Server: run Claude Code sessions through the Agent SDK and expose them over a streaming API",
+      "step": "9",
+      "status": "done",
+      "claimed_components": [
+        "keelWeb.server.app",
+        "keelWeb.server.chatApi",
+        "keelWeb.server.sessions",
+        "keelWeb.server.permissionGate",
+        "keelWeb.server.transcript",
+        "keelWeb.server.workspaces"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/events.ts",
+          "symbol": "SessionKey",
+          "fingerprint": "d766913e4f572d614dae9cbf44ed803562a7eb474cfe015d5ea07ed62a7ec21d"
+        },
+        {
+          "path": "server/src/chat/types.ts",
+          "symbol": "CreateChatRoutes",
+          "fingerprint": "8ef4e7d4e04aec20777643fa13a94038db8d0b91772cff730a329888276aa226"
+        },
+        {
+          "path": "server/src/sessions/types.ts",
+          "symbol": "SessionRegistry",
+          "fingerprint": "ab434319c1e4e5a06ced576d4fb4e48d65a0b37aed8a65770c7c8d8c29a4e4d5"
+        },
+        {
+          "path": "server/src/permissions/types.ts",
+          "symbol": "PermissionGate",
+          "fingerprint": "eabe2b7a671c158734e2772635181f2ce5e6641d79b6d73d8f9ef60caa3dfb7a"
+        },
+        {
+          "path": "server/src/transcript/types.ts",
+          "symbol": "TranscriptLog",
+          "fingerprint": "581a17c0fb3c8b7c9c97858c9274982b455b1b48ac13a10f04da1da765a1dda1"
+        },
+        {
+          "path": "server/src/workspaces/types.ts",
+          "symbol": "WorkspaceRegistry",
+          "fingerprint": "aeb3a16b0101197a435b6ecc343b45a1ecfb5d5c39e5193ba7ae92ff98ef20b7"
+        }
+      ],
+      "adrs": [
+        "tickets/4/adr/0005-sse-with-an-application-owned-event-log.md",
+        "tickets/4/adr/0006-every-tool-call-is-gated-in-the-browser.md"
+      ]
+    },
+    {
+      "id": "b2",
+      "title": "Client: app shell (sidebar, main area, chat column) and the chat surface against the frozen wire types",
+      "step": "9",
+      "status": "done",
+      "claimed_components": [
+        "keelWeb.client.shell",
+        "keelWeb.client.chat",
+        "keelWeb.client.permissionPrompt",
+        "keelWeb.client.transcriptStore",
+        "keelWeb.client.connection",
+        "keelWeb.client.router",
+        "keelWeb.client.workspaceList"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "client/src/connection/types.ts",
+          "symbol": "Connection",
+          "fingerprint": "cdf4b3f7ebca3e3ddda72b4eadfaef6122e3ea8a25fc7cee2878704fb273444b"
+        },
+        {
+          "path": "client/src/transcript/types.ts",
+          "symbol": "TranscriptStore",
+          "fingerprint": "563bec26b7e3c4990edcf79c48976eb45a4288274ecca160daf0640c161cfe77"
+        },
+        {
+          "path": "client/src/routing/types.ts",
+          "symbol": "Router",
+          "fingerprint": "217649faf3208d3421f492f6637ff0415c5454a180a123a0f201f1510da28955"
+        },
+        {
+          "path": "client/src/chat/types.ts",
+          "symbol": "PermissionPromptProperties",
+          "fingerprint": "996ec49da96cff72f9123cc03e53c6812187949fdae23ca6eae415b32085b5e7"
+        }
+      ],
+      "adrs": [
+        "tickets/4/adr/0007-tailwind-and-shadcn-for-the-client.md",
+        "tickets/4/adr/0008-the-transcript-lives-outside-react.md"
+      ]
+    }
+  ],
+  "consultations": [
+    {
+      "id": "c1",
+      "block": null,
+      "step": "2",
+      "question": "Ticket 4 has an empty body, so the goals below are reconstructed from ticket 1, the ADRs and the as-is model. Are the functional goals and the problem list right, and is the scope chat-only or does it include the ticket/PR/diagram views?",
+      "options": [
+        "Goals correct, scope is chat only (Recommended)",
+        "Goals correct, scope includes the view-only ticket/PR/LikeC4 panes",
+        "Goals need changes (see notes)"
+      ],
+      "answer": "Option 1: goals correct, scope is the chat only. But the UI shape must be designed with the later view panes (tickets, pull requests, LikeC4 diagrams) in mind, so the layout the chat lands in can take them without being rebuilt.",
+      "status": "answered",
+      "asked_at": "2026-09-19T00:00:00Z",
+      "answered_at": "2026-09-19T00:10:00Z"
+    },
+    {
+      "id": "c2",
+      "block": null,
+      "step": "4",
+      "question": "Is the split into two blocks, cut at the wire protocol (server runtime plus streaming API; client shell plus chat), right, or should the transport be its own block?",
+      "options": [
+        "Two blocks as proposed (Recommended)",
+        "Three blocks: session runtime, transport, client UI",
+        "One block for the whole ticket",
+        "Different cut (see notes)"
+      ],
+      "answer": "Two blocks as proposed.",
+      "status": "answered",
+      "asked_at": "2026-09-19T00:20:00Z",
+      "answered_at": "2026-09-19T00:25:00Z"
+    },
+    {
+      "id": "c3",
+      "block": null,
+      "step": "5",
+      "question": "Does knowledge.md capture ticket 4 correctly: the reconstructed goals, the problems including the security and logging soft spots, and the open questions left visible?",
+      "options": [
+        "Yes, matches",
+        "Needs changes (see notes)"
+      ],
+      "answer": "Yes, matches. Continue with step 6.",
+      "status": "answered",
+      "asked_at": "2026-09-19T00:35:00Z",
+      "answered_at": "2026-09-19T00:40:00Z"
+    },
+    {
+      "id": "c4",
+      "block": "b1",
+      "step": "6",
+      "question": "Five decisions for b1: streaming transport, transcript ownership, where the permission gate sits, what an unanswered prompt means, and the meaning of durationMs on a streaming route.",
+      "options": [
+        "Transport: SSE stream plus one POST input endpoint, or WebSocket",
+        "Transcript: application-owned event log, SDK session storage, or hybrid",
+        "Gate: canUseTool alone, PreToolUse hook plus canUseTool, or settingSources [] with explicit rules",
+        "Unanswered prompt: timeout into deny, hold pending as session state, or defer and end the query",
+        "durationMs: leave the frozen contract and add session-scoped stream lifecycle lines (my call unless overridden)"
+      ],
+      "answer": "Recommended set accepted: SSE stream plus one POST input endpoint; application-owned normalised event log as the transcript; PreToolUse hook returning ask with canUseTool as the browser-facing callback; an unanswered prompt is held pending as session state. Decision 5 stood as stated: the frozen request logger contract is not touched, b1 adds session-scoped stream attached/detached lines, and the SDK subprocess stderr is piped through the Logger.",
+      "status": "answered",
+      "asked_at": "2026-09-19T00:50:00Z",
+      "answered_at": "2026-09-19T01:00:00Z"
+    },
+    {
+      "id": "c5",
+      "block": "b1",
+      "step": "7.0",
+      "question": "The as-is model on main has no component level for the server: ticket 2's logger component and its server view live only on branch ticket/2, although the code is merged. Sync ticket 2's architecture into main before building ticket 4's to-be model, or build on main as it stands?",
+      "options": [
+        "Run /keel:sync-architecture for ticket 2 first, then rebase ticket/4 (Recommended)",
+        "Build on main as it stands and accept the later conflict",
+        "Other (see notes)"
+      ],
+      "answer": "Sync ticket 2's architecture into main first via /keel:sync-architecture, then rebase ticket/4 onto the new main and update as_is_base_commit. b1 waits at 7.0 until that has run.",
+      "status": "answered",
+      "asked_at": "2026-09-19T01:05:00Z",
+      "answered_at": "2026-09-19T01:10:00Z"
+    },
+    {
+      "id": "c6",
+      "block": "b1",
+      "step": "7",
+      "question": "Are the LikeC4 diff (five server components, two relations to Claude Code) and the five frozen stubs (wire protocol, chat API, session registry, permission gate, transcript log) the right contract to implement b1 against?",
+      "options": [
+        "Approve as presented (Recommended)",
+        "Approve, but the transcript log is too fine a component",
+        "Changes needed (see notes)"
+      ],
+      "answer": "Approved as presented: five components, both relations to Claude Code, and the five stubs with their guarantees.",
+      "status": "answered",
+      "asked_at": "2026-09-19T02:00:00Z",
+      "answered_at": "2026-09-19T02:10:00Z"
+    },
+    {
+      "id": "c7",
+      "block": "b1",
+      "step": "7.2",
+      "question": "Two changes to frozen stub files: make AuthRequiredError and SessionStartError real classes instead of ambient declarations, and align the stubs' import specifiers with the project's .js style. Both need the stub lock lifted.",
+      "options": [
+        "Do both, refreeze the fingerprints (Recommended)",
+        "Only the error classes, leave the import style",
+        "Other (see notes)"
+      ],
+      "answer": "Both: the two error classes become real classes and every stub import moves to the project's .js style. Fingerprints refrozen, implementation continues at step 8.",
+      "status": "answered",
+      "asked_at": "2026-09-19T02:40:00Z",
+      "answered_at": "2026-09-19T02:50:00Z"
+    },
+    {
+      "id": "c8",
+      "block": "b1",
+      "step": "7.1",
+      "question": "Two relations point the wrong way in the model. Correct the model to match the code, or restructure the code to match the model?",
+      "options": [
+        "Correct the model: sessions -> permissionGate, claudeCode -> sessions (Recommended)",
+        "Restructure the code: move the canUseTool callback into the gate",
+        "Other (see notes)"
+      ],
+      "answer": "Correct the model: sessions -> permissionGate and claudeCode -> sessions. The code structure stands.",
+      "status": "answered",
+      "asked_at": "2026-09-19T03:10:00Z",
+      "answered_at": "2026-09-19T03:15:00Z"
+    },
+    {
+      "id": "c9",
+      "block": "b1",
+      "step": "7.2",
+      "question": "The frozen PermissionDecision does not match the SDK's AskUserQuestion shape. Correct the contract to Record<string, string> keyed by question text, plus an optional free-text response?",
+      "options": [
+        "Correct the contract to match the SDK (Recommended)",
+        "Keep string[] and translate in the server",
+        "Other (see notes)"
+      ],
+      "answer": "Correct the contract to match the SDK: answers is Record<string, string> keyed by the full question text, multi-select comma separated, free text arriving as the value. preview added to QuestionOption. No response field: it belongs to the tool's output, not its input.",
+      "status": "answered",
+      "asked_at": "2026-09-19T04:00:00Z",
+      "answered_at": "2026-09-19T04:10:00Z"
+    },
+    {
+      "id": "c10",
+      "block": "b2",
+      "step": "6",
+      "question": "Client options: SSE transport, transcript state, styling. Markdown and routing decided with reasons unless overridden.",
+      "options": [
+        "Transport: native EventSource behind a seam, or a fetch reader",
+        "State: external store with useSyncExternalStore, pure reducer, hybrid, or Zustand",
+        "Styling: CSS Modules with the existing tokens, Tailwind v4, or a component library"
+      ],
+      "answer": "Transport: native EventSource behind a seam. State: external store with useSyncExternalStore, the fold a pure function, the connection owned by the store. Styling: Tailwind with shadcn/ui, optionally React Bits, aiming at a clean flat design. Markdown and routing as proposed: react-markdown for finished messages only, no router but the URL mirrored behind useRoute().",
+      "status": "answered",
+      "asked_at": "2026-09-19T04:00:00Z",
+      "answered_at": "2026-09-19T04:10:00Z"
+    },
+    {
+      "id": "c11",
+      "block": "b2",
+      "step": "7",
+      "question": "Are the client model (five components, the connection talking to the chat API) and the four frozen contracts the right basis for b2?",
+      "options": [
+        "Approve as presented (Recommended)",
+        "Changes needed (see notes)"
+      ],
+      "answer": "Approved as presented.",
+      "status": "answered",
+      "asked_at": "2026-09-19T04:30:00Z",
+      "answered_at": "2026-09-19T04:40:00Z"
+    },
+    {
+      "id": "c12",
+      "block": "b2",
+      "step": "7.1",
+      "question": "Three client relations contradict the code and ADR 0008. Correct the model to match?",
+      "options": [
+        "Correct the model (Recommended)",
+        "Other (see notes)"
+      ],
+      "answer": "Correct the model: the chat talks to the store, the store owns the connection, the shell wires both.",
+      "status": "answered",
+      "asked_at": "2026-09-19T05:00:00Z",
+      "answered_at": "2026-09-19T05:10:00Z"
+    },
+    {
+      "id": "c13",
+      "block": null,
+      "step": "2",
+      "question": "Goals corrected: keel-web serves any repository, and the chat should feel like Claude Code (autocomplete, model selection). How is that cut across tickets, and how does a repository on the host become reachable from the container?",
+      "options": [
+        "Workspace key into ticket 4, the rest as follow-up tickets",
+        "All of it in ticket 4",
+        "Ticket 4 stays as is, everything in follow-up tickets"
+      ],
+      "answer": "Goals corrected: keel-web is the working environment for the keel workflow on any local repository, not a UI onto itself. Claude Code will run on the host with the developer's own login and keel-web talks to it, which supersedes ADR 0002. The centre follows the conversation through a one-shot signal from keel that the developer can override and that is simply dropped when nobody is listening, so the terminal stays fully usable. Ticket 4 takes only the workspace key; tickets 5 to 9 carry the rest.",
+      "status": "answered",
+      "asked_at": "2026-09-19T06:00:00Z",
+      "answered_at": "2026-09-19T06:20:00Z"
+    },
+    {
+      "id": "c14",
+      "block": null,
+      "step": "7",
+      "question": "The workspace dimension changes the contracts of both blocks at once. Is the reworked model and the reworked contract set right?",
+      "options": [
+        "Approve as presented (Recommended)",
+        "Changes needed (see notes)"
+      ],
+      "answer": "Approved as presented: SessionKey, the workspace registry, the rekeyed routes and the ten frozen contracts.",
+      "status": "answered",
+      "asked_at": "2026-09-19T07:00:00Z",
+      "answered_at": "2026-09-19T07:10:00Z"
+    },
+    {
+      "id": "c15",
+      "block": "b1",
+      "step": "7.2",
+      "question": "The transcript and the session mapping move into the workspace's ticket repository, so keel-web keeps no store of its own. Where exactly, and what happens to a workspace without a ticket repository?",
+      "options": [
+        "tickets/<id>/transcript.jsonl, ignored by git, no session without a ticket repo (Recommended)",
+        "Same path but committed to the ticket repo",
+        "Other (see notes)"
+      ],
+      "answer": "transcript.jsonl sits beside knowledge.md in tickets/<id>/ and is kept out of git. A repository without .claude/keel.json is listed but cannot hold a session, and says so.",
+      "status": "answered",
+      "asked_at": "2026-09-19T07:25:00Z",
+      "answered_at": "2026-09-19T07:30:00Z"
+    },
+    {
+      "id": "c16",
+      "block": null,
+      "step": "12.4",
+      "question": "The as-is comparison found four undocumented model gaps: transcript -> workspaces (the half-applied jump 8 to 7), the router component whose contract was frozen but never modelled, the client workspace list, and app -> workspaces. Plus a second client-server crossing, GET /api/workspaces, that bypasses the protocol package. Does main follow the code, and what happens to the untyped crossing?",
+      "options": [
+        "Model follows the code, WorkspaceSummary into protocol as part of #7 (Recommended)",
+        "Model follows the code, WorkspaceSummary fixed now",
+        "Other (see notes)"
+      ],
+      "answer": "Model follows the code: transcript -> workspaces with an honest description, app -> workspaces, the router and workspaceList components with their edges, and the second container crossing. Named workspaceList to stay unambiguous against keelWeb.server.workspaces. WorkspaceSummary moves into the protocol package as part of #7, where the workspace API is built out anyway.",
+      "status": "answered",
+      "asked_at": "2026-09-19T08:00:00Z",
+      "answered_at": "2026-09-19T08:10:00Z"
+    }
+  ],
+  "jump_log": [
+    {
+      "from": "8",
+      "to": "7",
+      "block": "b1",
+      "trigger": "contract_change",
+      "reason": "server/src/sessions/types.ts declares AuthRequiredError and SessionStartError as `export declare class`, which emits no runtime code: the frozen stub compiles to `export {}`, so `new AuthRequiredError(...)` would throw and `instanceof` could never hold. The contract promises a rejection a caller can identify, so the declaration has to become a real class. Found while implementing at step 8.",
+      "at": "2026-09-19T02:40:00Z"
+    },
+    {
+      "from": "9",
+      "to": "7",
+      "block": "b1",
+      "trigger": "design_flaw",
+      "reason": "The to-be model draws permissionGate -> sessions and claudeCode -> permissionGate, but the registry creates and calls the gate, and owns the canUseTool callback the agent invokes. The model carried the conceptual direction rather than the dependency. Found at step 9 by comparing the implementation against the model.",
+      "at": "2026-09-19T03:10:00Z"
+    },
+    {
+      "from": "9",
+      "to": "8",
+      "block": "b1",
+      "trigger": "implementation_bug",
+      "reason": "The session registry imported the SDK's query() directly, so its consumer loop, the idempotency of attach and the authentication path could not be tested without a real agent and a real login. Verification named the gap; the developer asked for it closed. query becomes an injected dependency on SessionRegistryOptions, which is not a frozen stub: the SessionRegistry contract is unchanged.",
+      "at": "2026-09-19T03:30:00Z"
+    },
+    {
+      "from": "6",
+      "to": "7",
+      "block": "b1",
+      "trigger": "contract_change",
+      "reason": "The frozen wire contract types an AskUserQuestion answer as Record<string, string[]>, but the installed SDK 0.3.278 types AskUserQuestionInput.answers as Record<string, string> keyed by question text, with multi-select answers comma separated, and carries a `response` field for the free-text option the tool always offers. The server passes the value through verbatim, so the browser could never answer a consultation correctly. Found by b2's research at step 6 and confirmed against node_modules.",
+      "at": "2026-09-19T04:00:00Z"
+    },
+    {
+      "from": "9",
+      "to": "7",
+      "block": "b2",
+      "trigger": "design_flaw",
+      "reason": "Three client relations point the wrong way: the model draws chat -> connection, permissionPrompt -> connection and connection -> transcriptStore, but the chat talks to the store, the prompt hands its answer upwards, and the store owns the connection. The last of those is what ADR 0008 decided and the consultation approved, so the model contradicts an accepted decision. Same mistake as the b1 jump at 03:10: conceptual direction drawn instead of dependency direction.",
+      "at": "2026-09-19T05:00:00Z"
+    },
+    {
+      "from": "11",
+      "to": "8",
+      "block": "b2",
+      "trigger": "pr_feedback",
+      "reason": "The client is styled but not designed: shadcn defaults applied without a visual point of view. No contract or relation changes, so this is a step 8 re-entry rather than a jump to 7. Constraint from the developer stands: minimal and flat.",
+      "at": "2026-09-19T05:30:00Z"
+    },
+    {
+      "from": "11",
+      "to": "2",
+      "block": null,
+      "trigger": "misunderstood_goal",
+      "reason": "keel-web was built as a UI onto one repository, its own. It is meant to be the web layer on keel for any repository, so a session needs a workspace as well as a ticket. The step 3 question about the agent's working directory offered 'the code repo' and 'a repo chosen per session' without saying that the first nails keel-web to itself, even though knowledge.md already carried 'relation to the keel project itself' as an open question. The developer also widened the goal: slash-command and @ autocomplete and model selection, a full Claude Code experience in the browser.",
+      "at": "2026-09-19T06:00:00Z"
+    },
+    {
+      "from": "9",
+      "to": "7",
+      "block": "b1",
+      "trigger": "contract_change",
+      "reason": "The session key gains a workspace: the wire contract, the session registry, the transcript paths and the agent's working directory all carry only a ticket id today, so ticket 3 in one repository and ticket 3 in another would be the same session.",
+      "at": "2026-09-19T06:40:00Z"
+    },
+    {
+      "from": "9",
+      "to": "7",
+      "block": "b2",
+      "trigger": "contract_change",
+      "reason": "The route, the store and the connection are keyed by ticket alone and must carry the workspace too.",
+      "at": "2026-09-19T06:40:00Z"
+    },
+    {
+      "from": "8",
+      "to": "7",
+      "block": "b1",
+      "trigger": "contract_change",
+      "reason": "keel-web must keep no storage of its own: the transcript and the session mapping belong in the workspace's ticket repository next to knowledge.md, state.json and events.jsonl, which are already scoped per workspace and travel with it. The frozen CreateTranscriptLog took a single directory and the registry took a stateDirectory, both of which assume one store for everything.",
+      "at": "2026-09-19T07:20:00Z"
+    },
+    {
+      "from": "12",
+      "to": "12",
+      "block": null,
+      "trigger": "as_is_drift",
+      "reason": "The extraction found four things in the code that the to-be model never described. The worst is transcript -> workspaces: the jump 8 to 7 was applied to the model only by half, so the one edge the jump was actually about was missing, and with it the model's only record of 'keel-web keeps no storage of its own'. The client router was frozen as a contract in b2's claimed_stubs but never appeared in claimed_components, which is the same thing described from two sides and should have been caught at 7.1. The client workspace list and app -> workspaces were simply never drawn. In every case the code was right and the model followed it.",
+      "at": "2026-09-19T08:10:00Z"
+    }
+  ],
+  "pr": {
+    "host": "github",
+    "url": "https://github.com/NavilaLabs/keel-web/pull/6",
+    "number": 6,
+    "state": "merged"
+  }
+}

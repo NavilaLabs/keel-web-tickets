@@ -1,0 +1,182 @@
+# 4: Integrate claude code into the web ui
+
+The ticket body is empty. Title, ticket 1's v1 goal list and ADRs 0001 to 0004
+are the whole input; everything below was reconstructed at step 2 and agreed
+with the developer there.
+
+## Goals
+
+- [x] The developer chats with Claude Code from the browser: a message goes out, the
+  answer streams back token by token, and the conversation keeps its history.  `agreed`
+- [x] The session is a real Claude Code session with its tools, skills and MCP servers,
+  so the keel workflow itself is drivable from the browser.  `agreed`
+- [x] The developer sees what the agent is doing, not only its prose: tool calls, the
+  files touched, and above all permission requests, answerable in the browser.  `agreed`
+- [x] A session survives a page reload. Sessions are keyed by workspace and ticket, because
+  ticket 3 in one repository is not ticket 3 in another; a reload reattaches to a live run
+  and replays the transcript otherwise.  `agreed`
+- [x] Mutation stays with Claude Code. The UI never writes tickets, pull requests or
+  diagrams itself, per ticket 1. This ticket must not open a second write path.  `agreed`
+- [x] Server-side work is observable through the `Logger` frozen in ticket 2. ADR 0004
+  named this ticket as that contract's first consumer.  `agreed`
+- [x] Scope is the chat only. The ticket, pull request and LikeC4 view panes stay for a
+  later ticket, but the layout is designed so they fit without a rebuild.  `agreed`
+
+## Problems
+
+- The ticket is empty: no acceptance criteria, no comments, no definition of done.
+  `resolved: goals reconstructed at step 2 and confirmed, open points asked at step 3`
+- Streaming transport was never decided, open since ticket 1 (SSE against WebSocket).
+  Goal 3 presses on it, because permission prompts need a client to server direction
+  mid-stream.  `open: decided in b1 step 6`
+- The session model did not exist.  `resolved: one session per ticket, resumable;
+  a server restart loses the live run but not the history`
+- Working directory and tool permissions are a security decision, not a default: a
+  browser that can run Claude Code unrestricted is remote code execution against the
+  container, and both repos are mounted.  `resolved: the agent runs in the code repo
+  exactly as the terminal does, reaching the ticket repo through the KEEL_TICKET_REPO
+  mount, and every permission request is answered in the browser`
+- Authentication for Claude Code is container-local and interactive (ADR 0002). The
+  server can only run the SDK after the one-time `claude` login inside the container,
+  and there is no API key path.  `open: behaviour when the login is missing is part of
+  b1`
+- The logging contract has two known soft spots here (ADR 0004): request duration is
+  measured to the end of `next()` rather than the end of the response body, which is
+  wrong for a stream, and code outside a Hono request has no logger until
+  AsyncLocalStorage is added, which is exactly what a long-lived session is.
+  `open: addressed in b1`
+- The client was the unmodified Vite starter: no router, no component structure, no
+  styling library.  `resolved: Tailwind with shadcn/ui (ADR 0007), the URL mirrored behind
+  useRoute, and the Vite proxy verified to carry SSE`
+- No tests existed yet. Ticket 2 set the rule that the first ticket needing one writes it,
+  and this is that ticket.  `resolved: 57 tests on the server, covering the guarantees the
+  frozen contracts promise`
+- The as-is model lagged the code by one ticket: ticket 2's `keelWeb.server.logger`
+  component was merged in code but lived only on branch `ticket/2`, so `main` had no
+  component level for the server at all.  `resolved: ticket 2 synced into main at
+  efa0153, the HTTP app component ticket 1 never modelled added at b690c95, and
+  ticket/4 rebased onto it`
+
+## Open questions
+
+- Which streaming transport, and how the permission answer travels back.  `open`
+- How a missing Claude Code login inside the container surfaces in the browser.  `open`
+- How the built client is served in production, carried over from ticket 1.  `open`
+- Whether the UI stays localhost-only. No authentication is in front of it, which is
+  fine for a single developer on the host but must not be exposed by accident.
+  `answered: localhost only, no auth for now; recorded here as a standing risk`
+- Whether session history is read from Claude Code's own session storage or from
+  storage this application owns.  `open: part of b1`
+- Relation to the keel project itself, whose workflow this UI is meant to drive.
+  `answered: keel-web is the web layer on keel for any repository the developer works in,
+  not a UI onto keel-web. Missing this shaped the whole of ticket 4; see the log.`
+
+## Theme blocks
+
+- **b1** Server: run Claude Code sessions through the Agent SDK and expose them over a
+  streaming API. Session registry keyed by ticket, lifecycle and resume, fixed working
+  directory, permission gate, logging, endpoints and the event envelope.  `done`
+- **b2** Client: app shell (sidebar, main area, chat column) and the chat surface,
+  implemented against the wire types b1 freezes at 7.2.  `done`
+
+The cut is the wire protocol. The dependency runs one way, b2 consumes what b1 freezes,
+and the claimed components do not overlap: server against client.
+
+## Log
+
+- 2026-09-19 - Intake. Ticket body empty, so step 2 reconstructed the goals from ticket 1
+  and the ADRs; the developer confirmed them and set the scope to chat only, with the
+  layout anticipating the later view panes. Step 3 settled sessions per ticket,
+  the agent running in the code repo with permission prompts answered in the browser,
+  a sidebar plus main plus chat column shell, and localhost-only access without
+  authentication.
+- 2026-09-19 - b1 stopped at 7.0. `as_is_base_commit` had not drifted, but `main` was
+  missing merged work: ticket 2's model changes were never synced. `/keel:sync-architecture 2`
+  ran, found no drift between ticket 2's to-be model and its merged code, and merged the
+  three-file diff into `main`. The extraction also surfaced structure the model never had:
+  `server/src/index.ts` and its relation to the logger, present since ticket 1 and made
+  visible by ticket 2's first component view. Modelled as `keelWeb.server.app` on `main`
+  rather than inside ticket 4's diff, so ticket 4 shows only ticket 4's changes.
+  `as_is_base_commit` is now b690c95.
+- 2026-09-19 - Jump 8 to 7 (b1). The frozen `server/src/sessions/types.ts` declared its two error
+  classes with `export declare class`, which emits no runtime code, so the contract promised a
+  rejection no caller could ever identify. Found by compiling the stub in isolation while
+  implementing. Refrozen as real classes rather than worked around in the implementation.
+- 2026-09-19 - Jump 9 to 7 (b1). The to-be model drew `permissionGate -> sessions` and
+  `claudeCode -> permissionGate`, the conceptual direction rather than the dependency: the
+  registry creates and calls the gate and owns the `canUseTool` callback. The model was
+  corrected to `sessions -> permissionGate` and `claudeCode -> sessions`; the code stands.
+- 2026-09-19 - b1 verified and done. 36 tests, the project's first, covering the guarantees the
+  stubs promise: sequence numbers without gaps, replay after a sequence number, the gate's
+  first-answer-wins and deny-on-close, the normalisation of SDK messages, and the input
+  endpoint's status codes. All five frozen stubs are bit-identical with their fingerprints.
+- 2026-09-19 - Jump 9 to 8 (b1). Verification found that the session registry could not be
+  tested at all: it imported the SDK's `query` directly, so its consumer loop, the idempotency
+  of `attach` and the authentication path all needed a real agent and a real login. The runner
+  is now injected through `SessionRegistryOptions`, which is not a frozen stub, so the
+  `SessionRegistry` contract did not change. 21 further tests followed, among them that a tool
+  call always reaches the browser, that a denial carries its reason back to the agent, that
+  structured answers survive the round trip, and that a lost login is recognised as
+  `auth_required` rather than a generic failure.
+- 2026-09-19 - Jump 6 to 7 (b1), found by b2's research. The frozen wire contract typed an
+  AskUserQuestion answer as `Record<string, string[]>`, while the installed SDK 0.3.278 expects
+  `Record<string, string>` keyed by the full question text, with multi-select answers comma
+  separated and free text arriving as the value. The server passes the value through verbatim,
+  so every consultation answered in the browser would have reached the agent as no answer at
+  all. The server test that appeared to cover this used a key matching neither the question nor
+  the header, so it proved nothing. Contract corrected and refrozen, tests keyed by question
+  text.
+- 2026-09-19 - Jump 9 to 7 (b2). Three client relations pointed the wrong way, and one of
+  them contradicted the accepted ADR 0008 by drawing the connection as owner of the store
+  rather than the reverse. Same mistake as the b1 jump earlier the same day: the conceptual
+  direction of the flow was drawn instead of the dependency direction. Worth carrying into
+  the next ticket: read the imports before drawing component relations.
+- 2026-09-19 - b2 verified and done. 26 client tests on top of b1's 57. The fold is the
+  centre of them: replay and live produce identical items, an unfinished tool call stays
+  visible, a result for an unknown call is ignored, and keys survive the list growing. The
+  store's identity rules are tested directly, since breaking them makes React render
+  forever: the transcript reference is stable until something recorded arrives, and tokens
+  never touch it.
+- 2026-09-19 - Verified through the running app that the Vite proxy carries SSE and that a
+  container without a Claude Code login produces a clean `auth_required` instead of a
+  reconnect loop. Still unverified, because it needs a logged-in container: that a browser
+  reload produces exactly one `stream detached` line. Without that, every reload leaks a
+  subscriber.
+- 2026-09-19 - PR #6 opened against main, linking knowledge.md, ADRs 0005 to 0008 and the
+  four LikeC4 views.
+- 2026-09-19 - Jump 11 to 2. keel-web had been built as a UI onto one repository, its own,
+  because step 3 asked where the agent runs and offered "the code repo" without saying that
+  answering so nails keel-web to itself. The question "relation to the keel project itself"
+  had been open in this file since step 5 and was never closed. Corrected goals: keel-web is
+  the working environment for the keel workflow on any local repository. Claude Code will run
+  on the host under the developer's own login, which supersedes ADR 0002, and the centre of
+  the screen follows the conversation through a one-shot signal keel emits, which the
+  developer can override and which is dropped unheard when only the terminal is in use.
+  Ticket 4 takes the workspace key alone, since that is what is expensive to add later.
+  Tickets #7 to #11 carry the rest: the workspace UI, the phase display, the artefact views,
+  the tracker views, and the autocomplete and model selection.
+- 2026-09-19 - Jump 8 to 7 (b1). keel-web had grown a store of its own: a `keel_web_data`
+  volume holding the transcripts and the ticket-to-session mapping. The developer stopped it:
+  everything belongs in the workspace's ticket repository, which is already scoped per
+  workspace and travels with it. `CreateTranscriptLog` now takes the `WorkspaceRegistry` and
+  resolves where to write, `transcript.jsonl` sits beside knowledge.md and is kept out of git,
+  and the session mapping disappeared entirely because the id is already in the transcript's
+  own `session.started` events. One record instead of two that can disagree.
+- 2026-09-19 - Both blocks reworked onto the workspace key and verified. 110 tests, up from 83:
+  the workspace registry reads keel.json and refuses a path that does not exist, the transcript
+  keeps a ticket of the same number in two repositories apart, the registry refuses an
+  unregistered workspace before starting an agent, and the router parses and writes
+  `/workspaces/<id>/tickets/<id>`. A repository without `.claude/keel.json` is listed but
+  cannot hold a session, and says so rather than falling back to a store of its own.
+- 2026-09-19 - As-is sync, drift found and recorded. The extraction compared the merged code
+  against the to-be model and found four relations or components the model never described,
+  all of them real in the code. The costly one is `transcript -> workspaces`: the jump 8 to 7
+  moved the record into the workspace's ticket repository, but the model gained only
+  `workspaces`, `chatApi -> workspaces` and `sessions -> workspaces`, not the edge the jump was
+  about, so the model carried no trace of "keel-web keeps no storage of its own". The client
+  `router` had its contract frozen in b2's `claimed_stubs` while never entering
+  `claimed_components`: the two lists describe the same thing from two sides, and a check of one
+  against the other at 7.1 would have caught it. The client workspace list and `app -> workspaces`
+  were never drawn at all. The code was right in every case and `main` followed it.
+  Carried into #7: `WorkspaceSummary` crosses the client-server boundary without going through
+  `@keel-web/protocol`, the only wire type that does not, which is why it was never noticed.
