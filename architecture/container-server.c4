@@ -3,6 +3,12 @@ model {
     server = container 'Web server' {
       description 'Hono server that streams Claude Code output to the client and reads tickets and pull requests from the trackers'
       technology 'TypeScript, Hono, Node'
+
+      logger = component 'Logger' {
+        description 'Shared structured logger and request-logging middleware, pretty in development and JSON in production'
+        technology 'pino'
+        link ../../keel-web/server/src/logging/types.ts
+      }
     }
 
     client -> server 'Calls HTTP and streaming API'
