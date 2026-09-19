@@ -138,5 +138,11 @@
   ],
   "jump_log": [],
   "as_is_base_commit": "9dd098200de8ae2a6357559e14643cab1884880b",
-  "to_be_branch": "ticket/2"
+  "to_be_branch": "ticket/2",
+  "pr": {
+    "host": "github",
+    "url": "https://github.com/NavilaLabs/keel-web/pull/5",
+    "number": 5,
+    "state": "open"
+  }
 }
