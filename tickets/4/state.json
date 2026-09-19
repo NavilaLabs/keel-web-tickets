@@ -3,7 +3,7 @@
   "ticket_id": "4",
   "ticket_source": "github",
   "code_repo": "keel-web",
-  "phase": "blocks",
+  "phase": "delivery",
   "intake_step": "5",
   "as_is_base_commit": "9b565b9acfd443ccd3c5607f96edb22083ad5bb2",
   "to_be_branch": "ticket/4",
@@ -70,8 +70,8 @@
     {
       "id": "b2",
       "title": "Client: app shell (sidebar, main area, chat column) and the chat surface against the frozen wire types",
-      "step": "7.3",
-      "status": "awaiting_consultation",
+      "step": "9",
+      "status": "done",
       "claimed_components": [
         "keelWeb.client.shell",
         "keelWeb.client.chat",
@@ -269,10 +269,24 @@
         "Approve as presented (Recommended)",
         "Changes needed (see notes)"
       ],
-      "answer": null,
-      "status": "open",
+      "answer": "Approved as presented.",
+      "status": "answered",
       "asked_at": "2026-09-19T04:30:00Z",
-      "answered_at": null
+      "answered_at": "2026-09-19T04:40:00Z"
+    },
+    {
+      "id": "c12",
+      "block": "b2",
+      "step": "7.1",
+      "question": "Three client relations contradict the code and ADR 0008. Correct the model to match?",
+      "options": [
+        "Correct the model (Recommended)",
+        "Other (see notes)"
+      ],
+      "answer": "Correct the model: the chat talks to the store, the store owns the connection, the shell wires both.",
+      "status": "answered",
+      "asked_at": "2026-09-19T05:00:00Z",
+      "answered_at": "2026-09-19T05:10:00Z"
     }
   ],
   "jump_log": [
@@ -307,6 +321,14 @@
       "trigger": "contract_change",
       "reason": "The frozen wire contract types an AskUserQuestion answer as Record<string, string[]>, but the installed SDK 0.3.278 types AskUserQuestionInput.answers as Record<string, string> keyed by question text, with multi-select answers comma separated, and carries a `response` field for the free-text option the tool always offers. The server passes the value through verbatim, so the browser could never answer a consultation correctly. Found by b2's research at step 6 and confirmed against node_modules.",
       "at": "2026-09-19T04:00:00Z"
+    },
+    {
+      "from": "9",
+      "to": "7",
+      "block": "b2",
+      "trigger": "design_flaw",
+      "reason": "Three client relations point the wrong way: the model draws chat -> connection, permissionPrompt -> connection and connection -> transcriptStore, but the chat talks to the store, the prompt hands its answer upwards, and the store owns the connection. The last of those is what ADR 0008 decided and the consultation approved, so the model contradicts an accepted decision. Same mistake as the b1 jump at 03:10: conceptual direction drawn instead of dependency direction.",
+      "at": "2026-09-19T05:00:00Z"
     }
   ],
   "pr": {

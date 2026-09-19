@@ -32,11 +32,10 @@ model {
       }
 
       shell -> chat 'Keeps the chat beside the ticket list and the artifact area'
-      chat -> transcriptStore 'Reads the transcript and the live draft'
+      shell -> transcriptStore 'Points the store at the selected ticket'
+      chat -> transcriptStore 'Reads the transcript and sends messages, answers and interrupts'
       chat -> permissionPrompt 'Shows a held tool call in place'
-      chat -> connection 'Sends messages and interrupts'
-      permissionPrompt -> connection 'Sends the answer'
-      connection -> transcriptStore 'Appends recorded events and deltas'
+      transcriptStore -> connection 'Opens the stream and posts commands'
     }
   }
 

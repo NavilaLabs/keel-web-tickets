@@ -44,9 +44,9 @@ with the developer there.
   wrong for a stream, and code outside a Hono request has no logger until
   AsyncLocalStorage is added, which is exactly what a long-lived session is.
   `open: addressed in b1`
-- The client is still the unmodified Vite starter: no router, no component structure,
-  no styling library, and the dev proxy has no streaming-specific buffering or timeout
-  configuration.  `open: addressed in b2`
+- The client was the unmodified Vite starter: no router, no component structure, no
+  styling library.  `resolved: Tailwind with shadcn/ui (ADR 0007), the URL mirrored behind
+  useRoute, and the Vite proxy verified to carry SSE`
 - No tests existed yet. Ticket 2 set the rule that the first ticket needing one writes it,
   and this is that ticket.  `resolved: 57 tests on the server, covering the guarantees the
   frozen contracts promise`
@@ -75,7 +75,7 @@ with the developer there.
   streaming API. Session registry keyed by ticket, lifecycle and resume, fixed working
   directory, permission gate, logging, endpoints and the event envelope.  `done`
 - **b2** Client: app shell (sidebar, main area, chat column) and the chat surface,
-  implemented against the wire types b1 freezes at 7.2.  `pending`
+  implemented against the wire types b1 freezes at 7.2.  `done`
 
 The cut is the wire protocol. The dependency runs one way, b2 consumes what b1 freezes,
 and the claimed components do not overlap: server against client.
@@ -124,3 +124,19 @@ and the claimed components do not overlap: server against client.
   all. The server test that appeared to cover this used a key matching neither the question nor
   the header, so it proved nothing. Contract corrected and refrozen, tests keyed by question
   text.
+- 2026-09-19 - Jump 9 to 7 (b2). Three client relations pointed the wrong way, and one of
+  them contradicted the accepted ADR 0008 by drawing the connection as owner of the store
+  rather than the reverse. Same mistake as the b1 jump earlier the same day: the conceptual
+  direction of the flow was drawn instead of the dependency direction. Worth carrying into
+  the next ticket: read the imports before drawing component relations.
+- 2026-09-19 - b2 verified and done. 26 client tests on top of b1's 57. The fold is the
+  centre of them: replay and live produce identical items, an unfinished tool call stays
+  visible, a result for an unknown call is ignored, and keys survive the list growing. The
+  store's identity rules are tested directly, since breaking them makes React render
+  forever: the transcript reference is stable until something recorded arrives, and tokens
+  never touch it.
+- 2026-09-19 - Verified through the running app that the Vite proxy carries SSE and that a
+  container without a Claude Code login produces a clean `auth_required` instead of a
+  reconnect loop. Still unverified, because it needs a logged-in container: that a browser
+  reload produces exactly one `stream detached` line. Without that, every reload leaks a
+  subscriber.
