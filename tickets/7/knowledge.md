@@ -66,3 +66,7 @@ that is a jump back to 4.
 ## Log
 - 2026-09-19 - Step 2: confirmed that keel-web moves to the host with the agent, and that image distribution is a constraint rather than a deliverable (c1).
 - 2026-09-20 - Step 4: split into b1 and b2, b1 first (c2).
+- 2026-09-20 - Block b1, jump 8 -> 7 (`contract_change`): the protocol's `auth_required`
+  failure code still said the container has no login. With no pre-flight probe it means the
+  agent gave up before it was ready, and any early failure lands under it. `protocol/src/events.ts`
+  was not frozen at 7.2, so the correction is a step 7 decision, not an implementation edit.
