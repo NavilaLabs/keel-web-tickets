@@ -3,7 +3,7 @@
   "ticket_id": "4",
   "ticket_source": "github",
   "code_repo": "keel-web",
-  "phase": "intake",
+  "phase": "blocks",
   "intake_step": "5",
   "as_is_base_commit": "9dd098200de8ae2a6357559e14643cab1884880b",
   "to_be_branch": "ticket/4",
@@ -16,8 +16,8 @@
     {
       "id": "b1",
       "title": "Server: run Claude Code sessions through the Agent SDK and expose them over a streaming API",
-      "step": "6",
-      "status": "pending",
+      "step": "7.0",
+      "status": "blocked",
       "claimed_components": [],
       "claimed_stubs": [],
       "adrs": []
@@ -63,6 +63,52 @@
       "status": "answered",
       "asked_at": "2026-09-19T00:20:00Z",
       "answered_at": "2026-09-19T00:25:00Z"
+    },
+    {
+      "id": "c3",
+      "block": null,
+      "step": "5",
+      "question": "Does knowledge.md capture ticket 4 correctly: the reconstructed goals, the problems including the security and logging soft spots, and the open questions left visible?",
+      "options": [
+        "Yes, matches",
+        "Needs changes (see notes)"
+      ],
+      "answer": "Yes, matches. Continue with step 6.",
+      "status": "answered",
+      "asked_at": "2026-09-19T00:35:00Z",
+      "answered_at": "2026-09-19T00:40:00Z"
+    },
+    {
+      "id": "c4",
+      "block": "b1",
+      "step": "6",
+      "question": "Five decisions for b1: streaming transport, transcript ownership, where the permission gate sits, what an unanswered prompt means, and the meaning of durationMs on a streaming route.",
+      "options": [
+        "Transport: SSE stream plus one POST input endpoint, or WebSocket",
+        "Transcript: application-owned event log, SDK session storage, or hybrid",
+        "Gate: canUseTool alone, PreToolUse hook plus canUseTool, or settingSources [] with explicit rules",
+        "Unanswered prompt: timeout into deny, hold pending as session state, or defer and end the query",
+        "durationMs: leave the frozen contract and add session-scoped stream lifecycle lines (my call unless overridden)"
+      ],
+      "answer": "Recommended set accepted: SSE stream plus one POST input endpoint; application-owned normalised event log as the transcript; PreToolUse hook returning ask with canUseTool as the browser-facing callback; an unanswered prompt is held pending as session state. Decision 5 stood as stated: the frozen request logger contract is not touched, b1 adds session-scoped stream attached/detached lines, and the SDK subprocess stderr is piped through the Logger.",
+      "status": "answered",
+      "asked_at": "2026-09-19T00:50:00Z",
+      "answered_at": "2026-09-19T01:00:00Z"
+    },
+    {
+      "id": "c5",
+      "block": "b1",
+      "step": "7.0",
+      "question": "The as-is model on main has no component level for the server: ticket 2's logger component and its server view live only on branch ticket/2, although the code is merged. Sync ticket 2's architecture into main before building ticket 4's to-be model, or build on main as it stands?",
+      "options": [
+        "Run /keel:sync-architecture for ticket 2 first, then rebase ticket/4 (Recommended)",
+        "Build on main as it stands and accept the later conflict",
+        "Other (see notes)"
+      ],
+      "answer": "Sync ticket 2's architecture into main first via /keel:sync-architecture, then rebase ticket/4 onto the new main and update as_is_base_commit. b1 waits at 7.0 until that has run.",
+      "status": "answered",
+      "asked_at": "2026-09-19T01:05:00Z",
+      "answered_at": "2026-09-19T01:10:00Z"
     }
   ],
   "jump_log": [],
