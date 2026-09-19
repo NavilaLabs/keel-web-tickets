@@ -20,7 +20,7 @@ the persistence.
 - [x] A workspace whose path has disappeared stays listed, is marked unreachable and can be removed.  `agreed`
 
 ## Problems
-- The workspace list is fixed at boot. `CreateWorkspaceRegistry` is frozen as `list()` and `find()`: no add, no remove, no reload, and the client fetches it once on mount. Changing it is a contract change to a ticket 4 stub.  `open`
+- The workspace list is fixed at boot. `CreateWorkspaceRegistry` is frozen as `list()` and `find()`: no add, no remove, no reload, and the client fetches it once on mount. Changing it is a contract change to a ticket 4 stub.  `resolved: the registry takes a store and grows add, remove and refresh, each answering with the whole new list. KEEL_WEB_WORKSPACES is gone (ADR 0012).`
 - The agent belongs to the container. `assertLoggedIn()` probes `.credentials.json` under the container's config directory, `runQuery` runs in process, and two error messages say "inside the container" in so many words.  `resolved: the agent is a child of the server process on the host, the probe is gone (ADR 0010) and the configuration directory is handed to the agent instead of read.`
 - The host move reaches past the agent. `createWorkspaceRegistry` reads `.claude/keel.json` and `createTranscriptLog` writes `tickets/<id>/transcript.jsonl` itself, both from the server. A host path only the agent can see would not carry them.  `resolved: keel-web itself moves to the host, so server, registry, transcript log and agent share one filesystem (c1).`
 - `WorkspaceSummary` is hand-written on both sides and is the only client-server crossing outside `@keel-web/protocol`, which is why nobody noticed it.  `resolved: moved into the protocol package as a discriminated union (ADR 0011).`
@@ -47,7 +47,7 @@ the persistence.
   topology.
   Claims `keelWeb.server.sessions`, the context relation `keelWeb -> claudeCode`
   and the `keelWeb.server` container itself.
-- **b2** Workspaces the developer adds, selects and keeps - `pending`
+- **b2** Workspaces the developer adds, selects and keeps - `done`
   A mutable registry, the stored list of paths, identity detached from the
   path, reachability and usability as two separate states, `WorkspaceSummary`
   moved into the protocol package, and the sidebar that adds, selects and
@@ -73,3 +73,5 @@ that is a jump back to 4.
   was not frozen at 7.2, so the correction is a step 7 decision, not an implementation edit.
 - 2026-09-20 - Block b1 done at step 9. 114 tests pass, lint, format and build are clean. Verified on a real socket: three reloads produce three attaches, three detaches and no surviving subscriber.
 - 2026-09-20 - Step 6 of b2 found that reachability and usability are not independent after all: an unreachable path says nothing about the keel configuration inside it. The ticket's framing of two separate states was replaced by three exhaustive ones (ADR 0011).
+- 2026-09-20 - Block b2 done at step 9. 143 tests pass, lint, format and build are clean. Verified against a running server with its own configuration directory: adding by path and by `~/`, a directory without keel configuration, a path that does not exist, a directory that vanished after being added, removal, the id surviving a restart, and a corrupt list stopping the server with the file named.
+- 2026-09-20 - Not verified: the sidebar itself. The client has no DOM test environment, and this session has no browser, so the add field, the removal affordance and the state markers were reasoned about and built but not looked at.

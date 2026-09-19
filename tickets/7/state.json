@@ -42,8 +42,8 @@
     {
       "id": "b2",
       "title": "Workspaces the developer adds, selects and keeps",
-      "step": "8",
-      "status": "in_progress",
+      "step": "9",
+      "status": "done",
       "claimed_components": [
         "keelWeb.server.workspaces",
         "keelWeb.server.workspaceStore",
