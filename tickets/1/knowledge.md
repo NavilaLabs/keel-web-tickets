@@ -9,17 +9,17 @@ Source: https://github.com/NavilaLabs/keel-web/issues/1
 - [x] A short English README explains what keel-web is  `agreed`
 
 ## Problems
-- Tech stack is undecided; no constraints given. Preference: keep it simple, leaning Deno + Fresh, still open  `open`
+- Tech stack undecided  `resolved: Vite + React + Hono on Node (ADR 0001)`
 - UI design is explicitly undecided (out of scope here; stack should not force a look)  `open`
 - Ticket has no acceptance criteria  `open`
 - v1 features are not split into their own tickets; this ticket is scaffolding only (no CI, no backend skeleton)  `resolved: scope confirmed by developer`
 
 ## Open questions
-- Which starter template? (depends on stack choice, step 6)  `open`
-- How exactly is the local Claude Code instance mounted into the devcontainer (config dir, credentials, binary)?  `open`
+- Which starter template?  `answered: Vite react-ts template plus hand-written Hono server`
+- How is Claude Code made available in the devcontainer?  `answered: named volume plus CLAUDE_CONFIG_DIR, Claude Code via devcontainer feature (ADR 0002)`
 
 ## Theme blocks
-- **b1** Project scaffolding (stack, devcontainer, starter template, README) - `pending`
+- **b1** Project scaffolding (stack, devcontainer, starter template, README) - `done`
 
 ## Log
 - 2026-09-19 - Ticket body was updated after the step 2 consultation (v1 goals, README step added); jump from 2 to 1 (missing_context), step 1 repeated.

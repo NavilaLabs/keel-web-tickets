@@ -2,14 +2,14 @@
   "schema_version": 1,
   "ticket_id": "1",
   "code_repo": "keel-web",
-  "phase": "blocks",
+  "phase": "delivery",
   "intake_step": "5",
   "blocks": [
     {
       "id": "b1",
       "title": "Project scaffolding (stack, devcontainer, starter template, README)",
-      "step": "8",
-      "status": "in_progress",
+      "step": "9",
+      "status": "done",
       "claimed_components": [
         "keelWeb.client",
         "keelWeb.server"
