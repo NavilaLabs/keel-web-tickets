@@ -12,8 +12,9 @@ with the developer there.
   so the keel workflow itself is drivable from the browser.  `agreed`
 - [x] The developer sees what the agent is doing, not only its prose: tool calls, the
   files touched, and above all permission requests, answerable in the browser.  `agreed`
-- [x] A session survives a page reload. Sessions are keyed by ticket id; a reload
-  reattaches to a live run and replays the transcript otherwise.  `agreed`
+- [x] A session survives a page reload. Sessions are keyed by workspace and ticket, because
+  ticket 3 in one repository is not ticket 3 in another; a reload reattaches to a live run
+  and replays the transcript otherwise.  `agreed`
 - [x] Mutation stays with Claude Code. The UI never writes tickets, pull requests or
   diagrams itself, per ticket 1. This ticket must not open a second write path.  `agreed`
 - [x] Server-side work is observable through the `Logger` frozen in ticket 2. ADR 0004
@@ -66,8 +67,9 @@ with the developer there.
   `answered: localhost only, no auth for now; recorded here as a standing risk`
 - Whether session history is read from Claude Code's own session storage or from
   storage this application owns.  `open: part of b1`
-- Relation to the keel project itself, whose workflow this UI is meant to drive. That
-  repository was not examined and ticket 4 does not reference it.  `open`
+- Relation to the keel project itself, whose workflow this UI is meant to drive.
+  `answered: keel-web is the web layer on keel for any repository the developer works in,
+  not a UI onto keel-web. Missing this shaped the whole of ticket 4; see the log.`
 
 ## Theme blocks
 
@@ -142,3 +144,14 @@ and the claimed components do not overlap: server against client.
   subscriber.
 - 2026-09-19 - PR #6 opened against main, linking knowledge.md, ADRs 0005 to 0008 and the
   four LikeC4 views.
+- 2026-09-19 - Jump 11 to 2. keel-web had been built as a UI onto one repository, its own,
+  because step 3 asked where the agent runs and offered "the code repo" without saying that
+  answering so nails keel-web to itself. The question "relation to the keel project itself"
+  had been open in this file since step 5 and was never closed. Corrected goals: keel-web is
+  the working environment for the keel workflow on any local repository. Claude Code will run
+  on the host under the developer's own login, which supersedes ADR 0002, and the centre of
+  the screen follows the conversation through a one-shot signal keel emits, which the
+  developer can override and which is dropped unheard when only the terminal is in use.
+  Ticket 4 takes the workspace key alone, since that is what is expensive to add later.
+  Tickets #7 to #11 carry the rest: the workspace UI, the phase display, the artefact views,
+  the tracker views, and the autocomplete and model selection.

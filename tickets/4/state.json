@@ -3,8 +3,8 @@
   "ticket_id": "4",
   "ticket_source": "github",
   "code_repo": "keel-web",
-  "phase": "delivery",
-  "intake_step": "5",
+  "phase": "intake",
+  "intake_step": "4",
   "as_is_base_commit": "9b565b9acfd443ccd3c5607f96edb22083ad5bb2",
   "to_be_branch": "ticket/4",
   "artifacts": {
@@ -70,8 +70,8 @@
     {
       "id": "b2",
       "title": "Client: app shell (sidebar, main area, chat column) and the chat surface against the frozen wire types",
-      "step": "9",
-      "status": "done",
+      "step": "8",
+      "status": "in_progress",
       "claimed_components": [
         "keelWeb.client.shell",
         "keelWeb.client.chat",
@@ -287,6 +287,21 @@
       "status": "answered",
       "asked_at": "2026-09-19T05:00:00Z",
       "answered_at": "2026-09-19T05:10:00Z"
+    },
+    {
+      "id": "c13",
+      "block": null,
+      "step": "2",
+      "question": "Goals corrected: keel-web serves any repository, and the chat should feel like Claude Code (autocomplete, model selection). How is that cut across tickets, and how does a repository on the host become reachable from the container?",
+      "options": [
+        "Workspace key into ticket 4, the rest as follow-up tickets",
+        "All of it in ticket 4",
+        "Ticket 4 stays as is, everything in follow-up tickets"
+      ],
+      "answer": "Goals corrected: keel-web is the working environment for the keel workflow on any local repository, not a UI onto itself. Claude Code will run on the host with the developer's own login and keel-web talks to it, which supersedes ADR 0002. The centre follows the conversation through a one-shot signal from keel that the developer can override and that is simply dropped when nobody is listening, so the terminal stays fully usable. Ticket 4 takes only the workspace key; tickets 5 to 9 carry the rest.",
+      "status": "answered",
+      "asked_at": "2026-09-19T06:00:00Z",
+      "answered_at": "2026-09-19T06:20:00Z"
     }
   ],
   "jump_log": [
@@ -329,6 +344,22 @@
       "trigger": "design_flaw",
       "reason": "Three client relations point the wrong way: the model draws chat -> connection, permissionPrompt -> connection and connection -> transcriptStore, but the chat talks to the store, the prompt hands its answer upwards, and the store owns the connection. The last of those is what ADR 0008 decided and the consultation approved, so the model contradicts an accepted decision. Same mistake as the b1 jump at 03:10: conceptual direction drawn instead of dependency direction.",
       "at": "2026-09-19T05:00:00Z"
+    },
+    {
+      "from": "11",
+      "to": "8",
+      "block": "b2",
+      "trigger": "pr_feedback",
+      "reason": "The client is styled but not designed: shadcn defaults applied without a visual point of view. No contract or relation changes, so this is a step 8 re-entry rather than a jump to 7. Constraint from the developer stands: minimal and flat.",
+      "at": "2026-09-19T05:30:00Z"
+    },
+    {
+      "from": "11",
+      "to": "2",
+      "block": null,
+      "trigger": "misunderstood_goal",
+      "reason": "keel-web was built as a UI onto one repository, its own. It is meant to be the web layer on keel for any repository, so a session needs a workspace as well as a ticket. The step 3 question about the agent's working directory offered 'the code repo' and 'a repo chosen per session' without saying that the first nails keel-web to itself, even though knowledge.md already carried 'relation to the keel project itself' as an open question. The developer also widened the goal: slash-command and @ autocomplete and model selection, a full Claude Code experience in the browser.",
+      "at": "2026-09-19T06:00:00Z"
     }
   ],
   "pr": {
