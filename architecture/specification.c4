@@ -1,0 +1,10 @@
+specification {
+  element person
+  element system
+  element externalSystem {
+    style {
+      color muted
+    }
+  }
+  element container
+}

@@ -8,8 +8,17 @@
     {
       "id": "b1",
       "title": "Project scaffolding (stack, devcontainer, starter template, README)",
-      "step": "6",
-      "status": "pending"
+      "step": "7",
+      "status": "awaiting_consultation",
+      "claimed_components": [
+        "keelWeb.client",
+        "keelWeb.server"
+      ],
+      "claimed_stubs": [],
+      "adrs": [
+        "tickets/1/adr/0001-vite-react-hono-on-node.md",
+        "tickets/1/adr/0002-claude-code-config-as-named-volume.md"
+      ]
     }
   ],
   "consultations": [
@@ -69,6 +78,35 @@
       "status": "answered",
       "asked_at": "2026-09-19T12:00:25.284503+00:00",
       "answered_at": "2026-09-19T12:03:04.356897+00:00"
+    },
+    {
+      "id": "c5",
+      "block": "b1",
+      "step": "6",
+      "question": "Which stack option(s) go into step 7 for b1: A Deno+Fresh, B Vite+React+Hono (Node), C SvelteKit, D Next.js? And which Claude Code mount model for the devcontainer?",
+      "options": [
+        "A Deno+Fresh (with LikeC4 spike)",
+        "B Vite+React+Hono on Node",
+        "C SvelteKit",
+        "D Next.js"
+      ],
+      "answer": "Option B (Vite + React + Hono on Node). Devcontainer: documented named volume for Claude Code config, not host bind mounts.",
+      "status": "answered",
+      "asked_at": "2026-09-19T12:05:21.619153+00:00",
+      "answered_at": "2026-09-19T12:18:02.746595+00:00"
+    },
+    {
+      "id": "c6",
+      "block": "b1",
+      "step": "7",
+      "question": "Are the LikeC4 model, the (empty) contract set and the two ADRs right for b1?",
+      "options": [
+        "Confirmed",
+        "Needs correction"
+      ],
+      "answer": null,
+      "status": "open",
+      "asked_at": "2026-09-19T12:18:42.567794+00:00"
     }
   ],
   "jump_log": [
@@ -83,6 +121,16 @@
   ],
   "ticket_source": "github",
   "artifacts": {
-    "knowledge": "tickets/1/knowledge.md"
-  }
+    "knowledge": "tickets/1/knowledge.md",
+    "adrs": [
+      "tickets/1/adr/0001-vite-react-hono-on-node.md",
+      "tickets/1/adr/0002-claude-code-config-as-named-volume.md"
+    ],
+    "c4_views": [
+      "context",
+      "containers"
+    ]
+  },
+  "as_is_base_commit": "5881545372a8c6993e45fe979a30a6dff13c7bc1",
+  "to_be_branch": "ticket/1"
 }

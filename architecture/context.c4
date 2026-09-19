@@ -1,0 +1,21 @@
+model {
+  developer = person 'Developer' {
+    description 'Works on tickets with keel and follows their progress'
+  }
+
+  keelWeb = system 'keel-web' {
+    description 'Web UI for keel: chat with Claude Code, view-only tickets, pull requests and diagrams'
+  }
+
+  claudeCode = externalSystem 'Claude Code' {
+    description 'Runs the keel workflow and is the only way to change tickets, pull requests and diagrams'
+  }
+
+  ticketTrackers = externalSystem 'Ticket trackers' {
+    description 'GitHub, Jira and Bitbucket hold tickets and pull requests'
+  }
+
+  developer -> keelWeb 'Chats, views tickets, pull requests and diagrams'
+  keelWeb -> claudeCode 'Sends chat messages, receives streamed answers'
+  keelWeb -> ticketTrackers 'Reads tickets and pull requests'
+}

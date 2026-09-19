@@ -1,0 +1,11 @@
+views {
+  view context of keelWeb {
+    title 'keel-web in context'
+    include *
+  }
+
+  view containers of keelWeb {
+    title 'keel-web containers'
+    include *
+  }
+}
