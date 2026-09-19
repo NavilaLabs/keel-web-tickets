@@ -3,6 +3,42 @@ model {
     client = container 'Web client' {
       description 'Vite and React single-page app rendering chat, view-only tickets and pull requests, LikeC4 diagrams and phase progress'
       technology 'TypeScript, React, Vite'
+
+      shell = component 'App shell' {
+        description 'Places the ticket list, the artifact area and the chat column, and keeps the selected ticket in the URL'
+        technology 'React, Tailwind, shadcn/ui'
+        link ../../keel-web/client/src/App.tsx
+      }
+
+      chat = component 'Chat surface' {
+        description 'Renders the transcript, the streaming draft and the message input'
+        link ../../keel-web/client/src/chat/types.ts
+      }
+
+      permissionPrompt = component 'Permission prompt' {
+        description 'Shows a held tool call with its input and takes the developer answer'
+        link ../../keel-web/client/src/chat/types.ts
+      }
+
+      transcriptStore = component 'Transcript store' {
+        description 'Holds the recorded events and the live draft, and folds them into what the chat renders'
+        link ../../keel-web/client/src/transcript/types.ts
+      }
+
+      connection = component 'Session connection' {
+        description 'Opens the event stream and posts messages, permission answers and interrupts'
+        technology 'EventSource, fetch'
+        link ../../keel-web/client/src/connection/types.ts
+      }
+
+      shell -> chat 'Keeps the chat beside the ticket list and the artifact area'
+      chat -> transcriptStore 'Reads the transcript and the live draft'
+      chat -> permissionPrompt 'Shows a held tool call in place'
+      chat -> connection 'Sends messages and interrupts'
+      permissionPrompt -> connection 'Sends the answer'
+      connection -> transcriptStore 'Appends recorded events and deltas'
     }
   }
+
+  keelWeb.client.connection -> keelWeb.server.chatApi 'Streams events and posts commands'
 }

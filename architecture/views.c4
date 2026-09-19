@@ -13,4 +13,9 @@ views {
     title 'keel-web server components'
     include *
   }
+
+  view client of keelWeb.client {
+    title 'keel-web client components'
+    include *
+  }
 }

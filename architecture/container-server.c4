@@ -48,7 +48,6 @@ model {
       sessions -> permissionGate 'Holds each tool call until the browser answers'
     }
 
-    client -> server 'Calls HTTP and streaming API'
     server -> ticketTrackers 'Reads tickets and pull requests' {
       #planned
     }

@@ -11,12 +11,15 @@
     "knowledge": "tickets/4/knowledge.md",
     "adrs": [
       "tickets/4/adr/0005-sse-with-an-application-owned-event-log.md",
-      "tickets/4/adr/0006-every-tool-call-is-gated-in-the-browser.md"
+      "tickets/4/adr/0006-every-tool-call-is-gated-in-the-browser.md",
+      "tickets/4/adr/0007-tailwind-and-shadcn-for-the-client.md",
+      "tickets/4/adr/0008-the-transcript-lives-outside-react.md"
     ],
     "c4_views": [
       "context",
       "containers",
-      "server"
+      "server",
+      "client"
     ]
   },
   "blocks": [
@@ -67,11 +70,41 @@
     {
       "id": "b2",
       "title": "Client: app shell (sidebar, main area, chat column) and the chat surface against the frozen wire types",
-      "step": "7",
-      "status": "in_progress",
-      "claimed_components": [],
-      "claimed_stubs": [],
-      "adrs": []
+      "step": "7.3",
+      "status": "awaiting_consultation",
+      "claimed_components": [
+        "keelWeb.client.shell",
+        "keelWeb.client.chat",
+        "keelWeb.client.permissionPrompt",
+        "keelWeb.client.transcriptStore",
+        "keelWeb.client.connection"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "client/src/connection/types.ts",
+          "symbol": "Connection",
+          "fingerprint": "96ea6fb74701d42396be396920ce409ceb436102d58709de98766619cd51813b"
+        },
+        {
+          "path": "client/src/transcript/types.ts",
+          "symbol": "TranscriptStore",
+          "fingerprint": "8a86335eb526a77c589d5b9aa357bf29741b560b1478635b87473239d62739a8"
+        },
+        {
+          "path": "client/src/routing/types.ts",
+          "symbol": "Router",
+          "fingerprint": "c9f1f5ac1ce5f16e7deec332b887e0de692dfe56aef2afb6eaa400942db85a09"
+        },
+        {
+          "path": "client/src/chat/types.ts",
+          "symbol": "PermissionPromptProperties",
+          "fingerprint": "996ec49da96cff72f9123cc03e53c6812187949fdae23ca6eae415b32085b5e7"
+        }
+      ],
+      "adrs": [
+        "tickets/4/adr/0007-tailwind-and-shadcn-for-the-client.md",
+        "tickets/4/adr/0008-the-transcript-lives-outside-react.md"
+      ]
     }
   ],
   "consultations": [
@@ -226,6 +259,20 @@
       "status": "answered",
       "asked_at": "2026-09-19T04:00:00Z",
       "answered_at": "2026-09-19T04:10:00Z"
+    },
+    {
+      "id": "c11",
+      "block": "b2",
+      "step": "7",
+      "question": "Are the client model (five components, the connection talking to the chat API) and the four frozen contracts the right basis for b2?",
+      "options": [
+        "Approve as presented (Recommended)",
+        "Changes needed (see notes)"
+      ],
+      "answer": null,
+      "status": "open",
+      "asked_at": "2026-09-19T04:30:00Z",
+      "answered_at": null
     }
   ],
   "jump_log": [
