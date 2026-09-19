@@ -8,8 +8,8 @@
     {
       "id": "b1",
       "title": "Project scaffolding (stack, devcontainer, starter template, README)",
-      "step": "7",
-      "status": "awaiting_consultation",
+      "step": "8",
+      "status": "in_progress",
       "claimed_components": [
         "keelWeb.client",
         "keelWeb.server"
@@ -104,9 +104,10 @@
         "Confirmed",
         "Needs correction"
       ],
-      "answer": null,
-      "status": "open",
-      "asked_at": "2026-09-19T12:18:42.567794+00:00"
+      "answer": "Confirmed after likec4 validate passed (5 files, valid).",
+      "status": "answered",
+      "asked_at": "2026-09-19T12:18:42.567794+00:00",
+      "answered_at": "2026-09-19T12:22:17.974787+00:00"
     }
   ],
   "jump_log": [
