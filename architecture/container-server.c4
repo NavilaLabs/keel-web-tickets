@@ -10,6 +10,29 @@ model {
         link ../../keel-web/server/src/index.ts
       }
 
+      chatApi = component 'Chat API' {
+        description 'Streams session events to the browser and takes messages, permission answers and interrupts'
+        technology 'Hono, Server-Sent Events'
+        link ../../keel-web/server/src/chat/types.ts
+      }
+
+      sessions = component 'Session registry' {
+        description 'Owns one resumable Claude Code session per ticket, its attached viewers and its pending permission requests'
+        technology 'Claude Agent SDK'
+        link ../../keel-web/server/src/sessions/types.ts
+      }
+
+      permissionGate = component 'Permission gate' {
+        description 'Holds every tool call until the browser has answered, so nothing runs unapproved'
+        technology 'Claude Agent SDK hooks'
+        link ../../keel-web/server/src/permissions/types.ts
+      }
+
+      transcript = component 'Transcript log' {
+        description 'Appends normalised wire events with sequence numbers and replays them to a returning viewer'
+        link ../../keel-web/server/src/transcript/types.ts
+      }
+
       logger = component 'Logger' {
         description 'Shared structured logger and request-logging middleware, pretty in development and JSON in production'
         technology 'pino'
@@ -17,14 +40,20 @@ model {
       }
 
       app -> logger 'Mounts request logging and logs startup'
+      app -> chatApi 'Mounts the chat routes'
+      chatApi -> sessions 'Attaches viewers, forwards messages, answers and interrupts'
+      chatApi -> transcript 'Replays events from the last delivered sequence number'
+      sessions -> transcript 'Appends normalised events'
+      sessions -> logger 'Logs session lifecycle outside any request'
+      permissionGate -> sessions 'Raises a pending request and waits for the browser answer'
     }
 
     client -> server 'Calls HTTP and streaming API'
-    server -> claudeCode 'Runs Claude Code through the Agent SDK' {
-      #planned
-    }
     server -> ticketTrackers 'Reads tickets and pull requests' {
       #planned
     }
   }
+
+  keelWeb.server.sessions -> claudeCode 'Runs a resumable session per ticket through the Agent SDK'
+  claudeCode -> keelWeb.server.permissionGate 'Asks before it runs a tool'
 }

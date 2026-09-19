@@ -9,18 +9,60 @@
   "to_be_branch": "ticket/4",
   "artifacts": {
     "knowledge": "tickets/4/knowledge.md",
-    "adrs": [],
-    "c4_views": []
+    "adrs": [
+      "tickets/4/adr/0005-sse-with-an-application-owned-event-log.md",
+      "tickets/4/adr/0006-every-tool-call-is-gated-in-the-browser.md"
+    ],
+    "c4_views": [
+      "context",
+      "containers",
+      "server"
+    ]
   },
   "blocks": [
     {
       "id": "b1",
       "title": "Server: run Claude Code sessions through the Agent SDK and expose them over a streaming API",
-      "step": "7.1",
-      "status": "in_progress",
-      "claimed_components": [],
-      "claimed_stubs": [],
-      "adrs": []
+      "step": "7.3",
+      "status": "awaiting_consultation",
+      "claimed_components": [
+        "keelWeb.server.app",
+        "keelWeb.server.chatApi",
+        "keelWeb.server.sessions",
+        "keelWeb.server.permissionGate",
+        "keelWeb.server.transcript"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/events.ts",
+          "symbol": "ServerEvent",
+          "fingerprint": "f126ad98a62a144f13964af441a0be30aaf43b9fc2d4d942ff666b9314f39438"
+        },
+        {
+          "path": "server/src/chat/types.ts",
+          "symbol": "CreateChatRoutes",
+          "fingerprint": "353c15d68ff0c26a5f52f50ef9783cfe6861e7b786ad1d73de0fcd9dc6a793cb"
+        },
+        {
+          "path": "server/src/sessions/types.ts",
+          "symbol": "SessionRegistry",
+          "fingerprint": "c463576de647ae978c93ecde7e3bd1b4576241bb6f4c62fa5b94c6121a0450d4"
+        },
+        {
+          "path": "server/src/permissions/types.ts",
+          "symbol": "PermissionGate",
+          "fingerprint": "eabe2b7a671c158734e2772635181f2ce5e6641d79b6d73d8f9ef60caa3dfb7a"
+        },
+        {
+          "path": "server/src/transcript/types.ts",
+          "symbol": "TranscriptLog",
+          "fingerprint": "04196ff2af908ab1ed03c5bd0c9d1f033f105cfe432f11a0008e6949008e25e9"
+        }
+      ],
+      "adrs": [
+        "tickets/4/adr/0005-sse-with-an-application-owned-event-log.md",
+        "tickets/4/adr/0006-every-tool-call-is-gated-in-the-browser.md"
+      ]
     },
     {
       "id": "b2",
@@ -109,6 +151,21 @@
       "status": "answered",
       "asked_at": "2026-09-19T01:05:00Z",
       "answered_at": "2026-09-19T01:10:00Z"
+    },
+    {
+      "id": "c6",
+      "block": "b1",
+      "step": "7",
+      "question": "Are the LikeC4 diff (five server components, two relations to Claude Code) and the five frozen stubs (wire protocol, chat API, session registry, permission gate, transcript log) the right contract to implement b1 against?",
+      "options": [
+        "Approve as presented (Recommended)",
+        "Approve, but the transcript log is too fine a component",
+        "Changes needed (see notes)"
+      ],
+      "answer": null,
+      "status": "open",
+      "asked_at": "2026-09-19T02:00:00Z",
+      "answered_at": null
     }
   ],
   "jump_log": [],
