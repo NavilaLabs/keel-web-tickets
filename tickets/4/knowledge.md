@@ -72,7 +72,7 @@ with the developer there.
 
 - **b1** Server: run Claude Code sessions through the Agent SDK and expose them over a
   streaming API. Session registry keyed by ticket, lifecycle and resume, fixed working
-  directory, permission gate, logging, endpoints and the event envelope.  `pending`
+  directory, permission gate, logging, endpoints and the event envelope.  `done`
 - **b2** Client: app shell (sidebar, main area, chat column) and the chat surface,
   implemented against the wire types b1 freezes at 7.2.  `pending`
 
@@ -95,3 +95,15 @@ and the claimed components do not overlap: server against client.
   visible by ticket 2's first component view. Modelled as `keelWeb.server.app` on `main`
   rather than inside ticket 4's diff, so ticket 4 shows only ticket 4's changes.
   `as_is_base_commit` is now b690c95.
+- 2026-09-19 - Jump 8 to 7 (b1). The frozen `server/src/sessions/types.ts` declared its two error
+  classes with `export declare class`, which emits no runtime code, so the contract promised a
+  rejection no caller could ever identify. Found by compiling the stub in isolation while
+  implementing. Refrozen as real classes rather than worked around in the implementation.
+- 2026-09-19 - Jump 9 to 7 (b1). The to-be model drew `permissionGate -> sessions` and
+  `claudeCode -> permissionGate`, the conceptual direction rather than the dependency: the
+  registry creates and calls the gate and owns the `canUseTool` callback. The model was
+  corrected to `sessions -> permissionGate` and `claudeCode -> sessions`; the code stands.
+- 2026-09-19 - b1 verified and done. 36 tests, the project's first, covering the guarantees the
+  stubs promise: sequence numbers without gaps, replay after a sequence number, the gate's
+  first-answer-wins and deny-on-close, the normalisation of SDK messages, and the input
+  endpoint's status codes. All five frozen stubs are bit-identical with their fingerprints.

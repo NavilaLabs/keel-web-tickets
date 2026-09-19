@@ -45,7 +45,7 @@ model {
       chatApi -> transcript 'Replays events from the last delivered sequence number'
       sessions -> transcript 'Appends normalised events'
       sessions -> logger 'Logs session lifecycle outside any request'
-      permissionGate -> sessions 'Raises a pending request and waits for the browser answer'
+      sessions -> permissionGate 'Holds each tool call until the browser answers'
     }
 
     client -> server 'Calls HTTP and streaming API'
@@ -55,5 +55,5 @@ model {
   }
 
   keelWeb.server.sessions -> claudeCode 'Runs a resumable session per ticket through the Agent SDK'
-  claudeCode -> keelWeb.server.permissionGate 'Asks before it runs a tool'
+  claudeCode -> keelWeb.server.sessions 'Asks before it runs a tool'
 }
