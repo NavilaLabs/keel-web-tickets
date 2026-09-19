@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "ticket_id": "4",
+  "ticket_source": "github",
+  "code_repo": "keel-web",
+  "phase": "intake",
+  "intake_step": "5",
+  "as_is_base_commit": "9dd098200de8ae2a6357559e14643cab1884880b",
+  "to_be_branch": "ticket/4",
+  "artifacts": {
+    "knowledge": "tickets/4/knowledge.md",
+    "adrs": [],
+    "c4_views": []
+  },
+  "blocks": [
+    {
+      "id": "b1",
+      "title": "Server: run Claude Code sessions through the Agent SDK and expose them over a streaming API",
+      "step": "6",
+      "status": "pending",
+      "claimed_components": [],
+      "claimed_stubs": [],
+      "adrs": []
+    },
+    {
+      "id": "b2",
+      "title": "Client: app shell (sidebar, main area, chat column) and the chat surface against the frozen wire types",
+      "step": "6",
+      "status": "pending",
+      "claimed_components": [],
+      "claimed_stubs": [],
+      "adrs": []
+    }
+  ],
+  "consultations": [
+    {
+      "id": "c1",
+      "block": null,
+      "step": "2",
+      "question": "Ticket 4 has an empty body, so the goals below are reconstructed from ticket 1, the ADRs and the as-is model. Are the functional goals and the problem list right, and is the scope chat-only or does it include the ticket/PR/diagram views?",
+      "options": [
+        "Goals correct, scope is chat only (Recommended)",
+        "Goals correct, scope includes the view-only ticket/PR/LikeC4 panes",
+        "Goals need changes (see notes)"
+      ],
+      "answer": "Option 1: goals correct, scope is the chat only. But the UI shape must be designed with the later view panes (tickets, pull requests, LikeC4 diagrams) in mind, so the layout the chat lands in can take them without being rebuilt.",
+      "status": "answered",
+      "asked_at": "2026-09-19T00:00:00Z",
+      "answered_at": "2026-09-19T00:10:00Z"
+    },
+    {
+      "id": "c2",
+      "block": null,
+      "step": "4",
+      "question": "Is the split into two blocks, cut at the wire protocol (server runtime plus streaming API; client shell plus chat), right, or should the transport be its own block?",
+      "options": [
+        "Two blocks as proposed (Recommended)",
+        "Three blocks: session runtime, transport, client UI",
+        "One block for the whole ticket",
+        "Different cut (see notes)"
+      ],
+      "answer": "Two blocks as proposed.",
+      "status": "answered",
+      "asked_at": "2026-09-19T00:20:00Z",
+      "answered_at": "2026-09-19T00:25:00Z"
+    }
+  ],
+  "jump_log": [],
+  "pr": {
+    "host": "github",
+    "state": "none"
+  }
+}
