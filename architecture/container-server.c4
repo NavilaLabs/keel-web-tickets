@@ -10,6 +10,11 @@ model {
         link ../../keel-web/server/src/index.ts
       }
 
+      workspaces = component 'Workspace registry' {
+        description 'Resolves a workspace to the repository it stands for and the keel configuration in it'
+        link ../../keel-web/server/src/workspaces/types.ts
+      }
+
       chatApi = component 'Chat API' {
         description 'Streams session events to the browser and takes messages, permission answers and interrupts'
         technology 'Hono, Server-Sent Events'
@@ -17,7 +22,7 @@ model {
       }
 
       sessions = component 'Session registry' {
-        description 'Owns one resumable Claude Code session per ticket, its attached viewers and its pending permission requests'
+        description 'Owns one resumable Claude Code session per workspace and ticket, its attached viewers and its pending permission requests'
         technology 'Claude Agent SDK'
         link ../../keel-web/server/src/sessions/types.ts
       }
@@ -41,8 +46,10 @@ model {
 
       app -> logger 'Mounts request logging and logs startup'
       app -> chatApi 'Mounts the chat routes'
+      chatApi -> workspaces 'Resolves the workspace a request names'
       chatApi -> sessions 'Attaches viewers, forwards messages, answers and interrupts'
       chatApi -> transcript 'Replays events from the last delivered sequence number'
+      sessions -> workspaces 'Reads the repository an agent runs in'
       sessions -> transcript 'Appends normalised events'
       sessions -> logger 'Logs session lifecycle outside any request'
       sessions -> permissionGate 'Holds each tool call until the browser answers'

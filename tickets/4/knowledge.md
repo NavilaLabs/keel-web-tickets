@@ -155,3 +155,16 @@ and the claimed components do not overlap: server against client.
   Ticket 4 takes the workspace key alone, since that is what is expensive to add later.
   Tickets #7 to #11 carry the rest: the workspace UI, the phase display, the artefact views,
   the tracker views, and the autocomplete and model selection.
+- 2026-09-19 - Jump 8 to 7 (b1). keel-web had grown a store of its own: a `keel_web_data`
+  volume holding the transcripts and the ticket-to-session mapping. The developer stopped it:
+  everything belongs in the workspace's ticket repository, which is already scoped per
+  workspace and travels with it. `CreateTranscriptLog` now takes the `WorkspaceRegistry` and
+  resolves where to write, `transcript.jsonl` sits beside knowledge.md and is kept out of git,
+  and the session mapping disappeared entirely because the id is already in the transcript's
+  own `session.started` events. One record instead of two that can disagree.
+- 2026-09-19 - Both blocks reworked onto the workspace key and verified. 110 tests, up from 83:
+  the workspace registry reads keel.json and refuses a path that does not exist, the transcript
+  keeps a ticket of the same number in two repositories apart, the registry refuses an
+  unregistered workspace before starting an agent, and the router parses and writes
+  `/workspaces/<id>/tickets/<id>`. A repository without `.claude/keel.json` is listed but
+  cannot hold a session, and says so rather than falling back to a store of its own.

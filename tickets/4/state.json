@@ -3,7 +3,7 @@
   "ticket_id": "4",
   "ticket_source": "github",
   "code_repo": "keel-web",
-  "phase": "intake",
+  "phase": "delivery",
   "intake_step": "4",
   "as_is_base_commit": "9b565b9acfd443ccd3c5607f96edb22083ad5bb2",
   "to_be_branch": "ticket/4",
@@ -33,23 +33,24 @@
         "keelWeb.server.chatApi",
         "keelWeb.server.sessions",
         "keelWeb.server.permissionGate",
-        "keelWeb.server.transcript"
+        "keelWeb.server.transcript",
+        "keelWeb.server.workspaces"
       ],
       "claimed_stubs": [
         {
           "path": "protocol/src/events.ts",
-          "symbol": "ServerEvent",
-          "fingerprint": "4c076c41bdc44894ec6676845a3f0222ffa5989dc5a53e67502a5c4af6a3d030"
+          "symbol": "SessionKey",
+          "fingerprint": "d766913e4f572d614dae9cbf44ed803562a7eb474cfe015d5ea07ed62a7ec21d"
         },
         {
           "path": "server/src/chat/types.ts",
           "symbol": "CreateChatRoutes",
-          "fingerprint": "c858d67c26d36e86f78d450483f27c04fbb0df8da5802fbd7357ca9bf962d70f"
+          "fingerprint": "8ef4e7d4e04aec20777643fa13a94038db8d0b91772cff730a329888276aa226"
         },
         {
           "path": "server/src/sessions/types.ts",
           "symbol": "SessionRegistry",
-          "fingerprint": "89ef382864cd2ae7d876fb08a203c423e6ddc7ff85ddba78c08ebee17908087c"
+          "fingerprint": "ab434319c1e4e5a06ced576d4fb4e48d65a0b37aed8a65770c7c8d8c29a4e4d5"
         },
         {
           "path": "server/src/permissions/types.ts",
@@ -59,7 +60,12 @@
         {
           "path": "server/src/transcript/types.ts",
           "symbol": "TranscriptLog",
-          "fingerprint": "04196ff2af908ab1ed03c5bd0c9d1f033f105cfe432f11a0008e6949008e25e9"
+          "fingerprint": "581a17c0fb3c8b7c9c97858c9274982b455b1b48ac13a10f04da1da765a1dda1"
+        },
+        {
+          "path": "server/src/workspaces/types.ts",
+          "symbol": "WorkspaceRegistry",
+          "fingerprint": "aeb3a16b0101197a435b6ecc343b45a1ecfb5d5c39e5193ba7ae92ff98ef20b7"
         }
       ],
       "adrs": [
@@ -70,8 +76,8 @@
     {
       "id": "b2",
       "title": "Client: app shell (sidebar, main area, chat column) and the chat surface against the frozen wire types",
-      "step": "8",
-      "status": "in_progress",
+      "step": "9",
+      "status": "done",
       "claimed_components": [
         "keelWeb.client.shell",
         "keelWeb.client.chat",
@@ -83,17 +89,17 @@
         {
           "path": "client/src/connection/types.ts",
           "symbol": "Connection",
-          "fingerprint": "96ea6fb74701d42396be396920ce409ceb436102d58709de98766619cd51813b"
+          "fingerprint": "cdf4b3f7ebca3e3ddda72b4eadfaef6122e3ea8a25fc7cee2878704fb273444b"
         },
         {
           "path": "client/src/transcript/types.ts",
           "symbol": "TranscriptStore",
-          "fingerprint": "8a86335eb526a77c589d5b9aa357bf29741b560b1478635b87473239d62739a8"
+          "fingerprint": "563bec26b7e3c4990edcf79c48976eb45a4288274ecca160daf0640c161cfe77"
         },
         {
           "path": "client/src/routing/types.ts",
           "symbol": "Router",
-          "fingerprint": "c9f1f5ac1ce5f16e7deec332b887e0de692dfe56aef2afb6eaa400942db85a09"
+          "fingerprint": "217649faf3208d3421f492f6637ff0415c5454a180a123a0f201f1510da28955"
         },
         {
           "path": "client/src/chat/types.ts",
@@ -302,6 +308,35 @@
       "status": "answered",
       "asked_at": "2026-09-19T06:00:00Z",
       "answered_at": "2026-09-19T06:20:00Z"
+    },
+    {
+      "id": "c14",
+      "block": null,
+      "step": "7",
+      "question": "The workspace dimension changes the contracts of both blocks at once. Is the reworked model and the reworked contract set right?",
+      "options": [
+        "Approve as presented (Recommended)",
+        "Changes needed (see notes)"
+      ],
+      "answer": "Approved as presented: SessionKey, the workspace registry, the rekeyed routes and the ten frozen contracts.",
+      "status": "answered",
+      "asked_at": "2026-09-19T07:00:00Z",
+      "answered_at": "2026-09-19T07:10:00Z"
+    },
+    {
+      "id": "c15",
+      "block": "b1",
+      "step": "7.2",
+      "question": "The transcript and the session mapping move into the workspace's ticket repository, so keel-web keeps no store of its own. Where exactly, and what happens to a workspace without a ticket repository?",
+      "options": [
+        "tickets/<id>/transcript.jsonl, ignored by git, no session without a ticket repo (Recommended)",
+        "Same path but committed to the ticket repo",
+        "Other (see notes)"
+      ],
+      "answer": "transcript.jsonl sits beside knowledge.md in tickets/<id>/ and is kept out of git. A repository without .claude/keel.json is listed but cannot hold a session, and says so.",
+      "status": "answered",
+      "asked_at": "2026-09-19T07:25:00Z",
+      "answered_at": "2026-09-19T07:30:00Z"
     }
   ],
   "jump_log": [
@@ -360,6 +395,30 @@
       "trigger": "misunderstood_goal",
       "reason": "keel-web was built as a UI onto one repository, its own. It is meant to be the web layer on keel for any repository, so a session needs a workspace as well as a ticket. The step 3 question about the agent's working directory offered 'the code repo' and 'a repo chosen per session' without saying that the first nails keel-web to itself, even though knowledge.md already carried 'relation to the keel project itself' as an open question. The developer also widened the goal: slash-command and @ autocomplete and model selection, a full Claude Code experience in the browser.",
       "at": "2026-09-19T06:00:00Z"
+    },
+    {
+      "from": "9",
+      "to": "7",
+      "block": "b1",
+      "trigger": "contract_change",
+      "reason": "The session key gains a workspace: the wire contract, the session registry, the transcript paths and the agent's working directory all carry only a ticket id today, so ticket 3 in one repository and ticket 3 in another would be the same session.",
+      "at": "2026-09-19T06:40:00Z"
+    },
+    {
+      "from": "9",
+      "to": "7",
+      "block": "b2",
+      "trigger": "contract_change",
+      "reason": "The route, the store and the connection are keyed by ticket alone and must carry the workspace too.",
+      "at": "2026-09-19T06:40:00Z"
+    },
+    {
+      "from": "8",
+      "to": "7",
+      "block": "b1",
+      "trigger": "contract_change",
+      "reason": "keel-web must keep no storage of its own: the transcript and the session mapping belong in the workspace's ticket repository next to knowledge.md, state.json and events.jsonl, which are already scoped per workspace and travel with it. The frozen CreateTranscriptLog took a single directory and the registry took a stateDirectory, both of which assume one store for everything.",
+      "at": "2026-09-19T07:20:00Z"
     }
   ],
   "pr": {
