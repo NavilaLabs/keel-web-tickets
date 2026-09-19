@@ -1,0 +1,15 @@
+{"at": "2026-09-19T13:28:04.358964+00:00", "type": "phase_changed", "from": null, "to": "intake"}
+{"at": "2026-09-19T13:28:04.358964+00:00", "type": "step_changed", "block": null, "from": null, "to": "1"}
+{"at": "2026-09-19T13:29:00.238395+00:00", "type": "step_changed", "block": null, "from": "1", "to": "2"}
+{"at": "2026-09-19T13:29:00.238395+00:00", "type": "consultation_opened", "consultation": "c1"}
+{"at": "2026-09-19T13:31:01.063271+00:00", "type": "step_changed", "block": null, "from": "2", "to": "3"}
+{"at": "2026-09-19T13:31:01.063271+00:00", "type": "consultation_closed", "consultation": "c1"}
+{"at": "2026-09-19T13:32:44.751323+00:00", "type": "step_changed", "block": null, "from": "3", "to": "4"}
+{"at": "2026-09-19T13:32:44.751323+00:00", "type": "step_changed", "block": "b1", "from": null, "to": "6"}
+{"at": "2026-09-19T13:32:44.751323+00:00", "type": "block_status_changed", "block": "b1", "from": null, "to": "pending"}
+{"at": "2026-09-19T13:32:44.751323+00:00", "type": "step_changed", "block": "b2", "from": null, "to": "6"}
+{"at": "2026-09-19T13:32:44.751323+00:00", "type": "block_status_changed", "block": "b2", "from": null, "to": "pending"}
+{"at": "2026-09-19T13:32:44.751323+00:00", "type": "consultation_opened", "consultation": "c2"}
+{"at": "2026-09-19T13:35:18.437026+00:00", "type": "step_changed", "block": null, "from": "4", "to": "5"}
+{"at": "2026-09-19T13:35:18.437026+00:00", "type": "consultation_opened", "consultation": "c3"}
+{"at": "2026-09-19T13:35:18.437026+00:00", "type": "consultation_closed", "consultation": "c2"}

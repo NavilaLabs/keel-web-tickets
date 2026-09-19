@@ -1,0 +1,18 @@
+{
+  "phase": "intake",
+  "intake_step": "5",
+  "blocks": {
+    "b1": {
+      "step": "6",
+      "status": "pending"
+    },
+    "b2": {
+      "step": "6",
+      "status": "pending"
+    }
+  },
+  "open_consultations": [
+    "c3"
+  ],
+  "jumps": 0
+}

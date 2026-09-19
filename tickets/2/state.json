@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "ticket_id": "2",
+  "ticket_source": "github",
+  "code_repo": "keel-web",
+  "phase": "done",
+  "intake_step": "5",
+  "artifacts": {
+    "knowledge": "tickets/2/knowledge.md",
+    "adrs": [
+      "tickets/2/adr/0003-tooling-in-compose-service-run-via-exec.md",
+      "tickets/2/adr/0004-pino-with-own-request-middleware.md"
+    ],
+    "c4_views": [
+      "server"
+    ]
+  },
+  "blocks": [
+    {
+      "id": "b1",
+      "title": "Quality tooling: linting, formatting, prek pre-commit hook, test runner setup, basic CI, container execution",
+      "step": "9",
+      "status": "done",
+      "claimed_components": [],
+      "claimed_stubs": [],
+      "adrs": [
+        "tickets/2/adr/0003-tooling-in-compose-service-run-via-exec.md"
+      ]
+    },
+    {
+      "id": "b2",
+      "title": "Server logging: logger and request logging, pretty in dev and JSON in production",
+      "step": "9",
+      "status": "done",
+      "claimed_components": [
+        "keelWeb.server.logger"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "server/src/logging/types.ts",
+          "symbol": "Logger",
+          "fingerprint": "04379338fd07a86cfdde86dd35876b72464717d88eaa5d8726b088a1d1e3d842"
+        }
+      ],
+      "adrs": [
+        "tickets/2/adr/0004-pino-with-own-request-middleware.md"
+      ]
+    }
+  ],
+  "consultations": [
+    {
+      "id": "c1",
+      "block": null,
+      "step": "2",
+      "question": "Are the functional goals and problems for ticket 2 (Linting, logging and tests) understood correctly, and is scope (client/server, CI, formatter) as assumed?",
+      "options": [
+        "Understood as stated, scope: client + server, no CI",
+        "Understood, but include CI",
+        "Understood, but scope differs (see notes)"
+      ],
+      "answer": "Understood; scope is client + server. Add a formatter and a very basic CI. Continue.",
+      "status": "answered",
+      "asked_at": "2026-09-19T00:00:00Z",
+      "answered_at": "2026-09-19T00:05:00Z"
+    },
+    {
+      "id": "c2",
+      "block": null,
+      "step": "4",
+      "question": "Is the split into two theme blocks (quality tooling; server logging) right, or should this be one block?",
+      "options": [
+        "Two blocks as proposed (Recommended)",
+        "One block for the whole ticket",
+        "Three blocks: lint/format/prek, tests, logging, with CI attached to one"
+      ],
+      "answer": "Two blocks as proposed. Added constraint: work happens outside the container, so all tooling must be installed in the Docker container and run from the host via docker or docker compose.",
+      "status": "answered",
+      "asked_at": "2026-09-19T00:10:00Z",
+      "answered_at": "2026-09-19T00:15:00Z"
+    },
+    {
+      "id": "c3",
+      "block": null,
+      "step": "5",
+      "question": "Does knowledge.md (goals, problems, open questions, incl. the new container-execution goal) capture ticket 2 correctly?",
+      "options": [
+        "Yes, matches",
+        "Needs changes (see notes)"
+      ],
+      "answer": "Passt so, weiter mit Schritt 6",
+      "status": "answered",
+      "asked_at": "2026-09-19T00:20:00Z",
+      "answered_at": "2026-09-19T00:25:00Z"
+    },
+    {
+      "id": "c4",
+      "block": "b1",
+      "step": "6",
+      "question": "Which options for b1: container runner (compose/devcontainer CLI/docker run), node_modules (named volume/bind mount), prek hook (run vs exec wrapper), CI (native vs container), Vitest layout (projects vs per-package), oxfmt pinned?",
+      "options": [
+        "Recommended set: docker compose, named volumes, prek hook via run --rm -T wrapper, native CI, Vitest projects, oxfmt pinned exact",
+        "Different choices (see notes)"
+      ],
+      "answer": "docker compose, combined with a Dockerfile that installs prek and the other tooling. prek is installed in the container and run from the host via `docker compose exec <service> prek ...`. Format hook: check only. Rest of recommended set as proposed.",
+      "status": "answered",
+      "asked_at": "2026-09-19T00:40:00Z",
+      "answered_at": "2026-09-19T00:50:00Z"
+    },
+    {
+      "id": "c5",
+      "block": "b2",
+      "step": "6",
+      "question": "Which options for b2: hand-written Hono middleware on shared pino vs hono-pino, in-process pino-pretty gated by NODE_ENV vs pipe, c.get('logger') only vs AsyncLocalStorage?",
+      "options": [
+        "Recommended set: hand-written middleware + hono/request-id, in-process pino-pretty by NODE_ENV, c.get('logger') only, no header logging plus redact backstop",
+        "Different choices (see notes)"
+      ],
+      "answer": "Recommended set accepted.",
+      "status": "answered",
+      "asked_at": "2026-09-19T00:40:00Z",
+      "answered_at": "2026-09-19T00:50:00Z"
+    },
+    {
+      "id": "c6",
+      "block": null,
+      "step": "7",
+      "question": "Are the LikeC4 diff and the logging stubs (b2), and the container-execution design (b1, ADR 0003), the right contract to implement against? Open sub-question: when the container is not running at commit time, should the hook fail with a clear message or start the container itself?",
+      "options": [
+        "Approve as presented; hook fails with a clear message (Recommended)",
+        "Approve; hook starts the container with `docker compose up -d`",
+        "Changes needed (see notes)"
+      ],
+      "answer": "Approved as presented. Hook: prek runs in the container, so nothing can run while it is stopped; host hook script aborts with a clear message (default, developer did not choose auto-start).",
+      "status": "answered",
+      "asked_at": "2026-09-19T01:10:00Z",
+      "answered_at": "2026-09-19T01:20:00Z"
+    },
+    {
+      "id": "c7",
+      "block": "b2",
+      "step": "7",
+      "question": "Which guarantees stay in the doc comments of types.ts, and which comments are dropped, after the PR review comment?",
+      "options": [
+        "Shorten as proposed, keep only guarantees a caller cannot read from the types",
+        "Drop all doc comments except the request logger",
+        "Other (see notes)"
+      ],
+      "answer": "Option 1, shorten as proposed.",
+      "status": "answered",
+      "asked_at": "2026-09-19T02:10:00Z",
+      "answered_at": "2026-09-19T02:20:00Z"
+    }
+  ],
+  "jump_log": [
+    {
+      "from": "11",
+      "to": "7",
+      "block": "b2",
+      "trigger": "pr_feedback",
+      "reason": "PR #5 review comment on server/src/logging/types.ts: comments can be shorter or omitted. The file is the frozen contract and its doc comments carry guarantees, so the wording is decided in a step 7 consultation.",
+      "at": "2026-09-19T02:10:00Z"
+    }
+  ],
+  "as_is_base_commit": "9dd098200de8ae2a6357559e14643cab1884880b",
+  "to_be_branch": "ticket/2",
+  "pr": {
+    "host": "github",
+    "url": "https://github.com/NavilaLabs/keel-web/pull/5",
+    "number": 5,
+    "state": "merged"
+  }
+}
