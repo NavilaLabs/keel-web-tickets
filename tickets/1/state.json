@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "ticket_id": "1",
+  "code_repo": "keel-web",
+  "phase": "intake",
+  "intake_step": "5",
+  "blocks": [
+    {
+      "id": "b1",
+      "title": "Project scaffolding (stack, devcontainer, starter template, README)",
+      "step": "6",
+      "status": "pending"
+    }
+  ],
+  "consultations": [
+    {
+      "id": "c1",
+      "block": null,
+      "step": "2",
+      "question": "Are the functional goals and problems for ticket 1 (Initialize project) understood correctly?",
+      "options": [
+        "Confirmed",
+        "Needs correction"
+      ],
+      "answer": "Ticket was updated by the developer; repeat step 1 (gather context).",
+      "status": "answered",
+      "asked_at": "2026-09-19T11:36:59.633849+00:00",
+      "answered_at": "2026-09-19T11:50:16.196710+00:00"
+    },
+    {
+      "id": "c2",
+      "block": null,
+      "step": "2",
+      "question": "Are the functional goals and problems for ticket 1 (updated body) understood correctly?",
+      "options": [
+        "Confirmed",
+        "Needs correction"
+      ],
+      "answer": "Confirmed. Scope is scaffolding only (no CI, no backend skeleton).",
+      "status": "answered",
+      "asked_at": "2026-09-19T11:50:44.351106+00:00",
+      "answered_at": "2026-09-19T11:54:31.268107+00:00"
+    },
+    {
+      "id": "c3",
+      "block": null,
+      "step": "4",
+      "question": "Is one theme block the right cut for ticket 1?",
+      "options": [
+        "One block (recommended)",
+        "Split into stack+template and devcontainer+README"
+      ],
+      "answer": "Confirmed: one block (developer: 'Fahre fort').",
+      "status": "answered",
+      "asked_at": "2026-09-19T11:57:59.580092+00:00",
+      "answered_at": "2026-09-19T12:00:25.284503+00:00"
+    },
+    {
+      "id": "c4",
+      "block": null,
+      "step": "5",
+      "question": "Is knowledge.md correct, and may I link it on the GitHub ticket?",
+      "options": [
+        "Confirmed, post link as comment",
+        "Confirmed, do not post",
+        "Needs correction"
+      ],
+      "answer": null,
+      "status": "open",
+      "asked_at": "2026-09-19T12:00:25.284503+00:00"
+    }
+  ],
+  "jump_log": [
+    {
+      "from": "2",
+      "to": "1",
+      "block": null,
+      "trigger": "missing_context",
+      "reason": "Developer updated the GitHub ticket after the step 2 consultation and asked to repeat step 1.",
+      "at": "2026-09-19T11:50:16.196710+00:00"
+    }
+  ],
+  "ticket_source": "github",
+  "artifacts": {
+    "knowledge": "tickets/1/knowledge.md"
+  }
+}
