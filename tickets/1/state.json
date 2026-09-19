@@ -2,7 +2,7 @@
   "schema_version": 1,
   "ticket_id": "1",
   "code_repo": "keel-web",
-  "phase": "intake",
+  "phase": "blocks",
   "intake_step": "5",
   "blocks": [
     {
@@ -65,9 +65,10 @@
         "Confirmed, do not post",
         "Needs correction"
       ],
-      "answer": null,
-      "status": "open",
-      "asked_at": "2026-09-19T12:00:25.284503+00:00"
+      "answer": "Confirmed knowledge.md. Post link after commit+push. (Comment could not be posted: token lacks write access.)",
+      "status": "answered",
+      "asked_at": "2026-09-19T12:00:25.284503+00:00",
+      "answered_at": "2026-09-19T12:03:04.356897+00:00"
     }
   ],
   "jump_log": [
