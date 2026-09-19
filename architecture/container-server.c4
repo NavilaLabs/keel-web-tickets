@@ -4,11 +4,19 @@ model {
       description 'Hono server that streams Claude Code output to the client and reads tickets and pull requests from the trackers'
       technology 'TypeScript, Hono, Node'
 
+      app = component 'HTTP app' {
+        description 'Hono application that mounts middleware, serves the health endpoint and starts the Node server'
+        technology 'Hono, @hono/node-server'
+        link ../../keel-web/server/src/index.ts
+      }
+
       logger = component 'Logger' {
         description 'Shared structured logger and request-logging middleware, pretty in development and JSON in production'
         technology 'pino'
         link ../../keel-web/server/src/logging/types.ts
       }
+
+      app -> logger 'Mounts request logging and logs startup'
     }
 
     client -> server 'Calls HTTP and streaming API'
