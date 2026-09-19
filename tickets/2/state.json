@@ -3,7 +3,7 @@
   "ticket_id": "2",
   "ticket_source": "github",
   "code_repo": "keel-web",
-  "phase": "delivery",
+  "phase": "done",
   "intake_step": "5",
   "artifacts": {
     "knowledge": "tickets/2/knowledge.md",
