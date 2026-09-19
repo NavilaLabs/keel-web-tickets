@@ -83,7 +83,9 @@
         "keelWeb.client.chat",
         "keelWeb.client.permissionPrompt",
         "keelWeb.client.transcriptStore",
-        "keelWeb.client.connection"
+        "keelWeb.client.connection",
+        "keelWeb.client.router",
+        "keelWeb.client.workspaceList"
       ],
       "claimed_stubs": [
         {
@@ -337,6 +339,21 @@
       "status": "answered",
       "asked_at": "2026-09-19T07:25:00Z",
       "answered_at": "2026-09-19T07:30:00Z"
+    },
+    {
+      "id": "c16",
+      "block": null,
+      "step": "12.4",
+      "question": "The as-is comparison found four undocumented model gaps: transcript -> workspaces (the half-applied jump 8 to 7), the router component whose contract was frozen but never modelled, the client workspace list, and app -> workspaces. Plus a second client-server crossing, GET /api/workspaces, that bypasses the protocol package. Does main follow the code, and what happens to the untyped crossing?",
+      "options": [
+        "Model follows the code, WorkspaceSummary into protocol as part of #7 (Recommended)",
+        "Model follows the code, WorkspaceSummary fixed now",
+        "Other (see notes)"
+      ],
+      "answer": "Model follows the code: transcript -> workspaces with an honest description, app -> workspaces, the router and workspaceList components with their edges, and the second container crossing. Named workspaceList to stay unambiguous against keelWeb.server.workspaces. WorkspaceSummary moves into the protocol package as part of #7, where the workspace API is built out anyway.",
+      "status": "answered",
+      "asked_at": "2026-09-19T08:00:00Z",
+      "answered_at": "2026-09-19T08:10:00Z"
     }
   ],
   "jump_log": [
@@ -419,12 +436,20 @@
       "trigger": "contract_change",
       "reason": "keel-web must keep no storage of its own: the transcript and the session mapping belong in the workspace's ticket repository next to knowledge.md, state.json and events.jsonl, which are already scoped per workspace and travel with it. The frozen CreateTranscriptLog took a single directory and the registry took a stateDirectory, both of which assume one store for everything.",
       "at": "2026-09-19T07:20:00Z"
+    },
+    {
+      "from": "12",
+      "to": "12",
+      "block": null,
+      "trigger": "as_is_drift",
+      "reason": "The extraction found four things in the code that the to-be model never described. The worst is transcript -> workspaces: the jump 8 to 7 was applied to the model only by half, so the one edge the jump was actually about was missing, and with it the model's only record of 'keel-web keeps no storage of its own'. The client router was frozen as a contract in b2's claimed_stubs but never appeared in claimed_components, which is the same thing described from two sides and should have been caught at 7.1. The client workspace list and app -> workspaces were simply never drawn. In every case the code was right and the model followed it.",
+      "at": "2026-09-19T08:10:00Z"
     }
   ],
   "pr": {
     "host": "github",
     "url": "https://github.com/NavilaLabs/keel-web/pull/6",
     "number": 6,
-    "state": "open"
+    "state": "merged"
   }
 }

@@ -31,7 +31,19 @@ model {
         link ../../keel-web/client/src/connection/types.ts
       }
 
+      router = component 'Router' {
+        description 'Keeps the selected workspace and ticket in the URL and reports when it changes'
+        link ../../keel-web/client/src/routing/types.ts
+      }
+
+      workspaceList = component 'Workspace list' {
+        description 'Reads the repositories the server is configured with, for the sidebar'
+        link ../../keel-web/client/src/workspaces/types.ts
+      }
+
       shell -> chat 'Keeps the chat beside the ticket list and the artifact area'
+      shell -> router 'Reads the selected workspace and ticket, and navigates'
+      shell -> workspaceList 'Lists the repositories to pick from'
       shell -> transcriptStore 'Points the store at the selected ticket'
       chat -> transcriptStore 'Reads the transcript and sends messages, answers and interrupts'
       chat -> permissionPrompt 'Shows a held tool call in place'
@@ -40,4 +52,5 @@ model {
   }
 
   keelWeb.client.connection -> keelWeb.server.chatApi 'Streams events and posts commands'
+  keelWeb.client.workspaceList -> keelWeb.server.app 'Reads the configured workspaces'
 }

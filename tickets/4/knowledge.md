@@ -168,3 +168,15 @@ and the claimed components do not overlap: server against client.
   unregistered workspace before starting an agent, and the router parses and writes
   `/workspaces/<id>/tickets/<id>`. A repository without `.claude/keel.json` is listed but
   cannot hold a session, and says so rather than falling back to a store of its own.
+- 2026-09-19 - As-is sync, drift found and recorded. The extraction compared the merged code
+  against the to-be model and found four relations or components the model never described,
+  all of them real in the code. The costly one is `transcript -> workspaces`: the jump 8 to 7
+  moved the record into the workspace's ticket repository, but the model gained only
+  `workspaces`, `chatApi -> workspaces` and `sessions -> workspaces`, not the edge the jump was
+  about, so the model carried no trace of "keel-web keeps no storage of its own". The client
+  `router` had its contract frozen in b2's `claimed_stubs` while never entering
+  `claimed_components`: the two lists describe the same thing from two sides, and a check of one
+  against the other at 7.1 would have caught it. The client workspace list and `app -> workspaces`
+  were never drawn at all. The code was right in every case and `main` followed it.
+  Carried into #7: `WorkspaceSummary` crosses the client-server boundary without going through
+  `@keel-web/protocol`, the only wire type that does not, which is why it was never noticed.

@@ -34,7 +34,7 @@ model {
       }
 
       transcript = component 'Transcript log' {
-        description 'Appends normalised wire events with sequence numbers and replays them to a returning viewer'
+        description 'Appends normalised wire events with sequence numbers into the workspace ticket repository and replays them to a returning viewer'
         link ../../keel-web/server/src/transcript/types.ts
       }
 
@@ -46,6 +46,7 @@ model {
 
       app -> logger 'Mounts request logging and logs startup'
       app -> chatApi 'Mounts the chat routes'
+      app -> workspaces 'Serves the configured workspaces to the browser'
       chatApi -> workspaces 'Resolves the workspace a request names'
       chatApi -> sessions 'Attaches viewers, forwards messages, answers and interrupts'
       chatApi -> transcript 'Replays events from the last delivered sequence number'
@@ -53,6 +54,7 @@ model {
       sessions -> transcript 'Appends normalised events'
       sessions -> logger 'Logs session lifecycle outside any request'
       sessions -> permissionGate 'Holds each tool call until the browser answers'
+      transcript -> workspaces 'Resolves the ticket repository the record is written into'
     }
 
     server -> ticketTrackers 'Reads tickets and pull requests' {
