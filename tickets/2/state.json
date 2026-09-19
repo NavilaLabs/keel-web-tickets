@@ -39,7 +39,7 @@
         {
           "path": "server/src/logging/types.ts",
           "symbol": "Logger",
-          "fingerprint": "b32e20d1ded8177127051f532932aef47554efe784676f24031277be25f35cb8"
+          "fingerprint": "04379338fd07a86cfdde86dd35876b72464717d88eaa5d8726b088a1d1e3d842"
         }
       ],
       "adrs": [
@@ -134,9 +134,33 @@
       "status": "answered",
       "asked_at": "2026-09-19T01:10:00Z",
       "answered_at": "2026-09-19T01:20:00Z"
+    },
+    {
+      "id": "c7",
+      "block": "b2",
+      "step": "7",
+      "question": "Which guarantees stay in the doc comments of types.ts, and which comments are dropped, after the PR review comment?",
+      "options": [
+        "Shorten as proposed, keep only guarantees a caller cannot read from the types",
+        "Drop all doc comments except the request logger",
+        "Other (see notes)"
+      ],
+      "answer": "Option 1, shorten as proposed.",
+      "status": "answered",
+      "asked_at": "2026-09-19T02:10:00Z",
+      "answered_at": "2026-09-19T02:20:00Z"
     }
   ],
-  "jump_log": [],
+  "jump_log": [
+    {
+      "from": "11",
+      "to": "7",
+      "block": "b2",
+      "trigger": "pr_feedback",
+      "reason": "PR #5 review comment on server/src/logging/types.ts: comments can be shorter or omitted. The file is the frozen contract and its doc comments carry guarantees, so the wording is decided in a step 7 consultation.",
+      "at": "2026-09-19T02:10:00Z"
+    }
+  ],
   "as_is_base_commit": "9dd098200de8ae2a6357559e14643cab1884880b",
   "to_be_branch": "ticket/2",
   "pr": {
