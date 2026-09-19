@@ -32,11 +32,6 @@
           "path": "server/src/chat/types.ts",
           "symbol": "CreateChatRoutes",
           "fingerprint": "2c0eb9723092e2cb0fcd2244f37e9f3c587d24213f91293d77c56cadafa1b380"
-        },
-        {
-          "path": "protocol/src/events.ts",
-          "symbol": "SessionFailureCode",
-          "fingerprint": "2346c487b150b15f60d6b4fde3378db0e3f03bb9a38120c75680558398aed177"
         }
       ],
       "adrs": [
@@ -47,8 +42,37 @@
     {
       "id": "b2",
       "title": "Workspaces the developer adds, selects and keeps",
-      "step": "6",
-      "status": "pending"
+      "step": "8",
+      "status": "in_progress",
+      "claimed_components": [
+        "keelWeb.server.workspaces",
+        "keelWeb.server.workspaceStore",
+        "keelWeb.server.workspaceApi",
+        "keelWeb.server.app",
+        "keelWeb.client.workspaceList",
+        "keelWeb.client.shell"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/events.ts",
+          "symbol": "WorkspaceSummary",
+          "fingerprint": "4fee5d65f298af160ca9481c8518ace3eb5672257185c33479ae9417f7d8c27a"
+        },
+        {
+          "path": "server/src/workspaces/types.ts",
+          "symbol": "WorkspaceRegistry",
+          "fingerprint": "11727582d8e246ec4b90a7c364340b22327a7e92be48491ae8ca41a571846abb"
+        },
+        {
+          "path": "client/src/workspaces/types.ts",
+          "symbol": "Workspaces",
+          "fingerprint": "755b886412ff698541c4e84d268e8a5a1dd6c15033508dee36d6cba845415f92"
+        }
+      ],
+      "adrs": [
+        "tickets/7/adr/0011-workspace-summary-as-a-discriminated-union.md",
+        "tickets/7/adr/0012-workspaces-remembered-as-paths-and-ids.md"
+      ]
     }
   ],
   "consultations": [
@@ -141,6 +165,36 @@
       "status": "answered",
       "asked_at": "2026-09-19T22:32:17.715132Z",
       "answered_at": "2026-09-19T22:33:32.766165Z"
+    },
+    {
+      "id": "c7",
+      "block": "b2",
+      "step": "6",
+      "question": "Which solution options does b2 take: the shape of the wire type, where freshness comes from, how the remembered file is written and read, and whether the new mutation endpoints get a request gate?",
+      "options": [
+        "Wire type: status plus reason / discriminated union",
+        "Freshness: cached view refreshed on read / everything async",
+        "File: node built-ins with rename / a dependency; corrupt file refuses to start / is set aside",
+        "Request gate: CSRF and Host allowlist / nothing beyond the localhost binding"
+      ],
+      "answer": "Wire type: discriminated union, ready carrying ticketRepository and tracker. Freshness: a cached synchronous view, refreshed when the list is read. Corrupt workspaces.json: refuse to start and name the file and the parse error. Request gate: nothing beyond the 127.0.0.1 binding, so the CSRF and DNS-rebinding gap is recorded as an open question instead.",
+      "status": "answered",
+      "asked_at": "2026-09-19T22:55:21.596937Z",
+      "answered_at": "2026-09-19T23:00:45.303520Z"
+    },
+    {
+      "id": "c8",
+      "block": "b2",
+      "step": "7",
+      "question": "Are the model change, the three frozen contracts and ADRs 0011 and 0012 right for b2? Everything after this is implemented against them.",
+      "options": [
+        "Accept model, stubs and ADRs",
+        "Change something first"
+      ],
+      "answer": "Accepted: the two new server components, the three frozen contract files and ADRs 0011 and 0012.",
+      "status": "answered",
+      "asked_at": "2026-09-19T23:03:19.052390Z",
+      "answered_at": "2026-09-19T23:06:10.499370Z"
     }
   ],
   "jump_log": [
@@ -158,7 +212,9 @@
     "adrs": [
       "tickets/7/adr/0009-claude-code-and-keel-web-on-the-developer-host.md",
       "tickets/7/adr/0010-no-pre-flight-login-probe.md",
-      "tickets/1/adr/0002-claude-code-config-as-named-volume.md"
+      "tickets/1/adr/0002-claude-code-config-as-named-volume.md",
+      "tickets/7/adr/0011-workspace-summary-as-a-discriminated-union.md",
+      "tickets/7/adr/0012-workspaces-remembered-as-paths-and-ids.md"
     ],
     "c4_views": [
       "context",

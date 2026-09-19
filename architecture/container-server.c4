@@ -11,7 +11,18 @@ model {
       }
 
       workspaces = component 'Workspace registry' {
-        description 'Resolves a workspace to the repository it stands for and the keel configuration in it'
+        description 'Resolves a workspace to the repository it stands for, the keel configuration in it and whether it can hold a session'
+        link ../../keel-web/server/src/workspaces/types.ts
+      }
+
+      workspaceStore = component 'Remembered workspaces' {
+        description 'Reads and writes the developer\'s list of added repositories in their configuration directory'
+        link ../../keel-web/server/src/workspaces/types.ts
+      }
+
+      workspaceApi = component 'Workspace API' {
+        description 'Serves the workspaces to the browser and takes the ones the developer adds and removes'
+        technology 'Hono'
         link ../../keel-web/server/src/workspaces/types.ts
       }
 
@@ -46,7 +57,9 @@ model {
 
       app -> logger 'Mounts request logging and logs startup'
       app -> chatApi 'Mounts the chat routes'
-      app -> workspaces 'Serves the configured workspaces to the browser'
+      app -> workspaceApi 'Mounts the workspace routes'
+      workspaceApi -> workspaces 'Lists the workspaces and adds or removes one'
+      workspaces -> workspaceStore 'Reads the remembered list and records an addition or a removal'
       chatApi -> workspaces 'Resolves the workspace a request names'
       chatApi -> sessions 'Attaches viewers, forwards messages, answers and interrupts'
       chatApi -> transcript 'Replays events from the last delivered sequence number'
