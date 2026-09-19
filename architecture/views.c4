@@ -8,4 +8,9 @@ views {
     title 'keel-web containers'
     include *
   }
+
+  view server of keelWeb.server {
+    title 'keel-web server components'
+    include *
+  }
 }

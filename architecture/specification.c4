@@ -9,4 +9,5 @@ specification {
     }
   }
   element container
+  element component
 }
