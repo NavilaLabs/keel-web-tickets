@@ -140,3 +140,5 @@ and the claimed components do not overlap: server against client.
   reconnect loop. Still unverified, because it needs a logged-in container: that a browser
   reload produces exactly one `stream detached` line. Without that, every reload leaks a
   subscriber.
+- 2026-09-19 - PR #6 opened against main, linking knowledge.md, ADRs 0005 to 0008 and the
+  four LikeC4 views.

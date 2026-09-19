@@ -333,6 +333,8 @@
   ],
   "pr": {
     "host": "github",
-    "state": "none"
+    "url": "https://github.com/NavilaLabs/keel-web/pull/6",
+    "number": 6,
+    "state": "open"
   }
 }
