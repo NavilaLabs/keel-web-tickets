@@ -1,4 +1,6 @@
 specification {
+  tag planned
+
   element person
   element system
   element externalSystem {

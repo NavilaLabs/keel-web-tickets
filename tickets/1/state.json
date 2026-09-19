@@ -2,7 +2,7 @@
   "schema_version": 1,
   "ticket_id": "1",
   "code_repo": "keel-web",
-  "phase": "delivery",
+  "phase": "done",
   "intake_step": "5",
   "blocks": [
     {
@@ -119,9 +119,10 @@
         "Merge unchanged",
         "Do not merge"
       ],
-      "answer": null,
-      "status": "open",
-      "asked_at": "2026-09-19T13:22:37.606759+00:00"
+      "answer": "Merge with #planned tags.",
+      "status": "answered",
+      "asked_at": "2026-09-19T13:22:37.606759+00:00",
+      "answered_at": "2026-09-19T13:25:08.411061+00:00"
     }
   ],
   "jump_log": [

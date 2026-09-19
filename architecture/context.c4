@@ -16,6 +16,10 @@ model {
   }
 
   developer -> keelWeb 'Chats, views tickets, pull requests and diagrams'
-  keelWeb -> claudeCode 'Sends chat messages, receives streamed answers'
-  keelWeb -> ticketTrackers 'Reads tickets and pull requests'
+  keelWeb -> claudeCode 'Sends chat messages, receives streamed answers' {
+    #planned
+  }
+  keelWeb -> ticketTrackers 'Reads tickets and pull requests' {
+    #planned
+  }
 }

@@ -23,3 +23,4 @@ Source: https://github.com/NavilaLabs/keel-web/issues/1
 
 ## Log
 - 2026-09-19 - Ticket body was updated after the step 2 consultation (v1 goals, README step added); jump from 2 to 1 (missing_context), step 1 repeated.
+- 2026-09-19 - PR #3 merged. Step 12: no drift against the to-be model; server->claudeCode, server->ticketTrackers and the matching context relations are not implemented yet (deliberate scope). Merged into main tagged #planned. Open, still unanswered: how the built client is served in production, SSE vs WebSocket for streaming.
