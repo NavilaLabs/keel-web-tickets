@@ -116,3 +116,11 @@ and the claimed components do not overlap: server against client.
   call always reaches the browser, that a denial carries its reason back to the agent, that
   structured answers survive the round trip, and that a lost login is recognised as
   `auth_required` rather than a generic failure.
+- 2026-09-19 - Jump 6 to 7 (b1), found by b2's research. The frozen wire contract typed an
+  AskUserQuestion answer as `Record<string, string[]>`, while the installed SDK 0.3.278 expects
+  `Record<string, string>` keyed by the full question text, with multi-select answers comma
+  separated and free text arriving as the value. The server passes the value through verbatim,
+  so every consultation answered in the browser would have reached the agent as no answer at
+  all. The server test that appeared to cover this used a key matching neither the question nor
+  the header, so it proved nothing. Contract corrected and refrozen, tests keyed by question
+  text.

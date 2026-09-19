@@ -36,7 +36,7 @@
         {
           "path": "protocol/src/events.ts",
           "symbol": "ServerEvent",
-          "fingerprint": "f126ad98a62a144f13964af441a0be30aaf43b9fc2d4d942ff666b9314f39438"
+          "fingerprint": "4c076c41bdc44894ec6676845a3f0222ffa5989dc5a53e67502a5c4af6a3d030"
         },
         {
           "path": "server/src/chat/types.ts",
@@ -67,8 +67,8 @@
     {
       "id": "b2",
       "title": "Client: app shell (sidebar, main area, chat column) and the chat surface against the frozen wire types",
-      "step": "6",
-      "status": "pending",
+      "step": "7",
+      "status": "in_progress",
       "claimed_components": [],
       "claimed_stubs": [],
       "adrs": []
@@ -196,6 +196,36 @@
       "status": "answered",
       "asked_at": "2026-09-19T03:10:00Z",
       "answered_at": "2026-09-19T03:15:00Z"
+    },
+    {
+      "id": "c9",
+      "block": "b1",
+      "step": "7.2",
+      "question": "The frozen PermissionDecision does not match the SDK's AskUserQuestion shape. Correct the contract to Record<string, string> keyed by question text, plus an optional free-text response?",
+      "options": [
+        "Correct the contract to match the SDK (Recommended)",
+        "Keep string[] and translate in the server",
+        "Other (see notes)"
+      ],
+      "answer": "Correct the contract to match the SDK: answers is Record<string, string> keyed by the full question text, multi-select comma separated, free text arriving as the value. preview added to QuestionOption. No response field: it belongs to the tool's output, not its input.",
+      "status": "answered",
+      "asked_at": "2026-09-19T04:00:00Z",
+      "answered_at": "2026-09-19T04:10:00Z"
+    },
+    {
+      "id": "c10",
+      "block": "b2",
+      "step": "6",
+      "question": "Client options: SSE transport, transcript state, styling. Markdown and routing decided with reasons unless overridden.",
+      "options": [
+        "Transport: native EventSource behind a seam, or a fetch reader",
+        "State: external store with useSyncExternalStore, pure reducer, hybrid, or Zustand",
+        "Styling: CSS Modules with the existing tokens, Tailwind v4, or a component library"
+      ],
+      "answer": "Transport: native EventSource behind a seam. State: external store with useSyncExternalStore, the fold a pure function, the connection owned by the store. Styling: Tailwind with shadcn/ui, optionally React Bits, aiming at a clean flat design. Markdown and routing as proposed: react-markdown for finished messages only, no router but the URL mirrored behind useRoute().",
+      "status": "answered",
+      "asked_at": "2026-09-19T04:00:00Z",
+      "answered_at": "2026-09-19T04:10:00Z"
     }
   ],
   "jump_log": [
@@ -222,6 +252,14 @@
       "trigger": "implementation_bug",
       "reason": "The session registry imported the SDK's query() directly, so its consumer loop, the idempotency of attach and the authentication path could not be tested without a real agent and a real login. Verification named the gap; the developer asked for it closed. query becomes an injected dependency on SessionRegistryOptions, which is not a frozen stub: the SessionRegistry contract is unchanged.",
       "at": "2026-09-19T03:30:00Z"
+    },
+    {
+      "from": "6",
+      "to": "7",
+      "block": "b1",
+      "trigger": "contract_change",
+      "reason": "The frozen wire contract types an AskUserQuestion answer as Record<string, string[]>, but the installed SDK 0.3.278 types AskUserQuestionInput.answers as Record<string, string> keyed by question text, with multi-select answers comma separated, and carries a `response` field for the free-text option the tool always offers. The server passes the value through verbatim, so the browser could never answer a consultation correctly. Found by b2's research at step 6 and confirmed against node_modules.",
+      "at": "2026-09-19T04:00:00Z"
     }
   ],
   "pr": {
