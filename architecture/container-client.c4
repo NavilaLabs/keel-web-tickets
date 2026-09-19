@@ -1,0 +1,8 @@
+model {
+  extend keelWeb {
+    client = container 'Web client' {
+      description 'Vite and React single-page app rendering chat, view-only tickets and pull requests, LikeC4 diagrams and phase progress'
+      technology 'TypeScript, React, Vite'
+    }
+  }
+}

@@ -1,0 +1,16 @@
+model {
+  extend keelWeb {
+    server = container 'Web server' {
+      description 'Hono server that streams Claude Code output to the client and reads tickets and pull requests from the trackers'
+      technology 'TypeScript, Hono, Node'
+    }
+
+    client -> server 'Calls HTTP and streaming API'
+    server -> claudeCode 'Runs Claude Code through the Agent SDK' {
+      #planned
+    }
+    server -> ticketTrackers 'Reads tickets and pull requests' {
+      #planned
+    }
+  }
+}
