@@ -214,6 +214,14 @@
       "trigger": "design_flaw",
       "reason": "The to-be model draws permissionGate -> sessions and claudeCode -> permissionGate, but the registry creates and calls the gate, and owns the canUseTool callback the agent invokes. The model carried the conceptual direction rather than the dependency. Found at step 9 by comparing the implementation against the model.",
       "at": "2026-09-19T03:10:00Z"
+    },
+    {
+      "from": "9",
+      "to": "8",
+      "block": "b1",
+      "trigger": "implementation_bug",
+      "reason": "The session registry imported the SDK's query() directly, so its consumer loop, the idempotency of attach and the authentication path could not be tested without a real agent and a real login. Verification named the gap; the developer asked for it closed. query becomes an injected dependency on SessionRegistryOptions, which is not a frozen stub: the SessionRegistry contract is unchanged.",
+      "at": "2026-09-19T03:30:00Z"
     }
   ],
   "pr": {

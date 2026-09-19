@@ -47,8 +47,9 @@ with the developer there.
 - The client is still the unmodified Vite starter: no router, no component structure,
   no styling library, and the dev proxy has no streaming-specific buffering or timeout
   configuration.  `open: addressed in b2`
-- No tests exist yet. Ticket 2 set the rule that the first ticket needing one writes
-  it, and this is that ticket.  `open`
+- No tests existed yet. Ticket 2 set the rule that the first ticket needing one writes it,
+  and this is that ticket.  `resolved: 57 tests on the server, covering the guarantees the
+  frozen contracts promise`
 - The as-is model lagged the code by one ticket: ticket 2's `keelWeb.server.logger`
   component was merged in code but lived only on branch `ticket/2`, so `main` had no
   component level for the server at all.  `resolved: ticket 2 synced into main at
@@ -107,3 +108,11 @@ and the claimed components do not overlap: server against client.
   stubs promise: sequence numbers without gaps, replay after a sequence number, the gate's
   first-answer-wins and deny-on-close, the normalisation of SDK messages, and the input
   endpoint's status codes. All five frozen stubs are bit-identical with their fingerprints.
+- 2026-09-19 - Jump 9 to 8 (b1). Verification found that the session registry could not be
+  tested at all: it imported the SDK's `query` directly, so its consumer loop, the idempotency
+  of `attach` and the authentication path all needed a real agent and a real login. The runner
+  is now injected through `SessionRegistryOptions`, which is not a frozen stub, so the
+  `SessionRegistry` contract did not change. 21 further tests followed, among them that a tool
+  call always reaches the browser, that a denial carries its reason back to the agent, that
+  structured answers survive the round trip, and that a lost login is recognised as
+  `auth_required` rather than a generic failure.
