@@ -108,6 +108,20 @@
       "status": "answered",
       "asked_at": "2026-09-19T12:18:42.567794+00:00",
       "answered_at": "2026-09-19T12:22:17.974787+00:00"
+    },
+    {
+      "id": "c7",
+      "block": null,
+      "step": "12.3",
+      "question": "Merge architecture/ from ticket/1 into main: as planned target (unchanged), or with #planned tags on relations the code does not have yet?",
+      "options": [
+        "Merge with #planned tags (recommended)",
+        "Merge unchanged",
+        "Do not merge"
+      ],
+      "answer": null,
+      "status": "open",
+      "asked_at": "2026-09-19T13:22:37.606759+00:00"
     }
   ],
   "jump_log": [
@@ -138,6 +152,6 @@
     "host": "github",
     "url": "https://github.com/NavilaLabs/keel-web/pull/3",
     "number": 3,
-    "state": "open"
+    "state": "merged"
   }
 }
