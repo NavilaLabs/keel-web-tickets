@@ -84,21 +84,36 @@ diagrams, and it blocks none of the goals above. Its own ticket.
 - Do status and permission prompts belong in the centre too?
   `answered: not in this ticket. The permission prompt stays in the chat column (ADR 0006) and
   the workflow status is ticket #8.`
-- Which package renders LikeC4, and does it render at build time or at runtime?  `open`
-- Does the hint travel on the existing SSE stream or on a channel of its own?  `open`
+- Which package renders LikeC4, and does it render at build time or at runtime?
+  `answered at step 7: the single "likec4" package, whose react and vite-plugin subpaths are what
+  ADR 0001 mistook for packages of their own. It renders at runtime: the server parses and lays
+  out, the browser draws, so a branch is a request parameter (ADR 0018).`
+- Does the hint travel on the existing SSE stream or on a channel of its own?
+  `answered at step 7: its own ticket-scoped stream, because the chat stream starts an agent on
+  attach and dies with it, which is exactly the state where the artefact views still work
+  (ADR 0019).`
 - Does a route that serves file contents need a request gate against DNS rebinding, which
-  ADR 0014 left open for the directory route?  `open`
+  ADR 0014 left open for the directory route?
+  `answered at step 6: yes, a Host header guard in front of every route, which is what Vite,
+  Jupyter, Storybook and the MCP specification all settled on (ADR 0015).`
 
 ## Theme blocks
 
 - **b1** Artefacts served, and readable in the centre - `done`
-- **b2** The workflow points the centre at an artefact - `pending`
+- **b2** The workflow points the centre at an artefact - `done`
 - **b3** LikeC4 views, rendered interactively - `done`
 
 b2 runs after b1 rather than beside it: it needs b1's frozen contract for how an artefact is
 addressed and opened. Its step 6 research is independent. b3 depends on neither.
 
 ## Log
+
+- 2026-09-20 - Step 9, b2 done, and verified against a live stream rather than only in tests: a
+  hint appended to a ticket's `events.jsonl` arrived in the browser's stream as `artifact.hint`
+  with the reading position as its id, and a reconnect carrying that id delivered only what came
+  after it. Two defects were found while implementing: a listener attaching before keel had ever
+  written the file treated the file's first appearance as history, and a test asserted that a
+  same-length replacement is detectable, which by offset alone it is not.
 
 - 2026-09-20 - Intake. keel#1, the producer of the hint, turned out to be implemented and
   installed already (keel 0.3.0). The `artifact_hint` contract was verified against the installed

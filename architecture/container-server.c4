@@ -77,6 +77,12 @@ model {
         link ../../keel-web/server/src/artifacts/types.ts
       }
 
+      hints = component 'Artefact hints' {
+        description 'Follows the workflow\'s event stream for a ticket and passes on what it says is worth looking at now'
+        technology 'Hono, Server-Sent Events'
+        link ../../keel-web/server/src/hints/types.ts
+      }
+
       architecture = component 'Architecture reader' {
         description 'Reads the architecture sources of a branch and serves the model with every view laid out'
         technology 'likec4, Graphviz WASM'
@@ -93,6 +99,8 @@ model {
       app -> hostGuard 'Mounts the guard in front of every route'
       app -> artifactApi 'Mounts the artefact routes'
       app -> architecture 'Mounts the architecture route'
+      app -> hints 'Mounts the hint stream'
+      hints -> workspaces 'Resolves the ticket repository the event stream is read from'
       artifactApi -> workspaces 'Resolves the workspace a request names'
       artifactApi -> artifacts 'Lists the artefacts of a ticket and reads one'
       artifacts -> architecture 'Asks which views the model of a branch defines'

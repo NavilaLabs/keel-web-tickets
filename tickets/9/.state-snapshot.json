@@ -8,7 +8,8 @@
       "tickets/9/adr/0015-a-host-guard-in-front-of-every-route.md",
       "tickets/9/adr/0016-an-open-artefact-follows-its-file-by-asking-again.md",
       "tickets/9/adr/0017-an-artefact-is-addressed-the-way-keel-points-at-it.md",
-      "tickets/9/adr/0018-the-server-lays-out-the-architecture-model.md"
+      "tickets/9/adr/0018-the-server-lays-out-the-architecture-model.md",
+      "tickets/9/adr/0019-the-hint-travels-on-its-own-stream-keyed-by-reading-position.md"
     ],
     "c4_views": [
       "context",
@@ -51,10 +52,25 @@
       ]
     },
     "b2": {
-      "step": "7",
-      "status": "blocked",
-      "stubs": [],
-      "adrs": []
+      "step": "9",
+      "status": "done",
+      "stubs": [
+        {
+          "path": "protocol/src/hints.ts",
+          "symbol": "ArtifactHint"
+        },
+        {
+          "path": "server/src/hints/types.ts",
+          "symbol": "HintFollower"
+        },
+        {
+          "path": "client/src/hints/types.ts",
+          "symbol": "HintListener"
+        }
+      ],
+      "adrs": [
+        "tickets/9/adr/0019-the-hint-travels-on-its-own-stream-keyed-by-reading-position.md"
+      ]
     },
     "b3": {
       "step": "9",

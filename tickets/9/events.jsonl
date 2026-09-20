@@ -72,3 +72,12 @@
 {"at": "2026-09-20T14:03:06.234148+00:00", "type": "block_status_changed", "block": "b3", "from": "pending", "to": "in_progress"}
 {"at": "2026-09-20T14:08:55.161165+00:00", "type": "step_changed", "block": "b3", "from": "8", "to": "9"}
 {"at": "2026-09-20T14:08:55.161165+00:00", "type": "block_status_changed", "block": "b3", "from": "in_progress", "to": "done"}
+{"at": "2026-09-20T14:09:41.259489+00:00", "type": "block_status_changed", "block": "b2", "from": "blocked", "to": "in_progress"}
+{"at": "2026-09-20T14:11:31.138793+00:00", "type": "block_status_changed", "block": "b2", "from": "in_progress", "to": "awaiting_consultation"}
+{"at": "2026-09-20T14:11:31.138793+00:00", "type": "consultation_opened", "consultation": "c11"}
+{"at": "2026-09-20T14:11:31.138793+00:00", "type": "artifact_hint", "block": "b2", "step": "7", "consultation": "c11", "targets": [{"kind": "c4_view", "view": "context", "branch": "ticket/9"}, {"kind": "c4_view", "view": "containers", "branch": "ticket/9"}, {"kind": "c4_view", "view": "server", "branch": "ticket/9"}, {"kind": "c4_view", "view": "client", "branch": "ticket/9"}, {"kind": "c4_view", "view": "runtime", "branch": "ticket/9"}, {"kind": "stub", "repo": "code", "path": "protocol/src/hints.ts", "symbol": "ArtifactHint"}, {"kind": "stub", "repo": "code", "path": "server/src/hints/types.ts", "symbol": "HintFollower"}, {"kind": "stub", "repo": "code", "path": "client/src/hints/types.ts", "symbol": "HintListener"}, {"kind": "adr", "repo": "ticket", "path": "tickets/9/adr/0019-the-hint-travels-on-its-own-stream-keyed-by-reading-position.md"}]}
+{"at": "2026-09-20T14:12:25.311775+00:00", "type": "step_changed", "block": "b2", "from": "7", "to": "8"}
+{"at": "2026-09-20T14:12:25.311775+00:00", "type": "block_status_changed", "block": "b2", "from": "awaiting_consultation", "to": "in_progress"}
+{"at": "2026-09-20T14:12:25.311775+00:00", "type": "consultation_closed", "consultation": "c11"}
+{"at": "2026-09-20T14:16:04.842960+00:00", "type": "step_changed", "block": "b2", "from": "8", "to": "9"}
+{"at": "2026-09-20T14:16:04.842960+00:00", "type": "block_status_changed", "block": "b2", "from": "in_progress", "to": "done"}

@@ -16,9 +16,16 @@
       "tickets/9/adr/0015-a-host-guard-in-front-of-every-route.md",
       "tickets/9/adr/0016-an-open-artefact-follows-its-file-by-asking-again.md",
       "tickets/9/adr/0017-an-artefact-is-addressed-the-way-keel-points-at-it.md",
-      "tickets/9/adr/0018-the-server-lays-out-the-architecture-model.md"
+      "tickets/9/adr/0018-the-server-lays-out-the-architecture-model.md",
+      "tickets/9/adr/0019-the-hint-travels-on-its-own-stream-keyed-by-reading-position.md"
     ],
-    "c4_views": ["context", "containers", "server", "client", "runtime"]
+    "c4_views": [
+      "context",
+      "containers",
+      "server",
+      "client",
+      "runtime"
+    ]
   },
   "blocks": [
     {
@@ -73,8 +80,32 @@
     {
       "id": "b2",
       "title": "The workflow points the centre at an artefact",
-      "step": "7",
-      "status": "blocked"
+      "step": "9",
+      "status": "done",
+      "claimed_components": [
+        "keelWeb.server.hints",
+        "keelWeb.client.hintListener"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/hints.ts",
+          "symbol": "ArtifactHint",
+          "fingerprint": "289389dfce248cf24821db5f987980e1e6e507726ae5b73965179ddb7bd44f1d"
+        },
+        {
+          "path": "server/src/hints/types.ts",
+          "symbol": "HintFollower",
+          "fingerprint": "0a5c4afd6ed832b3eaa3cbd9c2f3b0f94a23acef64a0fcdbf5a946d75890b447"
+        },
+        {
+          "path": "client/src/hints/types.ts",
+          "symbol": "HintListener",
+          "fingerprint": "0627631195e3ebd7c9471d415d6e79fe059f99da018a52d6b1d54952b761211e"
+        }
+      ],
+      "adrs": [
+        "tickets/9/adr/0019-the-hint-travels-on-its-own-stream-keyed-by-reading-position.md"
+      ]
     },
     {
       "id": "b3",
@@ -102,7 +133,9 @@
           "fingerprint": "fb4edf1f16f7cab19e4e55e1145764ad55b74f7c3174d9fea99ee7cbcad90456"
         }
       ],
-      "adrs": ["tickets/9/adr/0018-the-server-lays-out-the-architecture-model.md"]
+      "adrs": [
+        "tickets/9/adr/0018-the-server-lays-out-the-architecture-model.md"
+      ]
     }
   ],
   "consultations": [
@@ -230,6 +263,16 @@
       "status": "answered",
       "asked_at": "2026-09-20T13:58:06+00:00",
       "answered_at": "2026-09-20T14:00:00+00:00"
+    },
+    {
+      "id": "c11",
+      "block": "b2",
+      "step": "7",
+      "question": "Do b2's model and contracts hold: a ticket-scoped hint stream with no agent attach, the reading position as the SSE id, a freshness window, and a listener that reports rather than acts?",
+      "answer": "Model and contracts hold as presented.",
+      "status": "answered",
+      "asked_at": "2026-09-20T14:20:00+00:00",
+      "answered_at": "2026-09-20T14:25:00+00:00"
     }
   ],
   "jump_log": [

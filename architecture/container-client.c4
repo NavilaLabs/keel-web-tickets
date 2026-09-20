@@ -61,6 +61,12 @@ model {
         link ../../keel-web/client/src/artifacts/types.ts
       }
 
+      hintListener = component 'Hint listener' {
+        description 'Listens for what the workflow says is worth looking at and brings it to the front once'
+        technology 'EventSource'
+        link ../../keel-web/client/src/hints/types.ts
+      }
+
       diagramView = component 'Diagram view' {
         description 'Renders one laid-out architecture view and reports the element or link the developer follows'
         technology 'likec4'
@@ -72,6 +78,7 @@ model {
       centre -> artifactTree 'Lists what can be opened and takes what the developer picked'
       centre -> artifactView 'Shows the artefact of the active tab'
       artifactView -> diagramView 'Hands an architecture view over to be drawn'
+      shell -> hintListener 'Opens what the workflow points at, and lets the developer override it'
       shell -> router 'Reads the selected workspace and ticket, and navigates'
       shell -> workspaceList 'Lists the repositories to pick from, and adds or removes one'
       shell -> directoryPicker 'Opens the picker and takes the directory it returns'
@@ -88,4 +95,5 @@ model {
   keelWeb.client.directoryPicker -> keelWeb.server.directories 'Reads the subdirectories of a path'
   keelWeb.client.centre -> keelWeb.server.artifactApi 'Reads the artefact tree and the open artefact, and asks again with its entity tag'
   keelWeb.client.diagramView -> keelWeb.server.architecture 'Reads the laid-out model of a view on a branch'
+  keelWeb.client.hintListener -> keelWeb.server.hints 'Subscribes to the hints of a ticket, from now on'
 }
