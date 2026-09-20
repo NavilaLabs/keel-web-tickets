@@ -9,13 +9,13 @@
     "number": 12,
     "state": "open"
   },
-  "phase": "delivery",
+  "phase": "blocks",
   "blocks": [
     {
       "id": "b1",
       "title": "Claude Code on the host, keel-web beside it",
-      "step": "9",
-      "status": "done",
+      "step": "7",
+      "status": "in_progress",
       "claimed_components": [
         "developerMachine",
         "developerMachine.browser",
@@ -207,6 +207,14 @@
       "trigger": "contract_change",
       "reason": "The meaning of the protocol's `auth_required` failure code changed with the host move: it no longer means the container has no login, it means the agent gave up before it was ready and any early failure lands there. protocol/src/events.ts was not among b1's frozen stubs at 7.2, so the change needed a step 7 decision rather than an implementation edit.",
       "at": "2026-09-19T22:32:17.715132Z"
+    },
+    {
+      "from": "9",
+      "to": "7",
+      "block": "b1",
+      "trigger": "design_flaw",
+      "reason": "Found by running the chat in the browser against the real agent. attach waits for system:init, but the SDK only emits it once the first user message arrives (measured: hook_started at 0.3s, init at 15.2s, right after the message was released). send needs a session, so attach and send wait on each other until SessionStartError after 60s. The fake agent in the tests emitted init immediately, which hid it. ADR 0010 rests on the same assumption (ready means init seen) and needs a new signal for telling a missing login from a slow start.",
+      "at": "2026-09-20T07:54:25.340226Z"
     }
   ],
   "artifacts": {
