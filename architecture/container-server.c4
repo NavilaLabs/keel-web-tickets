@@ -20,6 +20,11 @@ model {
         link ../../keel-web/server/src/workspaces/types.ts
       }
 
+      directories = component 'Directory browser' {
+        description 'Lists the subdirectories of a path on this machine, so a repository can be picked instead of typed'
+        link ../../keel-web/server/src/directories/types.ts
+      }
+
       workspaceApi = component 'Workspace API' {
         description 'Serves the workspaces to the browser and takes the ones the developer adds and removes'
         technology 'Hono'
@@ -58,6 +63,7 @@ model {
       app -> logger 'Mounts request logging and logs startup'
       app -> chatApi 'Mounts the chat routes'
       app -> workspaceApi 'Mounts the workspace routes'
+      app -> directories 'Mounts the directory route'
       workspaceApi -> workspaces 'Lists the workspaces and adds or removes one'
       workspaces -> workspaceStore 'Reads the remembered list and records an addition or a removal'
       chatApi -> workspaces 'Resolves the workspace a request names'

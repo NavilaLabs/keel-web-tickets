@@ -53,13 +53,15 @@
         "keelWeb.server.workspaceApi",
         "keelWeb.server.app",
         "keelWeb.client.workspaceList",
-        "keelWeb.client.shell"
+        "keelWeb.client.shell",
+        "keelWeb.server.directories",
+        "keelWeb.client.directoryPicker"
       ],
       "claimed_stubs": [
         {
           "path": "protocol/src/events.ts",
           "symbol": "WorkspaceSummary",
-          "fingerprint": "4fee5d65f298af160ca9481c8518ace3eb5672257185c33479ae9417f7d8c27a"
+          "fingerprint": "f13eec73e62cdbd1c6ace088fe4f2aa8f908b94424a70986f57cafd3058759f3"
         },
         {
           "path": "server/src/workspaces/types.ts",
@@ -70,11 +72,22 @@
           "path": "client/src/workspaces/types.ts",
           "symbol": "Workspaces",
           "fingerprint": "755b886412ff698541c4e84d268e8a5a1dd6c15033508dee36d6cba845415f92"
+        },
+        {
+          "path": "server/src/directories/types.ts",
+          "symbol": "DirectoryBrowser",
+          "fingerprint": "1c78bb165522425b52d78effd73356eb60c82110aba76123dff36bb5b591a909"
+        },
+        {
+          "path": "client/src/directories/types.ts",
+          "symbol": "Directories",
+          "fingerprint": "2097b273f6e2c0ad212ab4d95f04ef718d3abc2d51a246c107e68f50878ffaef"
         }
       ],
       "adrs": [
         "tickets/7/adr/0011-workspace-summary-as-a-discriminated-union.md",
-        "tickets/7/adr/0012-workspaces-remembered-as-paths-and-ids.md"
+        "tickets/7/adr/0012-workspaces-remembered-as-paths-and-ids.md",
+        "tickets/7/adr/0014-the-server-walks-the-filesystem-for-the-picker.md"
       ]
     }
   ],
@@ -214,6 +227,20 @@
       "status": "answered",
       "asked_at": "2026-09-20T07:58:08.864515Z",
       "answered_at": "2026-09-20T08:01:40.213258Z"
+    },
+    {
+      "id": "c10",
+      "block": "b2",
+      "step": "7",
+      "question": "Are the directory browser's model change, the three contracts and ADR 0014 right? Everything after this is implemented against them.",
+      "options": [
+        "Accept model, stubs and ADR",
+        "Change something first"
+      ],
+      "answer": "Accepted: the directories and directoryPicker components, the three contracts and ADR 0014.",
+      "status": "answered",
+      "asked_at": "2026-09-20T08:16:00.493854Z",
+      "answered_at": "2026-09-20T08:16:45.677206Z"
     }
   ],
   "jump_log": [
@@ -232,6 +259,14 @@
       "trigger": "design_flaw",
       "reason": "Found by running the chat in the browser against the real agent. attach waits for system:init, but the SDK only emits it once the first user message arrives (measured: hook_started at 0.3s, init at 15.2s, right after the message was released). send needs a session, so attach and send wait on each other until SessionStartError after 60s. The fake agent in the tests emitted init immediately, which hid it. ADR 0010 rests on the same assumption (ready means init seen) and needs a new signal for telling a missing login from a slow start.",
       "at": "2026-09-20T07:54:25.340226Z"
+    },
+    {
+      "from": "9",
+      "to": "7",
+      "block": "b2",
+      "trigger": "design_flaw",
+      "reason": "Adding a repository by typing its path into a text field meets the ticket's goal only in the letter. The developer asked for an explorer-style picker, and pointing at a path is what the ticket actually says. A browser cannot hand over an absolute path, so this is a server-side directory listing: a new route, a new wire type and a change to the client contract.",
+      "at": "2026-09-20T08:10:04.220213Z"
     }
   ],
   "artifacts": {
@@ -242,7 +277,8 @@
       "tickets/1/adr/0002-claude-code-config-as-named-volume.md",
       "tickets/7/adr/0011-workspace-summary-as-a-discriminated-union.md",
       "tickets/7/adr/0012-workspaces-remembered-as-paths-and-ids.md",
-      "tickets/7/adr/0013-attach-does-not-wait-for-the-agent-to-announce-itself.md"
+      "tickets/7/adr/0013-attach-does-not-wait-for-the-agent-to-announce-itself.md",
+      "tickets/7/adr/0014-the-server-walks-the-filesystem-for-the-picker.md"
     ],
     "c4_views": [
       "context",

@@ -36,6 +36,11 @@ model {
         link ../../keel-web/client/src/routing/types.ts
       }
 
+      directoryPicker = component 'Directory picker' {
+        description 'Walks the directories on this machine in a dialog, so a repository is chosen rather than typed'
+        link ../../keel-web/client/src/directories/types.ts
+      }
+
       workspaceList = component 'Workspace list' {
         description 'Holds the repositories for the sidebar and adds or removes one at the developer\'s request'
         link ../../keel-web/client/src/workspaces/types.ts
@@ -44,7 +49,9 @@ model {
       shell -> chat 'Keeps the chat beside the ticket list and the artifact area'
       shell -> router 'Reads the selected workspace and ticket, and navigates'
       shell -> workspaceList 'Lists the repositories to pick from, and adds or removes one'
+      shell -> directoryPicker 'Opens the picker and takes the directory it returns'
       shell -> transcriptStore 'Points the store at the selected ticket'
+      directoryPicker -> workspaceList 'Hands over the directory the developer chose'
       chat -> transcriptStore 'Reads the transcript and sends messages, answers and interrupts'
       chat -> permissionPrompt 'Shows a held tool call in place'
       transcriptStore -> connection 'Opens the stream and posts commands'
@@ -53,4 +60,5 @@ model {
 
   keelWeb.client.connection -> keelWeb.server.chatApi 'Streams events and posts commands'
   keelWeb.client.workspaceList -> keelWeb.server.workspaceApi 'Reads the workspaces and adds or removes one'
+  keelWeb.client.directoryPicker -> keelWeb.server.directories 'Reads the subdirectories of a path'
 }
