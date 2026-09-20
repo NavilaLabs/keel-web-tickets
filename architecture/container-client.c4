@@ -46,7 +46,33 @@ model {
         link ../../keel-web/client/src/workspaces/types.ts
       }
 
+      centre = component 'Centre area' {
+        description 'Keeps the artefacts the developer opened for a ticket as tabs and shows one of them'
+        link ../../keel-web/client/src/artifacts/types.ts
+      }
+
+      artifactTree = component 'Artefact tree' {
+        description 'Lists the artefacts of a ticket so the developer reaches any of them without asking the agent'
+        link ../../keel-web/client/src/artifacts/types.ts
+      }
+
+      artifactView = component 'Artefact view' {
+        description 'Renders one artefact as its kind deserves and says when a stub has drifted from the contract that was frozen'
+        link ../../keel-web/client/src/artifacts/types.ts
+      }
+
+      diagramView = component 'Diagram view' {
+        description 'Renders one laid-out architecture view and reports the element or link the developer follows'
+        technology 'likec4'
+        link ../../keel-web/client/src/architecture/types.ts
+      }
+
       shell -> chat 'Keeps the chat beside the ticket list and the artifact area'
+      shell -> centre 'Gives the centre the room the sidebar leaves once a ticket is selected'
+      centre -> artifactTree 'Lists what can be opened and takes what the developer picked'
+      centre -> artifactView 'Shows the artefact of the active tab'
+      centre -> router 'Keeps the open artefact in the URL and reads it back on a deep link'
+      artifactView -> diagramView 'Hands an architecture view over to be drawn'
       shell -> router 'Reads the selected workspace and ticket, and navigates'
       shell -> workspaceList 'Lists the repositories to pick from, and adds or removes one'
       shell -> directoryPicker 'Opens the picker and takes the directory it returns'
@@ -61,4 +87,6 @@ model {
   keelWeb.client.connection -> keelWeb.server.chatApi 'Streams events and posts commands'
   keelWeb.client.workspaceList -> keelWeb.server.workspaceApi 'Reads the workspaces and adds or removes one'
   keelWeb.client.directoryPicker -> keelWeb.server.directories 'Reads the subdirectories of a path'
+  keelWeb.client.centre -> keelWeb.server.artifactApi 'Reads the artefact tree and the open artefact, and asks again with its entity tag'
+  keelWeb.client.diagramView -> keelWeb.server.architecture 'Reads the laid-out model of a view on a branch'
 }

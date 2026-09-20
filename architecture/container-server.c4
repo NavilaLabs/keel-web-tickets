@@ -60,6 +60,29 @@ model {
         link ../../keel-web/server/src/logging/types.ts
       }
 
+      hostGuard = component 'Host guard' {
+        description 'Refuses a request whose Host is not a loopback name, so a rebound domain cannot read this machine through the browser'
+        technology 'Hono middleware'
+        link ../../keel-web/server/src/security/types.ts
+      }
+
+      artifacts = component 'Artefact reader' {
+        description 'Lists and reads the artefacts of a ticket, bounded to the two repositories the workspace stands for'
+        link ../../keel-web/server/src/artifacts/types.ts
+      }
+
+      artifactApi = component 'Artefact API' {
+        description 'Serves the artefact tree and one artefact\'s content, with an entity tag so an open view can ask again cheaply'
+        technology 'Hono'
+        link ../../keel-web/server/src/artifacts/types.ts
+      }
+
+      architecture = component 'Architecture reader' {
+        description 'Reads the architecture sources of a branch and serves the model with every view laid out'
+        technology 'likec4, Graphviz WASM'
+        link ../../keel-web/server/src/architecture/types.ts
+      }
+
       // Edges from app are what it mounts. It also constructs every component
       // below, being the composition root, and that is deliberately not drawn:
       // eight edges from one element would say less than four.
@@ -67,6 +90,14 @@ model {
       app -> chatApi 'Mounts the chat routes'
       app -> workspaceApi 'Mounts the workspace routes'
       app -> directories 'Mounts the directory route'
+      app -> hostGuard 'Mounts the guard in front of every route'
+      app -> artifactApi 'Mounts the artefact routes'
+      app -> architecture 'Mounts the architecture route'
+      artifactApi -> workspaces 'Resolves the workspace a request names'
+      artifactApi -> artifacts 'Lists the artefacts of a ticket and reads one'
+      artifacts -> workspaces 'Reads the two repositories an artefact may come from'
+      artifacts -> architecture 'Asks which views the model of a branch defines'
+      architecture -> workspaces 'Reads the ticket repository the architecture sources live in'
       workspaceApi -> workspaces 'Lists the workspaces and adds or removes one'
       workspaces -> workspaceStore 'Reads the remembered list and records an addition or a removal'
       chatApi -> workspaces 'Resolves the workspace a request names'

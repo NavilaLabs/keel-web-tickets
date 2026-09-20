@@ -8,29 +8,101 @@
     "state": "none"
   },
   "phase": "blocks",
+  "as_is_base_commit": "f0cb45b07d2aae4ab8d569cbdcbada96c0c3f68c",
+  "to_be_branch": "ticket/9",
   "artifacts": {
     "knowledge": "tickets/9/knowledge.md",
-    "adrs": [],
-    "c4_views": []
+    "adrs": [
+      "tickets/9/adr/0015-a-host-guard-in-front-of-every-route.md",
+      "tickets/9/adr/0016-an-open-artefact-follows-its-file-by-asking-again.md",
+      "tickets/9/adr/0017-an-artefact-is-addressed-the-way-keel-points-at-it.md",
+      "tickets/9/adr/0018-the-server-lays-out-the-architecture-model.md"
+    ],
+    "c4_views": ["context", "containers", "server", "client", "runtime"]
   },
   "blocks": [
     {
       "id": "b1",
       "title": "Artefacts served, and readable in the centre",
-      "step": "6",
-      "status": "pending"
+      "step": "8",
+      "status": "in_progress",
+      "claimed_components": [
+        "keelWeb.server.hostGuard",
+        "keelWeb.server.artifacts",
+        "keelWeb.server.artifactApi",
+        "keelWeb.server.app",
+        "keelWeb.client.centre",
+        "keelWeb.client.artifactTree",
+        "keelWeb.client.artifactView",
+        "keelWeb.client.shell",
+        "keelWeb.client.router"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/artifacts.ts",
+          "symbol": "ArtifactRef",
+          "fingerprint": "4f42f95c174c75f648fcfe1075f937902229b84240b30694deff1ca8c735ab6d"
+        },
+        {
+          "path": "server/src/security/types.ts",
+          "symbol": "CreateHostGuard",
+          "fingerprint": "51df2d3ce28e7a91404805e52866a2a999df0cee7f74b0c656f43a9a008b5d9d"
+        },
+        {
+          "path": "server/src/artifacts/types.ts",
+          "symbol": "ArtifactReader",
+          "fingerprint": "3d15c5fe3d9df19cb70fb37ad647760393c41a605e17bc6cd1076f1857ab28ff"
+        },
+        {
+          "path": "client/src/artifacts/types.ts",
+          "symbol": "CentreStore",
+          "fingerprint": "fe6cb732fb9bdc694a29b5744810bd084ba51f6c15b77748954105cf9a029b66"
+        },
+        {
+          "path": "client/src/routing/types.ts",
+          "symbol": "Route",
+          "fingerprint": "89e6d38a9b3f5ca1e7ce18413a17d533162956aa5b71a9cc4c40d35eb2dab681"
+        }
+      ],
+      "adrs": [
+        "tickets/9/adr/0015-a-host-guard-in-front-of-every-route.md",
+        "tickets/9/adr/0016-an-open-artefact-follows-its-file-by-asking-again.md",
+        "tickets/9/adr/0017-an-artefact-is-addressed-the-way-keel-points-at-it.md"
+      ]
     },
     {
       "id": "b2",
       "title": "The workflow points the centre at an artefact",
-      "step": "6",
-      "status": "pending"
+      "step": "7",
+      "status": "blocked"
     },
     {
       "id": "b3",
       "title": "LikeC4 views, rendered interactively",
-      "step": "6",
-      "status": "pending"
+      "step": "8",
+      "status": "pending",
+      "claimed_components": [
+        "keelWeb.server.architecture",
+        "keelWeb.client.diagramView"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/architecture.ts",
+          "symbol": "ArchitectureView",
+          "fingerprint": "ef7d6d5216f4ab7f483fa113b164e573b862e26a21214d3ab5fb715453188b9c"
+        },
+        {
+          "path": "server/src/architecture/types.ts",
+          "symbol": "ArchitectureReader",
+          "fingerprint": "4b295aade5a22462ae9516f6a460dc6fcc97cf0cc952e8635063bdd4c1d63fe8"
+        },
+        {
+          "path": "client/src/architecture/types.ts",
+          "symbol": "DiagramViewProps",
+          "fingerprint": "fb4edf1f16f7cab19e4e55e1145764ad55b74f7c3174d9fea99ee7cbcad90456"
+        }
+      ],
+      "adrs": ["tickets/9/adr/0018-the-server-lays-out-the-architecture-model.md"]
     }
   ],
   "consultations": [
@@ -68,6 +140,72 @@
       "status": "answered",
       "asked_at": "2026-09-20T10:01:41+00:00",
       "answered_at": "2026-09-20T10:06:00+00:00"
+    },
+    {
+      "id": "c4",
+      "block": "b1",
+      "step": "6",
+      "question": "Does b1 keep the open view current by conditional GET with an ETag, leaving the push channel to b2, and does it close the DNS rebinding gap ADR 0014 left open with a Host header guard?",
+      "options": [
+        "ETag polling, push channel stays b2's",
+        "b1 builds the SSE channel and b2 consumes it",
+        "Host guard now, as its own ADR",
+        "Loopback stays the only control"
+      ],
+      "answer": "Conditional GET with an ETag for the open artefact, so the push channel stays b2's and the block cut holds. The Host header guard is built in b1 and gets its own ADR, answering the question ADR 0014 left open.",
+      "status": "answered",
+      "asked_at": "2026-09-20T12:51:14+00:00",
+      "answered_at": "2026-09-20T12:58:00+00:00"
+    },
+    {
+      "id": "c5",
+      "block": "b2",
+      "step": "6",
+      "question": "How does the hint reach the browser: a ticket-scoped SSE endpoint with the byte offset as the SSE event id, or a stateless polling endpoint with the cursor held by the browser?",
+      "options": [
+        "Ticket-scoped SSE, offset as event id",
+        "Polling with a browser-held cursor",
+        "A variant on the existing chat stream"
+      ],
+      "answer": "A ticket-scoped SSE endpoint with no agent attach, carrying the byte offset as the SSE event id so Last-Event-ID is the read position and a first connection without one means from now on. The six-connection ceiling is the accepted cost.",
+      "status": "answered",
+      "asked_at": "2026-09-20T12:51:14+00:00",
+      "answered_at": "2026-09-20T12:58:00+00:00"
+    },
+    {
+      "id": "c6",
+      "block": "b3",
+      "step": "6",
+      "question": "How are the LikeC4 views rendered: the server parses and layouts the model and the client renders it with likec4's React components, or a self-contained build per branch state is embedded in an iframe?",
+      "options": [
+        "Server parses, client renders with likec4/react",
+        "Single-file likec4 build in an iframe",
+        "Static images per view"
+      ],
+      "answer": "The server reads the .c4 files of the requested branch, parses and layouts them with likec4 and Graphviz WASM, and the client renders them with likec4's React components. The branch becomes a request parameter, and the link attributes stay reachable from our own centre.",
+      "status": "answered",
+      "asked_at": "2026-09-20T12:51:14+00:00",
+      "answered_at": "2026-09-20T12:58:00+00:00"
+    },
+    {
+      "id": "c7",
+      "block": "b1",
+      "step": "7",
+      "question": "Do the model changes and the frozen contracts for b1 hold: the artefact reader bounded to the two repositories, the artefact routes with their entity tags, the host guard, the centre store and the route carrying an artefact reference?",
+      "answer": "Contracts hold, with one change: every file under the ticket's own directory is openable, whatever it is. A file keel was asked to put there must not be invisible because keel-web does not recognise it. Rendering it specially is a different matter.",
+      "status": "answered",
+      "asked_at": "2026-09-20T13:09:33+00:00",
+      "answered_at": "2026-09-20T13:18:00+00:00"
+    },
+    {
+      "id": "c8",
+      "block": "b3",
+      "step": "7",
+      "question": "Do the model changes and the frozen contracts for b3 hold: the architecture reader that lays out a branch's model and its route, the wire shape of a laid-out view, and the diagram view that reports navigation and link following rather than handling them?",
+      "answer": "Held as presented, unchanged.",
+      "status": "answered",
+      "asked_at": "2026-09-20T13:09:33+00:00",
+      "answered_at": "2026-09-20T13:18:00+00:00"
     }
   ],
   "jump_log": []

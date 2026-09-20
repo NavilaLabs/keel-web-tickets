@@ -66,9 +66,10 @@ diagrams, and it blocks none of the goals above. Its own ticket.
   matches.`
 - How far does clicking through reach: only what state.json names, or everything under the
   ticket and architecture directories?
-  `answered: everything under those two roots, filtered by kind (.md, .c4, state.json).
-  state.json only decides order and emphasis. transcript.jsonl, events.jsonl and
-  .state-snapshot.json stay out.`
+  `answered at step 7: everything in the ticket's own directory, whatever kind of file it is,
+  plus the .c4 sources and the stubs state.json records. No filtering by kind at all. A file keel
+  was asked to leave for the developer must not be invisible because keel-web does not recognise
+  it, and that outweighs a tidy list. state.json only decides order and emphasis.`
 - What does "like in an editor" mean concretely?
   `answered: a tree in its own sidebar on the left of the centre, tabs along the top, exactly one
   artefact visible. No split view.`
@@ -90,7 +91,7 @@ diagrams, and it blocks none of the goals above. Its own ticket.
 
 ## Theme blocks
 
-- **b1** Artefacts served, and readable in the centre - `pending`
+- **b1** Artefacts served, and readable in the centre - `in_progress`
 - **b2** The workflow points the centre at an artefact - `pending`
 - **b3** LikeC4 views, rendered interactively - `pending`
 
@@ -110,3 +111,16 @@ addressed and opened. Its step 6 research is independent. b3 depends on neither.
 - 2026-09-20 - Noted for step 7.1: if b1 and b3 end up claiming the same server component
   because the `.c4` files travel the same route as everything else, the two were never
   independent and b3 merges into b1.
+- 2026-09-20 - Step 6. Three researches. Two findings changed the ground: keel's `artifact_hint`
+  is already implemented and installed, verified against the hook rather than the ticket text;
+  and ADR 0001's assumption about LikeC4 is half wrong, since `@likec4/react` and
+  `@likec4/vite-plugin` do not exist as packages, both being subpaths of `likec4`. The versions
+  fit exactly.
+- 2026-09-20 - Step 7. A spike settled what research could not: `LikeC4.fromWorkspace` parses
+  this model in 176 ms, lays it out in 103 ms with Graphviz as WebAssembly, and `$data`
+  serialises to 59 kB that `createLikeC4Model` rebuilds intact. Playwright, feared as a
+  several-hundred-megabyte install, has no install script in the version `likec4` depends on.
+- 2026-09-20 - Step 7. The overlap predicted at step 4 did appear, in the contracts rather than
+  in the model: one protocol file and one route carried both blocks. Resolved by splitting the
+  protocol file and reducing b1's knowledge of the architecture to a narrow port that returns
+  view names, so b1 stands alone while b3 does not exist yet.
