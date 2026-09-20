@@ -5,9 +5,11 @@
   "code_repo": "NavilaLabs/keel-web",
   "pr": {
     "host": "github",
-    "state": "none"
+    "url": "https://github.com/NavilaLabs/keel-web/pull/14",
+    "number": 14,
+    "state": "open"
   },
-  "phase": "blocks",
+  "phase": "delivery",
   "as_is_base_commit": "f0cb45b07d2aae4ab8d569cbdcbada96c0c3f68c",
   "to_be_branch": "ticket/9",
   "artifacts": {
