@@ -5,22 +5,90 @@
   "code_repo": "NavilaLabs/keel-web",
   "pr": {
     "host": "github",
-    "state": "none"
+    "url": "https://github.com/NavilaLabs/keel-web/pull/12",
+    "number": 12,
+    "state": "merged"
   },
-  "phase": "intake",
-  "intake_step": "5",
+  "phase": "delivery",
   "blocks": [
     {
       "id": "b1",
       "title": "Claude Code on the host, keel-web beside it",
-      "step": "6",
-      "status": "pending"
+      "step": "9",
+      "status": "done",
+      "claimed_components": [
+        "developerMachine",
+        "developerMachine.browser",
+        "developerMachine.server",
+        "developerMachine.agent",
+        "keelWeb.server.sessions",
+        "keelWeb.server.chatApi"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "server/src/sessions/types.ts",
+          "symbol": "SessionRegistry",
+          "fingerprint": "ae413b9e89b4834d0ba0cfacb3540484f6d23a87e7fb5dc6273ede64c3bde4a1"
+        },
+        {
+          "path": "server/src/chat/types.ts",
+          "symbol": "CreateChatRoutes",
+          "fingerprint": "2c0eb9723092e2cb0fcd2244f37e9f3c587d24213f91293d77c56cadafa1b380"
+        }
+      ],
+      "adrs": [
+        "tickets/7/adr/0009-claude-code-and-keel-web-on-the-developer-host.md",
+        "tickets/7/adr/0010-no-pre-flight-login-probe.md",
+        "tickets/7/adr/0013-attach-does-not-wait-for-the-agent-to-announce-itself.md"
+      ]
     },
     {
       "id": "b2",
       "title": "Workspaces the developer adds, selects and keeps",
-      "step": "6",
-      "status": "pending"
+      "step": "9",
+      "status": "done",
+      "claimed_components": [
+        "keelWeb.server.workspaces",
+        "keelWeb.server.workspaceStore",
+        "keelWeb.server.workspaceApi",
+        "keelWeb.server.app",
+        "keelWeb.client.workspaceList",
+        "keelWeb.client.shell",
+        "keelWeb.server.directories",
+        "keelWeb.client.directoryPicker"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/events.ts",
+          "symbol": "WorkspaceSummary",
+          "fingerprint": "f13eec73e62cdbd1c6ace088fe4f2aa8f908b94424a70986f57cafd3058759f3"
+        },
+        {
+          "path": "server/src/workspaces/types.ts",
+          "symbol": "WorkspaceRegistry",
+          "fingerprint": "11727582d8e246ec4b90a7c364340b22327a7e92be48491ae8ca41a571846abb"
+        },
+        {
+          "path": "client/src/workspaces/types.ts",
+          "symbol": "Workspaces",
+          "fingerprint": "755b886412ff698541c4e84d268e8a5a1dd6c15033508dee36d6cba845415f92"
+        },
+        {
+          "path": "server/src/directories/types.ts",
+          "symbol": "DirectoryBrowser",
+          "fingerprint": "1c78bb165522425b52d78effd73356eb60c82110aba76123dff36bb5b591a909"
+        },
+        {
+          "path": "client/src/directories/types.ts",
+          "symbol": "Directories",
+          "fingerprint": "2097b273f6e2c0ad212ab4d95f04ef718d3abc2d51a246c107e68f50878ffaef"
+        }
+      ],
+      "adrs": [
+        "tickets/7/adr/0011-workspace-summary-as-a-discriminated-union.md",
+        "tickets/7/adr/0012-workspaces-remembered-as-paths-and-ids.md",
+        "tickets/7/adr/0014-the-server-walks-the-filesystem-for-the-picker.md"
+      ]
     }
   ],
   "consultations": [
@@ -54,10 +122,180 @@
       "status": "answered",
       "asked_at": "2026-09-19T22:02:52.194853Z",
       "answered_at": "2026-09-19T22:04:07.440453Z"
+    },
+    {
+      "id": "c3",
+      "block": null,
+      "step": "5",
+      "question": "Does knowledge.md record the ticket correctly before the block zone starts?",
+      "options": [
+        "Accept as written",
+        "Correct a goal, problem or answer first"
+      ],
+      "answer": "Accepted as written. Proceed to block b1, step 6.",
+      "status": "answered",
+      "asked_at": "2026-09-19T22:05:02.303968Z",
+      "answered_at": "2026-09-19T22:06:56.703469Z"
+    },
+    {
+      "id": "c4",
+      "block": "b1",
+      "step": "6",
+      "question": "Which solution options does b1 take: how 'not logged in' is detected, what happens to configDirectory, what happens to the container, and whether the SSE invariant is observed or enforced?",
+      "options": [
+        "Auth: file probe / claude auth status --json / through the SDK with no pre-flight",
+        "configDirectory: keep as an explicit input passed into the agent env / delete it",
+        "Container: equal second path / delete / tests and CI only",
+        "SSE invariant: read in the log / asserted by an automated test"
+      ],
+      "answer": "Auth: no pre-flight probe; a start that fails before system:init ever arrived is classified as not logged in. configDirectory: kept, and now actually passed to the agent as Options.env spread over process.env. Container: kept for tests and CI only, no Claude login inside it, claude_config volume and the devcontainer Claude feature removed. SSE: the one-detach-per-reload invariant becomes an automated in-process test against the Hono router, no new route. Also agreed without a question: serve() binds 127.0.0.1 and vite's host: true is dropped.",
+      "status": "answered",
+      "asked_at": "2026-09-19T22:18:41.247558Z",
+      "answered_at": "2026-09-19T22:23:31.989019Z"
+    },
+    {
+      "id": "c5",
+      "block": "b1",
+      "step": "7",
+      "question": "Are the LikeC4 deployment model, the frozen contracts and the two ADRs right for b1? Everything after this is implemented against them.",
+      "options": [
+        "Accept model, stubs and ADRs",
+        "Change something first"
+      ],
+      "answer": "Accepted: deployment model, the two frozen contract files, ADR 0009 and 0010, and carrying ADRs 0001 and 0002 onto this branch.",
+      "status": "answered",
+      "asked_at": "2026-09-19T22:27:48.205928Z",
+      "answered_at": "2026-09-19T22:31:16.102754Z"
+    },
+    {
+      "id": "c6",
+      "block": "b1",
+      "step": "7",
+      "question": "b1 must also freeze protocol/src/events.ts, because the meaning of auth_required changed. b2 will need the same file for WorkspaceSummary. Freeze it here and hand the claim over at b2's step 7, or treat the shared file as an overlap and jump back to 4?",
+      "options": [
+        "Freeze in b1, hand the claim to b2 at its step 7",
+        "Jump back to 4 and recut the blocks",
+        "Leave the protocol comment as it is"
+      ],
+      "answer": "Freeze protocol/src/events.ts in b1 with the corrected auth_required contract. b2 re-freezes the same path with WorkspaceSummary at its own step 7 and takes the claim over then, which is safe because b1 is done before b2 reaches step 7.",
+      "status": "answered",
+      "asked_at": "2026-09-19T22:32:17.715132Z",
+      "answered_at": "2026-09-19T22:33:32.766165Z"
+    },
+    {
+      "id": "c7",
+      "block": "b2",
+      "step": "6",
+      "question": "Which solution options does b2 take: the shape of the wire type, where freshness comes from, how the remembered file is written and read, and whether the new mutation endpoints get a request gate?",
+      "options": [
+        "Wire type: status plus reason / discriminated union",
+        "Freshness: cached view refreshed on read / everything async",
+        "File: node built-ins with rename / a dependency; corrupt file refuses to start / is set aside",
+        "Request gate: CSRF and Host allowlist / nothing beyond the localhost binding"
+      ],
+      "answer": "Wire type: discriminated union, ready carrying ticketRepository and tracker. Freshness: a cached synchronous view, refreshed when the list is read. Corrupt workspaces.json: refuse to start and name the file and the parse error. Request gate: nothing beyond the 127.0.0.1 binding, so the CSRF and DNS-rebinding gap is recorded as an open question instead.",
+      "status": "answered",
+      "asked_at": "2026-09-19T22:55:21.596937Z",
+      "answered_at": "2026-09-19T23:00:45.303520Z"
+    },
+    {
+      "id": "c8",
+      "block": "b2",
+      "step": "7",
+      "question": "Are the model change, the three frozen contracts and ADRs 0011 and 0012 right for b2? Everything after this is implemented against them.",
+      "options": [
+        "Accept model, stubs and ADRs",
+        "Change something first"
+      ],
+      "answer": "Accepted: the two new server components, the three frozen contract files and ADRs 0011 and 0012.",
+      "status": "answered",
+      "asked_at": "2026-09-19T23:03:19.052390Z",
+      "answered_at": "2026-09-19T23:06:10.499370Z"
+    },
+    {
+      "id": "c9",
+      "block": "b1",
+      "step": "7",
+      "question": "attach waits for system:init, which the SDK only sends once the first turn begins. What does attach wait for instead, what does it return, and what becomes of SessionStartError?",
+      "options": [
+        "Wait for nothing: register the session as soon as the run exists",
+        "Wait for startup(): the subprocess is up before attach returns",
+        "attach returns void / keeps returning a Session with an optional sessionId",
+        "SessionStartError and startTimeoutMs are dropped / kept for a different failure"
+      ],
+      "answer": "attach waits for nothing and returns Promise<void>. The Session interface, sessionId and pendingPermissions are removed with it, since nothing reads them. SessionStartError and startTimeoutMs are removed: without a wait there is no moment at which either could arise. UnknownWorkspaceError is the only rejection left; everything else reaches the browser as session.failed, as ADR 0010 intended.",
+      "status": "answered",
+      "asked_at": "2026-09-20T07:58:08.864515Z",
+      "answered_at": "2026-09-20T08:01:40.213258Z"
+    },
+    {
+      "id": "c10",
+      "block": "b2",
+      "step": "7",
+      "question": "Are the directory browser's model change, the three contracts and ADR 0014 right? Everything after this is implemented against them.",
+      "options": [
+        "Accept model, stubs and ADR",
+        "Change something first"
+      ],
+      "answer": "Accepted: the directories and directoryPicker components, the three contracts and ADR 0014.",
+      "status": "answered",
+      "asked_at": "2026-09-20T08:16:00.493854Z",
+      "answered_at": "2026-09-20T08:16:45.677206Z"
     }
   ],
-  "jump_log": [],
+  "jump_log": [
+    {
+      "from": "8",
+      "to": "7",
+      "block": "b1",
+      "trigger": "contract_change",
+      "reason": "The meaning of the protocol's `auth_required` failure code changed with the host move: it no longer means the container has no login, it means the agent gave up before it was ready and any early failure lands there. protocol/src/events.ts was not among b1's frozen stubs at 7.2, so the change needed a step 7 decision rather than an implementation edit.",
+      "at": "2026-09-19T22:32:17.715132Z"
+    },
+    {
+      "from": "9",
+      "to": "7",
+      "block": "b1",
+      "trigger": "design_flaw",
+      "reason": "Found by running the chat in the browser against the real agent. attach waits for system:init, but the SDK only emits it once the first user message arrives (measured: hook_started at 0.3s, init at 15.2s, right after the message was released). send needs a session, so attach and send wait on each other until SessionStartError after 60s. The fake agent in the tests emitted init immediately, which hid it. ADR 0010 rests on the same assumption (ready means init seen) and needs a new signal for telling a missing login from a slow start.",
+      "at": "2026-09-20T07:54:25.340226Z"
+    },
+    {
+      "from": "9",
+      "to": "7",
+      "block": "b2",
+      "trigger": "design_flaw",
+      "reason": "Adding a repository by typing its path into a text field meets the ticket's goal only in the letter. The developer asked for an explorer-style picker, and pointing at a path is what the ticket actually says. A browser cannot hand over an absolute path, so this is a server-side directory listing: a new route, a new wire type and a change to the client contract.",
+      "at": "2026-09-20T08:10:04.220213Z"
+    },
+    {
+      "from": "12",
+      "to": "12",
+      "block": "b2",
+      "trigger": "as_is_drift",
+      "reason": "The to-be model declared `directoryPicker -> workspaceList`, which the code does not have: directory-picker.tsx imports nothing from ../workspaces, and the shell passes the chosen path on through onChoose. The conceptual direction of the flow was drawn where the dependency direction belongs. The code is right and main follows it. This is the third time in this project, after ticket 4 recorded the same lesson twice.",
+      "at": "2026-09-20T08:37:52.774240Z"
+    }
+  ],
   "artifacts": {
-    "knowledge": "tickets/7/knowledge.md"
-  }
+    "knowledge": "tickets/7/knowledge.md",
+    "adrs": [
+      "tickets/7/adr/0009-claude-code-and-keel-web-on-the-developer-host.md",
+      "tickets/7/adr/0010-no-pre-flight-login-probe.md",
+      "tickets/1/adr/0002-claude-code-config-as-named-volume.md",
+      "tickets/7/adr/0011-workspace-summary-as-a-discriminated-union.md",
+      "tickets/7/adr/0012-workspaces-remembered-as-paths-and-ids.md",
+      "tickets/7/adr/0013-attach-does-not-wait-for-the-agent-to-announce-itself.md",
+      "tickets/7/adr/0014-the-server-walks-the-filesystem-for-the-picker.md"
+    ],
+    "c4_views": [
+      "context",
+      "containers",
+      "server",
+      "client",
+      "runtime"
+    ]
+  },
+  "as_is_base_commit": "f9593a605814144ca8007cb7fd6b9dd8eff9b36f",
+  "to_be_branch": "ticket/7"
 }
