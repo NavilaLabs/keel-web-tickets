@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "ticket_id": "11",
+  "ticket_source": "github",
+  "code_repo": "NavilaLabs/keel-web",
+  "pr": {
+    "host": "github",
+    "state": "none"
+  },
+  "phase": "blocks",
+  "artifacts": {
+    "knowledge": "tickets/11/knowledge.md"
+  },
+  "blocks": [
+    {
+      "id": "b1",
+      "title": "Session controls: slash command list, model, effort, mode, always allow, status line",
+      "step": "6.1",
+      "status": "in_progress"
+    },
+    {
+      "id": "b2",
+      "title": "Composer: slash and @ popup, file index, keyboard, input history and draft",
+      "step": "6",
+      "status": "pending"
+    },
+    {
+      "id": "b3",
+      "title": "Questions tool: mouse-first answering, Other, decline",
+      "step": "6",
+      "status": "pending"
+    }
+  ],
+  "consultations": [
+    {
+      "id": "c1",
+      "block": null,
+      "step": "2",
+      "question": "Are the functional goals and problems understood correctly, and what should 'nicely integrated' mean for the questions tool?",
+      "options": [],
+      "answer": "Scope is the ticket (slash commands, @ references, model, mode, questions tool) plus effort level, input history and draft, status line and 'always allow'. Plan approval is not included. The questions tool must be answerable with the mouse.",
+      "status": "answered",
+      "asked_at": "2026-09-20T16:30:00Z",
+      "answered_at": "2026-09-20T16:50:00Z"
+    },
+    {
+      "id": "c2",
+      "block": null,
+      "step": "4",
+      "question": "Is the cut into three theme blocks right: session controls, composer, questions tool?",
+      "options": [
+        "Three blocks as proposed",
+        "Merge session controls and composer into one block",
+        "Other cut"
+      ],
+      "answer": "Three blocks as proposed",
+      "status": "answered",
+      "asked_at": "2026-09-20T17:05:00Z",
+      "answered_at": "2026-09-20T17:10:00Z"
+    },
+    {
+      "id": "c3",
+      "block": null,
+      "step": "5",
+      "question": "Is knowledge.md correct, and may I commit and push it to the ticket repo and link it on issue #11?",
+      "options": [
+        "Correct, commit, push and link",
+        "Changes needed first"
+      ],
+      "answer": "Correct, commit, push and link (developer: 'Dann mal los mit Schritt 6')",
+      "status": "answered",
+      "asked_at": "2026-09-20T17:15:00Z",
+      "answered_at": "2026-09-20T17:25:00Z"
+    }
+  ],
+  "jump_log": []
+}
