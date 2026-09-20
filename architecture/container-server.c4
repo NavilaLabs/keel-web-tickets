@@ -103,7 +103,7 @@ model {
       hints -> workspaces 'Resolves the ticket repository the event stream is read from'
       artifactApi -> workspaces 'Resolves the workspace a request names'
       artifactApi -> artifacts 'Lists the artefacts of a ticket and reads one'
-      artifacts -> architecture 'Asks which views the model of a branch defines'
+      artifacts -> architecture 'Asks which views the model of a branch defines, through a port that answers with names only'
       architecture -> workspaces 'Reads the ticket repository the architecture sources live in'
       workspaceApi -> workspaces 'Lists the workspaces and adds or removes one'
       workspaces -> workspaceStore 'Reads the remembered list and records an addition or a removal'

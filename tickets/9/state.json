@@ -116,7 +116,8 @@
       "status": "done",
       "claimed_components": [
         "keelWeb.server.architecture",
-        "keelWeb.client.diagramView"
+        "keelWeb.client.diagramView",
+        "keelWeb.client.architecturePane"
       ],
       "claimed_stubs": [
         {
@@ -293,6 +294,14 @@
       "trigger": "design_flaw",
       "reason": "The model has the centre talking to the router, but the shell owns navigation and hands the centre a callback. One of the two is wrong, and the code is the better of the two.",
       "at": "2026-09-20T13:58:06+00:00"
+    },
+    {
+      "from": "12",
+      "to": "12",
+      "block": "b3",
+      "trigger": "as_is_drift",
+      "reason": "The merged code has an architecture pane that the to-be model does not: it holds the call to the server that the model attributes to the diagram view. The split was decided during implementation, where it should have been a jump back to 7. The code is right, so the model follows it.",
+      "at": "2026-09-20T17:30:00+00:00"
     }
   ]
 }

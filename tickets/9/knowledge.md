@@ -108,6 +108,15 @@ addressed and opened. Its step 6 research is independent. b3 depends on neither.
 
 ## Log
 
+- 2026-09-20 - Step 12. The as-is extraction against the merged code found one drift: b3 built
+  `architecture-pane.tsx`, which holds the call to the server that the to-be model attributes to
+  the diagram view. The split is deliberate and good, the diagram stays pure so that it can draw
+  the as-is and the to-be model without knowing which, but it was decided in step 8 rather than
+  by a jump back to 7, and the model went on claiming a fetch by a component whose own contract
+  says it never fetches. Resolved by the model following the code, and recorded rather than
+  quietly corrected. Everything else matched: nine elements, twenty-eight link targets, no
+  boundary crossing, and all three contested design points hold in the code.
+
 - 2026-09-20 - Found in the browser, after b3 was green: every view threw
   `createRequire is not a function`. `likec4/model` pulls in a runtime chunk importing
   `node:module`, and Vite stubs that in the browser. `createLikeC4Model` is one line over
