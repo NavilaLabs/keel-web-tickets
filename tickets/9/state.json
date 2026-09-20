@@ -9,7 +9,7 @@
     "number": 14,
     "state": "merged"
   },
-  "phase": "delivery",
+  "phase": "done",
   "as_is_base_commit": "f0cb45b07d2aae4ab8d569cbdcbada96c0c3f68c",
   "to_be_branch": "ticket/9",
   "artifacts": {
