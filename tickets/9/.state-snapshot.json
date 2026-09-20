@@ -1,5 +1,5 @@
 {
-  "phase": "blocks",
+  "phase": "delivery",
   "intake_step": null,
   "to_be_branch": "ticket/9",
   "artifacts": {
