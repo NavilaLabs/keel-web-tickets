@@ -82,3 +82,4 @@
 {"at": "2026-09-20T14:16:04.842960+00:00", "type": "step_changed", "block": "b2", "from": "8", "to": "9"}
 {"at": "2026-09-20T14:16:04.842960+00:00", "type": "block_status_changed", "block": "b2", "from": "in_progress", "to": "done"}
 {"at": "2026-09-20T15:52:59.225540+00:00", "type": "phase_changed", "from": "blocks", "to": "delivery"}
+{"at": "2026-09-20T16:04:39.556170+00:00", "type": "jump_recorded", "total": 3}
