@@ -22,7 +22,7 @@
     {
       "id": "b1",
       "title": "Session controls: slash command list, model, effort, mode, always allow, status line",
-      "step": "8",
+      "step": "9",
       "status": "in_progress",
       "claimed_components": [
         "keelWeb.server.sessions",

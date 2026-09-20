@@ -53,3 +53,4 @@
 {"at": "2026-09-20T18:18:58.816663+00:00", "type": "step_changed", "block": "b1", "from": "7", "to": "8"}
 {"at": "2026-09-20T18:18:58.816663+00:00", "type": "block_status_changed", "block": "b1", "from": "awaiting_consultation", "to": "in_progress"}
 {"at": "2026-09-20T18:19:03.451639+00:00", "type": "consultation_closed", "consultation": "c7"}
+{"at": "2026-09-20T18:28:34.266108+00:00", "type": "step_changed", "block": "b1", "from": "8", "to": "9"}
