@@ -1,1 +1,2 @@
 tickets/*/transcript.jsonl
+tickets/*/.state-snapshot.json
