@@ -9,13 +9,13 @@
     "number": 12,
     "state": "open"
   },
-  "phase": "blocks",
+  "phase": "delivery",
   "blocks": [
     {
       "id": "b1",
       "title": "Claude Code on the host, keel-web beside it",
-      "step": "7",
-      "status": "in_progress",
+      "step": "9",
+      "status": "done",
       "claimed_components": [
         "developerMachine",
         "developerMachine.browser",
@@ -28,7 +28,7 @@
         {
           "path": "server/src/sessions/types.ts",
           "symbol": "SessionRegistry",
-          "fingerprint": "27b3bf6fc63e18a49e5f998b8ea3b31c8c3df9f6b9f6645d4a250c86ccca7889"
+          "fingerprint": "ae413b9e89b4834d0ba0cfacb3540484f6d23a87e7fb5dc6273ede64c3bde4a1"
         },
         {
           "path": "server/src/chat/types.ts",
@@ -38,7 +38,8 @@
       ],
       "adrs": [
         "tickets/7/adr/0009-claude-code-and-keel-web-on-the-developer-host.md",
-        "tickets/7/adr/0010-no-pre-flight-login-probe.md"
+        "tickets/7/adr/0010-no-pre-flight-login-probe.md",
+        "tickets/7/adr/0013-attach-does-not-wait-for-the-agent-to-announce-itself.md"
       ]
     },
     {
@@ -197,6 +198,22 @@
       "status": "answered",
       "asked_at": "2026-09-19T23:03:19.052390Z",
       "answered_at": "2026-09-19T23:06:10.499370Z"
+    },
+    {
+      "id": "c9",
+      "block": "b1",
+      "step": "7",
+      "question": "attach waits for system:init, which the SDK only sends once the first turn begins. What does attach wait for instead, what does it return, and what becomes of SessionStartError?",
+      "options": [
+        "Wait for nothing: register the session as soon as the run exists",
+        "Wait for startup(): the subprocess is up before attach returns",
+        "attach returns void / keeps returning a Session with an optional sessionId",
+        "SessionStartError and startTimeoutMs are dropped / kept for a different failure"
+      ],
+      "answer": "attach waits for nothing and returns Promise<void>. The Session interface, sessionId and pendingPermissions are removed with it, since nothing reads them. SessionStartError and startTimeoutMs are removed: without a wait there is no moment at which either could arise. UnknownWorkspaceError is the only rejection left; everything else reaches the browser as session.failed, as ADR 0010 intended.",
+      "status": "answered",
+      "asked_at": "2026-09-20T07:58:08.864515Z",
+      "answered_at": "2026-09-20T08:01:40.213258Z"
     }
   ],
   "jump_log": [
@@ -224,7 +241,8 @@
       "tickets/7/adr/0010-no-pre-flight-login-probe.md",
       "tickets/1/adr/0002-claude-code-config-as-named-volume.md",
       "tickets/7/adr/0011-workspace-summary-as-a-discriminated-union.md",
-      "tickets/7/adr/0012-workspaces-remembered-as-paths-and-ids.md"
+      "tickets/7/adr/0012-workspaces-remembered-as-paths-and-ids.md",
+      "tickets/7/adr/0013-attach-does-not-wait-for-the-agent-to-announce-itself.md"
     ],
     "c4_views": [
       "context",
