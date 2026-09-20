@@ -5,32 +5,140 @@
   "code_repo": "NavilaLabs/keel-web",
   "pr": {
     "host": "github",
-    "state": "none"
+    "url": "https://github.com/NavilaLabs/keel-web/pull/14",
+    "number": 14,
+    "state": "merged"
   },
-  "phase": "blocks",
+  "phase": "delivery",
+  "as_is_base_commit": "f0cb45b07d2aae4ab8d569cbdcbada96c0c3f68c",
+  "to_be_branch": "ticket/9",
   "artifacts": {
     "knowledge": "tickets/9/knowledge.md",
-    "adrs": [],
-    "c4_views": []
+    "adrs": [
+      "tickets/9/adr/0015-a-host-guard-in-front-of-every-route.md",
+      "tickets/9/adr/0016-an-open-artefact-follows-its-file-by-asking-again.md",
+      "tickets/9/adr/0017-an-artefact-is-addressed-the-way-keel-points-at-it.md",
+      "tickets/9/adr/0018-the-server-lays-out-the-architecture-model.md",
+      "tickets/9/adr/0019-the-hint-travels-on-its-own-stream-keyed-by-reading-position.md"
+    ],
+    "c4_views": [
+      "context",
+      "containers",
+      "server",
+      "client",
+      "runtime"
+    ]
   },
   "blocks": [
     {
       "id": "b1",
       "title": "Artefacts served, and readable in the centre",
-      "step": "6",
-      "status": "pending"
+      "step": "9",
+      "status": "done",
+      "claimed_components": [
+        "keelWeb.server.hostGuard",
+        "keelWeb.server.artifacts",
+        "keelWeb.server.artifactApi",
+        "keelWeb.server.app",
+        "keelWeb.client.centre",
+        "keelWeb.client.artifactTree",
+        "keelWeb.client.artifactView",
+        "keelWeb.client.shell",
+        "keelWeb.client.router"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/artifacts.ts",
+          "symbol": "ArtifactRef",
+          "fingerprint": "ee344100e476f03a8d9d28ccde2c3b33196698604625547f5415cd65f5c285a0"
+        },
+        {
+          "path": "server/src/security/types.ts",
+          "symbol": "CreateHostGuard",
+          "fingerprint": "51df2d3ce28e7a91404805e52866a2a999df0cee7f74b0c656f43a9a008b5d9d"
+        },
+        {
+          "path": "server/src/artifacts/types.ts",
+          "symbol": "ArtifactReader",
+          "fingerprint": "7b7fc516920e89b564af025d145ebc3ad0a3c1870750fa51afe1e31c80ab3094"
+        },
+        {
+          "path": "client/src/artifacts/types.ts",
+          "symbol": "CentreStore",
+          "fingerprint": "fe6cb732fb9bdc694a29b5744810bd084ba51f6c15b77748954105cf9a029b66"
+        },
+        {
+          "path": "client/src/routing/types.ts",
+          "symbol": "Route",
+          "fingerprint": "89e6d38a9b3f5ca1e7ce18413a17d533162956aa5b71a9cc4c40d35eb2dab681"
+        }
+      ],
+      "adrs": [
+        "tickets/9/adr/0015-a-host-guard-in-front-of-every-route.md",
+        "tickets/9/adr/0016-an-open-artefact-follows-its-file-by-asking-again.md",
+        "tickets/9/adr/0017-an-artefact-is-addressed-the-way-keel-points-at-it.md"
+      ]
     },
     {
       "id": "b2",
       "title": "The workflow points the centre at an artefact",
-      "step": "6",
-      "status": "pending"
+      "step": "9",
+      "status": "done",
+      "claimed_components": [
+        "keelWeb.server.hints",
+        "keelWeb.client.hintListener"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/hints.ts",
+          "symbol": "ArtifactHint",
+          "fingerprint": "289389dfce248cf24821db5f987980e1e6e507726ae5b73965179ddb7bd44f1d"
+        },
+        {
+          "path": "server/src/hints/types.ts",
+          "symbol": "HintFollower",
+          "fingerprint": "0a5c4afd6ed832b3eaa3cbd9c2f3b0f94a23acef64a0fcdbf5a946d75890b447"
+        },
+        {
+          "path": "client/src/hints/types.ts",
+          "symbol": "HintListener",
+          "fingerprint": "0627631195e3ebd7c9471d415d6e79fe059f99da018a52d6b1d54952b761211e"
+        }
+      ],
+      "adrs": [
+        "tickets/9/adr/0019-the-hint-travels-on-its-own-stream-keyed-by-reading-position.md"
+      ]
     },
     {
       "id": "b3",
       "title": "LikeC4 views, rendered interactively",
-      "step": "6",
-      "status": "pending"
+      "step": "9",
+      "status": "done",
+      "claimed_components": [
+        "keelWeb.server.architecture",
+        "keelWeb.client.diagramView",
+        "keelWeb.client.architecturePane"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/architecture.ts",
+          "symbol": "ArchitectureView",
+          "fingerprint": "ef7d6d5216f4ab7f483fa113b164e573b862e26a21214d3ab5fb715453188b9c"
+        },
+        {
+          "path": "server/src/architecture/types.ts",
+          "symbol": "ArchitectureReader",
+          "fingerprint": "4b295aade5a22462ae9516f6a460dc6fcc97cf0cc952e8635063bdd4c1d63fe8"
+        },
+        {
+          "path": "client/src/architecture/types.ts",
+          "symbol": "DiagramViewProps",
+          "fingerprint": "fb4edf1f16f7cab19e4e55e1145764ad55b74f7c3174d9fea99ee7cbcad90456"
+        }
+      ],
+      "adrs": [
+        "tickets/9/adr/0018-the-server-lays-out-the-architecture-model.md"
+      ]
     }
   ],
   "consultations": [
@@ -68,7 +176,132 @@
       "status": "answered",
       "asked_at": "2026-09-20T10:01:41+00:00",
       "answered_at": "2026-09-20T10:06:00+00:00"
+    },
+    {
+      "id": "c4",
+      "block": "b1",
+      "step": "6",
+      "question": "Does b1 keep the open view current by conditional GET with an ETag, leaving the push channel to b2, and does it close the DNS rebinding gap ADR 0014 left open with a Host header guard?",
+      "options": [
+        "ETag polling, push channel stays b2's",
+        "b1 builds the SSE channel and b2 consumes it",
+        "Host guard now, as its own ADR",
+        "Loopback stays the only control"
+      ],
+      "answer": "Conditional GET with an ETag for the open artefact, so the push channel stays b2's and the block cut holds. The Host header guard is built in b1 and gets its own ADR, answering the question ADR 0014 left open.",
+      "status": "answered",
+      "asked_at": "2026-09-20T12:51:14+00:00",
+      "answered_at": "2026-09-20T12:58:00+00:00"
+    },
+    {
+      "id": "c5",
+      "block": "b2",
+      "step": "6",
+      "question": "How does the hint reach the browser: a ticket-scoped SSE endpoint with the byte offset as the SSE event id, or a stateless polling endpoint with the cursor held by the browser?",
+      "options": [
+        "Ticket-scoped SSE, offset as event id",
+        "Polling with a browser-held cursor",
+        "A variant on the existing chat stream"
+      ],
+      "answer": "A ticket-scoped SSE endpoint with no agent attach, carrying the byte offset as the SSE event id so Last-Event-ID is the read position and a first connection without one means from now on. The six-connection ceiling is the accepted cost.",
+      "status": "answered",
+      "asked_at": "2026-09-20T12:51:14+00:00",
+      "answered_at": "2026-09-20T12:58:00+00:00"
+    },
+    {
+      "id": "c6",
+      "block": "b3",
+      "step": "6",
+      "question": "How are the LikeC4 views rendered: the server parses and layouts the model and the client renders it with likec4's React components, or a self-contained build per branch state is embedded in an iframe?",
+      "options": [
+        "Server parses, client renders with likec4/react",
+        "Single-file likec4 build in an iframe",
+        "Static images per view"
+      ],
+      "answer": "The server reads the .c4 files of the requested branch, parses and layouts them with likec4 and Graphviz WASM, and the client renders them with likec4's React components. The branch becomes a request parameter, and the link attributes stay reachable from our own centre.",
+      "status": "answered",
+      "asked_at": "2026-09-20T12:51:14+00:00",
+      "answered_at": "2026-09-20T12:58:00+00:00"
+    },
+    {
+      "id": "c7",
+      "block": "b1",
+      "step": "7",
+      "question": "Do the model changes and the frozen contracts for b1 hold: the artefact reader bounded to the two repositories, the artefact routes with their entity tags, the host guard, the centre store and the route carrying an artefact reference?",
+      "answer": "Contracts hold, with one change: every file under the ticket's own directory is openable, whatever it is. A file keel was asked to put there must not be invisible because keel-web does not recognise it. Rendering it specially is a different matter.",
+      "status": "answered",
+      "asked_at": "2026-09-20T13:09:33+00:00",
+      "answered_at": "2026-09-20T13:18:00+00:00"
+    },
+    {
+      "id": "c8",
+      "block": "b3",
+      "step": "7",
+      "question": "Do the model changes and the frozen contracts for b3 hold: the architecture reader that lays out a branch's model and its route, the wire shape of a laid-out view, and the diagram view that reports navigation and link following rather than handling them?",
+      "answer": "Held as presented, unchanged.",
+      "status": "answered",
+      "asked_at": "2026-09-20T13:09:33+00:00",
+      "answered_at": "2026-09-20T13:18:00+00:00"
+    },
+    {
+      "id": "c9",
+      "block": "b1",
+      "step": "7.2",
+      "question": "Two corrections to b1's frozen contract, found while implementing: ArtifactReader.read takes the ticket id so a stub's fingerprint can be looked up, and the reader drops its unused dependency on the workspace registry. Does that go in?",
+      "answer": "Both corrections go in.",
+      "status": "answered",
+      "asked_at": "2026-09-20T13:31:20+00:00",
+      "answered_at": "2026-09-20T13:34:00+00:00"
+    },
+    {
+      "id": "c10",
+      "block": "b1",
+      "step": "7.1",
+      "question": "Verification found the model claiming an edge the code does not have: centre -> router. The shell owns navigation and hands the centre a callback. Drop the edge from the model, or move navigation into the centre?",
+      "options": [
+        "Drop the edge, the shell keeps navigating",
+        "Give the centre the router and keep the edge"
+      ],
+      "answer": "Drop the edge. The shell keeps navigating, the centre stays a view that reports.",
+      "status": "answered",
+      "asked_at": "2026-09-20T13:58:06+00:00",
+      "answered_at": "2026-09-20T14:00:00+00:00"
+    },
+    {
+      "id": "c11",
+      "block": "b2",
+      "step": "7",
+      "question": "Do b2's model and contracts hold: a ticket-scoped hint stream with no agent attach, the reading position as the SSE id, a freshness window, and a listener that reports rather than acts?",
+      "answer": "Model and contracts hold as presented.",
+      "status": "answered",
+      "asked_at": "2026-09-20T14:20:00+00:00",
+      "answered_at": "2026-09-20T14:25:00+00:00"
     }
   ],
-  "jump_log": []
+  "jump_log": [
+    {
+      "from": "8",
+      "to": "7.2",
+      "block": "b1",
+      "trigger": "contract_change",
+      "reason": "ArtifactReader.read cannot produce a stub's fingerprint: the frozen hash lives in a ticket's state.json and the signature carries no ticket. The reader's dependency on the workspace registry is unused for the same reason the methods take a workspace.",
+      "at": "2026-09-20T13:31:20+00:00"
+    },
+    {
+      "from": "9",
+      "to": "7.1",
+      "block": "b1",
+      "trigger": "design_flaw",
+      "reason": "The model has the centre talking to the router, but the shell owns navigation and hands the centre a callback. One of the two is wrong, and the code is the better of the two.",
+      "at": "2026-09-20T13:58:06+00:00"
+    },
+    {
+      "from": "12",
+      "to": "12",
+      "block": "b3",
+      "trigger": "as_is_drift",
+      "reason": "The merged code has an architecture pane that the to-be model does not: it holds the call to the server that the model attributes to the diagram view. The split was decided during implementation, where it should have been a jump back to 7. The code is right, so the model follows it.",
+      "at": "2026-09-20T17:30:00+00:00"
+    }
+  ]
 }

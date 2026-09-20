@@ -1,0 +1,100 @@
+{
+  "phase": "delivery",
+  "intake_step": null,
+  "to_be_branch": "ticket/9",
+  "artifacts": {
+    "knowledge": "tickets/9/knowledge.md",
+    "adrs": [
+      "tickets/9/adr/0015-a-host-guard-in-front-of-every-route.md",
+      "tickets/9/adr/0016-an-open-artefact-follows-its-file-by-asking-again.md",
+      "tickets/9/adr/0017-an-artefact-is-addressed-the-way-keel-points-at-it.md",
+      "tickets/9/adr/0018-the-server-lays-out-the-architecture-model.md",
+      "tickets/9/adr/0019-the-hint-travels-on-its-own-stream-keyed-by-reading-position.md"
+    ],
+    "c4_views": [
+      "context",
+      "containers",
+      "server",
+      "client",
+      "runtime"
+    ]
+  },
+  "blocks": {
+    "b1": {
+      "step": "9",
+      "status": "done",
+      "stubs": [
+        {
+          "path": "protocol/src/artifacts.ts",
+          "symbol": "ArtifactRef"
+        },
+        {
+          "path": "server/src/security/types.ts",
+          "symbol": "CreateHostGuard"
+        },
+        {
+          "path": "server/src/artifacts/types.ts",
+          "symbol": "ArtifactReader"
+        },
+        {
+          "path": "client/src/artifacts/types.ts",
+          "symbol": "CentreStore"
+        },
+        {
+          "path": "client/src/routing/types.ts",
+          "symbol": "Route"
+        }
+      ],
+      "adrs": [
+        "tickets/9/adr/0015-a-host-guard-in-front-of-every-route.md",
+        "tickets/9/adr/0016-an-open-artefact-follows-its-file-by-asking-again.md",
+        "tickets/9/adr/0017-an-artefact-is-addressed-the-way-keel-points-at-it.md"
+      ]
+    },
+    "b2": {
+      "step": "9",
+      "status": "done",
+      "stubs": [
+        {
+          "path": "protocol/src/hints.ts",
+          "symbol": "ArtifactHint"
+        },
+        {
+          "path": "server/src/hints/types.ts",
+          "symbol": "HintFollower"
+        },
+        {
+          "path": "client/src/hints/types.ts",
+          "symbol": "HintListener"
+        }
+      ],
+      "adrs": [
+        "tickets/9/adr/0019-the-hint-travels-on-its-own-stream-keyed-by-reading-position.md"
+      ]
+    },
+    "b3": {
+      "step": "9",
+      "status": "done",
+      "stubs": [
+        {
+          "path": "protocol/src/architecture.ts",
+          "symbol": "ArchitectureView"
+        },
+        {
+          "path": "server/src/architecture/types.ts",
+          "symbol": "ArchitectureReader"
+        },
+        {
+          "path": "client/src/architecture/types.ts",
+          "symbol": "DiagramViewProps"
+        }
+      ],
+      "adrs": [
+        "tickets/9/adr/0018-the-server-lays-out-the-architecture-model.md"
+      ]
+    }
+  },
+  "open_consultations": [],
+  "consultations": {},
+  "jumps": 3
+}

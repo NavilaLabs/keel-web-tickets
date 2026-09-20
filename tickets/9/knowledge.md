@@ -66,9 +66,10 @@ diagrams, and it blocks none of the goals above. Its own ticket.
   matches.`
 - How far does clicking through reach: only what state.json names, or everything under the
   ticket and architecture directories?
-  `answered: everything under those two roots, filtered by kind (.md, .c4, state.json).
-  state.json only decides order and emphasis. transcript.jsonl, events.jsonl and
-  .state-snapshot.json stay out.`
+  `answered at step 7: everything in the ticket's own directory, whatever kind of file it is,
+  plus the .c4 sources and the stubs state.json records. No filtering by kind at all. A file keel
+  was asked to leave for the developer must not be invisible because keel-web does not recognise
+  it, and that outweighs a tidy list. state.json only decides order and emphasis.`
 - What does "like in an editor" mean concretely?
   `answered: a tree in its own sidebar on the left of the centre, tabs along the top, exactly one
   artefact visible. No split view.`
@@ -83,21 +84,55 @@ diagrams, and it blocks none of the goals above. Its own ticket.
 - Do status and permission prompts belong in the centre too?
   `answered: not in this ticket. The permission prompt stays in the chat column (ADR 0006) and
   the workflow status is ticket #8.`
-- Which package renders LikeC4, and does it render at build time or at runtime?  `open`
-- Does the hint travel on the existing SSE stream or on a channel of its own?  `open`
+- Which package renders LikeC4, and does it render at build time or at runtime?
+  `answered at step 7: the single "likec4" package, whose react and vite-plugin subpaths are what
+  ADR 0001 mistook for packages of their own. It renders at runtime: the server parses and lays
+  out, the browser draws, so a branch is a request parameter (ADR 0018).`
+- Does the hint travel on the existing SSE stream or on a channel of its own?
+  `answered at step 7: its own ticket-scoped stream, because the chat stream starts an agent on
+  attach and dies with it, which is exactly the state where the artefact views still work
+  (ADR 0019).`
 - Does a route that serves file contents need a request gate against DNS rebinding, which
-  ADR 0014 left open for the directory route?  `open`
+  ADR 0014 left open for the directory route?
+  `answered at step 6: yes, a Host header guard in front of every route, which is what Vite,
+  Jupyter, Storybook and the MCP specification all settled on (ADR 0015).`
 
 ## Theme blocks
 
-- **b1** Artefacts served, and readable in the centre - `pending`
-- **b2** The workflow points the centre at an artefact - `pending`
-- **b3** LikeC4 views, rendered interactively - `pending`
+- **b1** Artefacts served, and readable in the centre - `done`
+- **b2** The workflow points the centre at an artefact - `done`
+- **b3** LikeC4 views, rendered interactively - `done`
 
 b2 runs after b1 rather than beside it: it needs b1's frozen contract for how an artefact is
 addressed and opened. Its step 6 research is independent. b3 depends on neither.
 
 ## Log
+
+- 2026-09-20 - Step 12. The as-is extraction against the merged code found one drift: b3 built
+  `architecture-pane.tsx`, which holds the call to the server that the to-be model attributes to
+  the diagram view. The split is deliberate and good, the diagram stays pure so that it can draw
+  the as-is and the to-be model without knowing which, but it was decided in step 8 rather than
+  by a jump back to 7, and the model went on claiming a fetch by a component whose own contract
+  says it never fetches. Resolved by the model following the code, and recorded rather than
+  quietly corrected. Everything else matched: nine elements, twenty-eight link targets, no
+  boundary crossing, and all three contested design points hold in the code.
+
+- 2026-09-20 - Found in the browser, after b3 was green: every view threw
+  `createRequire is not a function`. `likec4/model` pulls in a runtime chunk importing
+  `node:module`, and Vite stubs that in the browser. `createLikeC4Model` is one line over
+  `LikeC4Model.create` from `@likec4/core/model`, which has three dependencies and no node
+  imports, so the client builds the model from there. The lesson is the one ticket 4 already
+  wrote down about reading the installed types: a package that bundles a CLI, a Vite plugin and
+  browser components does not have browser-safe entry points throughout, and nothing short of
+  running it in a browser shows which. A boundary now catches a failing diagram, because the
+  failure took the whole page down and survived navigating away.
+
+- 2026-09-20 - Step 9, b2 done, and verified against a live stream rather than only in tests: a
+  hint appended to a ticket's `events.jsonl` arrived in the browser's stream as `artifact.hint`
+  with the reading position as its id, and a reconnect carrying that id delivered only what came
+  after it. Two defects were found while implementing: a listener attaching before keel had ever
+  written the file treated the file's first appearance as history, and a test asserted that a
+  same-length replacement is detectable, which by offset alone it is not.
 
 - 2026-09-20 - Intake. keel#1, the producer of the hint, turned out to be implemented and
   installed already (keel 0.3.0). The `artifact_hint` contract was verified against the installed
@@ -110,3 +145,34 @@ addressed and opened. Its step 6 research is independent. b3 depends on neither.
 - 2026-09-20 - Noted for step 7.1: if b1 and b3 end up claiming the same server component
   because the `.c4` files travel the same route as everything else, the two were never
   independent and b3 merges into b1.
+- 2026-09-20 - Step 6. Three researches. Two findings changed the ground: keel's `artifact_hint`
+  is already implemented and installed, verified against the hook rather than the ticket text;
+  and ADR 0001's assumption about LikeC4 is half wrong, since `@likec4/react` and
+  `@likec4/vite-plugin` do not exist as packages, both being subpaths of `likec4`. The versions
+  fit exactly.
+- 2026-09-20 - Step 7. A spike settled what research could not: `LikeC4.fromWorkspace` parses
+  this model in 176 ms, lays it out in 103 ms with Graphviz as WebAssembly, and `$data`
+  serialises to 59 kB that `createLikeC4Model` rebuilds intact. Playwright, feared as a
+  several-hundred-megabyte install, has no install script in the version `likec4` depends on.
+- 2026-09-20 - Jump from 8 back to 7.2, block b1, on the first attempt to implement the reader.
+  `read` was to report whether a stub still matches the hash frozen at 7.2, but its signature
+  carried no ticket, and that hash lives in a ticket's `state.json`. Searching for the path across
+  tickets would have reported whichever ticket was read first, so the ticket is now a parameter.
+  The reader's unused dependency on the workspace registry went with it, and the model edge that
+  claimed the same thing.
+- 2026-09-20 - Step 9, b3 done. The production build, not the tests, found two defects that
+  every green check had missed: importing `shiki` rather than its fine-grained entry points
+  pulled every grammar it knows into the bundle, and likec4 sat in the main chunk instead of
+  being loaded when a diagram is opened. Fixed, and the main chunk fell from 2.7 MB to 505 kB.
+  Worth remembering: a passing test suite says nothing about what ships.
+- 2026-09-20 - Jump from 9 back to 7.1, block b1. Verification found the model claiming an edge
+  the code does not have, `centre -> router`: the shell owns navigation and hands the centre a
+  callback, which keeps navigation in one place and leaves the centre a view that reports. The
+  edge was dropped rather than the code changed to match it.
+- 2026-09-20 - Step 9, b1 done. Also worth recording: the formatter removed a blank line from a
+  frozen contract file, so its fingerprint was renewed deliberately and in the open. A
+  fingerprint quietly renewed is a drift display that has stopped meaning anything.
+- 2026-09-20 - Step 7. The overlap predicted at step 4 did appear, in the contracts rather than
+  in the model: one protocol file and one route carried both blocks. Resolved by splitting the
+  protocol file and reducing b1's knowledge of the architecture to a narrow port that returns
+  view names, so b1 stands alone while b3 does not exist yet.

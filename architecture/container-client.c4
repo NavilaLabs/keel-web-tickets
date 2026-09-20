@@ -32,7 +32,7 @@ model {
       }
 
       router = component 'Router' {
-        description 'Keeps the selected workspace and ticket in the URL and reports when it changes'
+        description 'Keeps the selected workspace, ticket and open artefact in the URL and reports when it changes'
         link ../../keel-web/client/src/routing/types.ts
       }
 
@@ -46,7 +46,45 @@ model {
         link ../../keel-web/client/src/workspaces/types.ts
       }
 
+      centre = component 'Centre area' {
+        description 'Keeps the artefacts the developer opened for a ticket as tabs and shows one of them'
+        link ../../keel-web/client/src/artifacts/types.ts
+      }
+
+      artifactTree = component 'Artefact tree' {
+        description 'Lists the artefacts of a ticket so the developer reaches any of them without asking the agent'
+        link ../../keel-web/client/src/artifacts/types.ts
+      }
+
+      artifactView = component 'Artefact view' {
+        description 'Renders one artefact as its kind deserves and says when a stub has drifted from the contract that was frozen'
+        link ../../keel-web/client/src/artifacts/types.ts
+      }
+
+      hintListener = component 'Hint listener' {
+        description 'Listens for what the workflow says is worth looking at and brings it to the front once'
+        technology 'EventSource'
+        link ../../keel-web/client/src/hints/types.ts
+      }
+
+      architecturePane = component 'Architecture pane' {
+        description 'Reads one laid-out view for a workspace and branch and hands it to the diagram to draw'
+        link ../../keel-web/client/src/architecture/architecture-pane.tsx
+      }
+
+      diagramView = component 'Diagram view' {
+        description 'Renders one laid-out architecture view and reports the element or link the developer follows'
+        technology 'likec4'
+        link ../../keel-web/client/src/architecture/types.ts
+      }
+
       shell -> chat 'Keeps the chat beside the ticket list and the artifact area'
+      shell -> centre 'Gives the centre the room the sidebar leaves once a ticket is selected'
+      centre -> artifactTree 'Lists what can be opened and takes what the developer picked'
+      centre -> artifactView 'Shows the artefact of the active tab'
+      artifactView -> architecturePane 'Hands a view reference over to be read and drawn'
+      architecturePane -> diagramView 'Gives the laid-out view to the diagram, loaded on first use'
+      shell -> hintListener 'Opens what the workflow points at, and lets the developer override it'
       shell -> router 'Reads the selected workspace and ticket, and navigates'
       shell -> workspaceList 'Lists the repositories to pick from, and adds or removes one'
       shell -> directoryPicker 'Opens the picker and takes the directory it returns'
@@ -61,4 +99,7 @@ model {
   keelWeb.client.connection -> keelWeb.server.chatApi 'Streams events and posts commands'
   keelWeb.client.workspaceList -> keelWeb.server.workspaceApi 'Reads the workspaces and adds or removes one'
   keelWeb.client.directoryPicker -> keelWeb.server.directories 'Reads the subdirectories of a path'
+  keelWeb.client.centre -> keelWeb.server.artifactApi 'Reads the artefact tree and the open artefact, and asks again with its entity tag'
+  keelWeb.client.architecturePane -> keelWeb.server.architecture 'Reads the laid-out model of a view on a branch'
+  keelWeb.client.hintListener -> keelWeb.server.hints 'Subscribes to the hints of a ticket, from now on'
 }
