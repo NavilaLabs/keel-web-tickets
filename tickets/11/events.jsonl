@@ -21,3 +21,35 @@
 {"at": "2026-09-20T17:56:40.739553+00:00", "type": "step_changed", "block": "b1", "from": "6", "to": "6.1"}
 {"at": "2026-09-20T17:56:40.739553+00:00", "type": "block_status_changed", "block": "b1", "from": "pending", "to": "in_progress"}
 {"at": "2026-09-20T17:56:40.739553+00:00", "type": "consultation_closed", "consultation": "c3"}
+{"at": "2026-09-20T17:58:45.108956+00:00", "type": "step_changed", "block": "b1", "from": "6.1", "to": "6"}
+{"at": "2026-09-20T17:58:45.108956+00:00", "type": "block_status_changed", "block": "b1", "from": "in_progress", "to": "awaiting_consultation"}
+{"at": "2026-09-20T17:58:45.108956+00:00", "type": "consultation_opened", "consultation": "c4"}
+{"at": "2026-09-20T18:01:00.021395+00:00", "type": "step_changed", "block": "b1", "from": "6", "to": "7"}
+{"at": "2026-09-20T18:01:00.021395+00:00", "type": "block_status_changed", "block": "b1", "from": "awaiting_consultation", "to": "pending"}
+{"at": "2026-09-20T18:01:00.021395+00:00", "type": "step_changed", "block": "b2", "from": "6", "to": "6.1"}
+{"at": "2026-09-20T18:01:00.021395+00:00", "type": "block_status_changed", "block": "b2", "from": "pending", "to": "in_progress"}
+{"at": "2026-09-20T18:01:00.021395+00:00", "type": "step_changed", "block": "b3", "from": "6", "to": "6.1"}
+{"at": "2026-09-20T18:01:00.021395+00:00", "type": "block_status_changed", "block": "b3", "from": "pending", "to": "in_progress"}
+{"at": "2026-09-20T18:01:00.021395+00:00", "type": "consultation_closed", "consultation": "c4"}
+{"at": "2026-09-20T18:02:54.025669+00:00", "type": "step_changed", "block": "b2", "from": "6.1", "to": "6.3"}
+{"at": "2026-09-20T18:02:54.025669+00:00", "type": "step_changed", "block": "b3", "from": "6.1", "to": "6"}
+{"at": "2026-09-20T18:02:54.025669+00:00", "type": "block_status_changed", "block": "b3", "from": "in_progress", "to": "awaiting_consultation"}
+{"at": "2026-09-20T18:02:54.025669+00:00", "type": "consultation_opened", "consultation": "c5"}
+{"at": "2026-09-20T18:04:01.329459+00:00", "type": "step_changed", "block": "b3", "from": "6", "to": "7"}
+{"at": "2026-09-20T18:04:01.329459+00:00", "type": "block_status_changed", "block": "b3", "from": "awaiting_consultation", "to": "pending"}
+{"at": "2026-09-20T18:04:01.329459+00:00", "type": "consultation_closed", "consultation": "c5"}
+{"at": "2026-09-20T18:04:26.104207+00:00", "type": "step_changed", "block": "b2", "from": "6.3", "to": "6"}
+{"at": "2026-09-20T18:04:26.104207+00:00", "type": "block_status_changed", "block": "b2", "from": "in_progress", "to": "awaiting_consultation"}
+{"at": "2026-09-20T18:04:26.104207+00:00", "type": "consultation_opened", "consultation": "c6"}
+{"at": "2026-09-20T18:09:48.102528+00:00", "type": "step_changed", "block": "b1", "from": "7", "to": "7.1"}
+{"at": "2026-09-20T18:09:48.102528+00:00", "type": "block_status_changed", "block": "b1", "from": "pending", "to": "in_progress"}
+{"at": "2026-09-20T18:09:48.102528+00:00", "type": "step_changed", "block": "b2", "from": "6", "to": "7"}
+{"at": "2026-09-20T18:09:48.102528+00:00", "type": "block_status_changed", "block": "b2", "from": "awaiting_consultation", "to": "pending"}
+{"at": "2026-09-20T18:09:48.102528+00:00", "type": "consultation_closed", "consultation": "c6"}
+{"at": "2026-09-20T18:15:34.549473+00:00", "type": "step_changed", "block": "b1", "from": "7.1", "to": "7"}
+{"at": "2026-09-20T18:15:34.549473+00:00", "type": "block_status_changed", "block": "b1", "from": "in_progress", "to": "awaiting_consultation"}
+{"at": "2026-09-20T18:15:34.549473+00:00", "type": "consultation_opened", "consultation": "c7"}
+{"at": "2026-09-20T18:15:34.549473+00:00", "type": "artifact_hint", "block": "b1", "step": "7", "consultation": "c7", "targets": [{"kind": "c4_view", "view": "server", "branch": "ticket/11"}, {"kind": "c4_view", "view": "client", "branch": "ticket/11"}, {"kind": "stub", "repo": "code", "path": "protocol/src/session-controls.ts", "symbol": "SessionControls"}, {"kind": "stub", "repo": "code", "path": "protocol/src/events.ts", "symbol": "SessionControlsMessage"}, {"kind": "stub", "repo": "code", "path": "server/src/sessions/types.ts", "symbol": "SessionRegistry"}, {"kind": "stub", "repo": "code", "path": "server/src/permissions/types.ts", "symbol": "PermissionGate"}, {"kind": "stub", "repo": "code", "path": "server/src/chat/types.ts", "symbol": "CreateChatRoutes"}, {"kind": "stub", "repo": "code", "path": "client/src/connection/types.ts", "symbol": "Connection"}, {"kind": "stub", "repo": "code", "path": "client/src/session-controls/types.ts", "symbol": "SessionControlsStore"}, {"kind": "adr", "repo": "ticket", "path": "tickets/11/adr/0020-the-session-mode-decides-what-the-browser-is-asked.md"}, {"kind": "adr", "repo": "ticket", "path": "tickets/11/adr/0021-what-a-session-runs-with-is-state-not-history.md"}]}
+{"at": "2026-09-20T18:18:58.816663+00:00", "type": "step_changed", "block": "b1", "from": "7", "to": "8"}
+{"at": "2026-09-20T18:18:58.816663+00:00", "type": "block_status_changed", "block": "b1", "from": "awaiting_consultation", "to": "in_progress"}
+{"at": "2026-09-20T18:19:03.451639+00:00", "type": "consultation_closed", "consultation": "c7"}

@@ -8,26 +8,83 @@
     "state": "none"
   },
   "phase": "blocks",
+  "as_is_base_commit": "a362156cff5f1908b505e18011901986694c4293",
+  "to_be_branch": "ticket/11",
   "artifacts": {
-    "knowledge": "tickets/11/knowledge.md"
+    "knowledge": "tickets/11/knowledge.md",
+    "adrs": [
+      "tickets/11/adr/0020-the-session-mode-decides-what-the-browser-is-asked.md",
+      "tickets/11/adr/0021-what-a-session-runs-with-is-state-not-history.md"
+    ],
+    "c4_views": ["server", "client"]
   },
   "blocks": [
     {
       "id": "b1",
       "title": "Session controls: slash command list, model, effort, mode, always allow, status line",
-      "step": "6.1",
-      "status": "in_progress"
+      "step": "8",
+      "status": "in_progress",
+      "claimed_components": [
+        "keelWeb.server.sessions",
+        "keelWeb.server.permissionGate",
+        "keelWeb.server.chatApi",
+        "keelWeb.client.sessionControls",
+        "keelWeb.client.permissionPrompt",
+        "keelWeb.client.connection",
+        "keelWeb.client.transcriptStore"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/session-controls.ts",
+          "symbol": "SessionControls",
+          "fingerprint": "d6bd31dbbbaf2c7c3e39d69ec54f4af59deb2504a03138903c5bda30b0a70f5f"
+        },
+        {
+          "path": "protocol/src/events.ts",
+          "symbol": "SessionControlsMessage",
+          "fingerprint": "8fade6be096f0a8793c2e7d7e553b4b5d66b6adb900d723729752d6d4b19b34d"
+        },
+        {
+          "path": "server/src/sessions/types.ts",
+          "symbol": "SessionRegistry",
+          "fingerprint": "7c144af53bfde37571d3e0f681b96a9aaba35bee6879371571f546bb0e0df92a"
+        },
+        {
+          "path": "server/src/permissions/types.ts",
+          "symbol": "PermissionGate",
+          "fingerprint": "2e8c70ddcd4eae97a71457262fe2e10e6a52ada178dd705b35611ea556a1c995"
+        },
+        {
+          "path": "server/src/chat/types.ts",
+          "symbol": "CreateChatRoutes",
+          "fingerprint": "db1f137a3cecad31766e3beb8002bcf900959762bd3dd2be95b0bc1917fedae6"
+        },
+        {
+          "path": "client/src/connection/types.ts",
+          "symbol": "Connection",
+          "fingerprint": "1b3f99091f17ff24aa6d44a757c4c5b845704417710beab72824c4bfa05b943d"
+        },
+        {
+          "path": "client/src/session-controls/types.ts",
+          "symbol": "SessionControlsStore",
+          "fingerprint": "a274ab3de8df745dc84a6721810bd8d8ebf823aae55f285fd7ad3c6a5d7d61c0"
+        }
+      ],
+      "adrs": [
+        "tickets/11/adr/0020-the-session-mode-decides-what-the-browser-is-asked.md",
+        "tickets/11/adr/0021-what-a-session-runs-with-is-state-not-history.md"
+      ]
     },
     {
       "id": "b2",
       "title": "Composer: slash and @ popup, file index, keyboard, input history and draft",
-      "step": "6",
+      "step": "7",
       "status": "pending"
     },
     {
       "id": "b3",
       "title": "Questions tool: mouse-first answering, Other, decline",
-      "step": "6",
+      "step": "7",
       "status": "pending"
     }
   ],
@@ -63,14 +120,71 @@
       "block": null,
       "step": "5",
       "question": "Is knowledge.md correct, and may I commit and push it to the ticket repo and link it on issue #11?",
-      "options": [
-        "Correct, commit, push and link",
-        "Changes needed first"
-      ],
+      "options": ["Correct, commit, push and link", "Changes needed first"],
       "answer": "Correct, commit, push and link (developer: 'Dann mal los mit Schritt 6')",
       "status": "answered",
       "asked_at": "2026-09-20T17:15:00Z",
       "answered_at": "2026-09-20T17:25:00Z"
+    },
+    {
+      "id": "c4",
+      "block": "b1",
+      "step": "6",
+      "question": "Which approach for b1: how the registry reaches the SDK controls, who owns the mode semantics, and where always allow is enforced?",
+      "options": [
+        "Widen RunQuery with a Pick of Query, the hook follows the SDK mode after a spike, always allow via SDK suggestions",
+        "Separate SessionControl port",
+        "Server owns mode semantics"
+      ],
+      "answer": "Widen RunQuery with a Pick of Query (option 1). The SDK owns the mode semantics (variant A): the always-ask hook only asks in default mode, which supersedes ADR 0006. Always allow via the SDK suggestions as updatedPermissions with destination session, honouring suppressAlwaysAllowRule and defaultToNo. Effort via applyFlagSettings, tracked on the server. Orient on the terminal.",
+      "status": "answered",
+      "asked_at": "2026-09-20T17:40:00Z",
+      "answered_at": "2026-09-20T17:50:00Z"
+    },
+    {
+      "id": "c5",
+      "block": "b3",
+      "step": "6",
+      "question": "Which approach for b3: hybrid answer flow (one card for a single question, tabs with a review step for several), decline as deny with an optional message, Other as the answer text, previews kept as plain text?",
+      "options": [
+        "Hybrid (option C) with the sub-decisions as recommended",
+        "Single-page form (option A)",
+        "Wizard for every question set (option B)"
+      ],
+      "answer": "Hybrid (option C): one card with direct send for a single question, tabs with a review step for several. Decline is deny with an optional message and no interrupt. Other is the answer text. No annotations. Previews stay plain text, shown for the focused option. The previewFormat default is checked on a real request in step 7.",
+      "status": "answered",
+      "asked_at": "2026-09-20T18:05:00Z",
+      "answered_at": "2026-09-20T18:12:00Z"
+    },
+    {
+      "id": "c6",
+      "block": "b2",
+      "step": "6",
+      "question": "Which approach for b2: command list as a live event pushed on attach, git-based file index with refresh on open and a short TTL, a custom listbox that keeps focus in the textarea, history and draft in the browser, plain @path text. And should the popup highlight no row by default, as the terminal does?",
+      "options": [
+        "As recommended, no default highlight (terminal parity)",
+        "As recommended, first row highlighted by default",
+        "Other"
+      ],
+      "answer": "As recommended, and no row highlighted by default, so Enter sends the text as typed and Tab takes the top match.",
+      "status": "answered",
+      "asked_at": "2026-09-20T18:30:00Z",
+      "answered_at": "2026-09-20T18:35:00Z"
+    },
+    {
+      "id": "c7",
+      "block": "b1",
+      "step": "7",
+      "question": "Are the LikeC4 change, the frozen contracts and the two ADRs right for b1? Everything after this is implemented strictly against them.",
+      "options": [
+        "Freeze as they stand",
+        "Change something first",
+        "The chat seam is too close: merge b1 and b2"
+      ],
+      "answer": "Freeze as they stand, including the chat seam and the shared not_held result.",
+      "status": "answered",
+      "asked_at": "2026-09-20T19:20:00Z",
+      "answered_at": "2026-09-20T19:35:00Z"
     }
   ],
   "jump_log": []

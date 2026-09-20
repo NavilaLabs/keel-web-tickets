@@ -16,8 +16,13 @@ model {
       }
 
       permissionPrompt = component 'Permission prompt' {
-        description 'Shows a held tool call with its input and takes the developer answer'
+        description 'Shows a held tool call with its input and takes the developer answer, for this one call or for the rest of the session'
         link ../../keel-web/client/src/chat/types.ts
+      }
+
+      sessionControls = component 'Session controls' {
+        description 'Holds the model, the mode, the effort and the commands a session offers, and takes the developer\'s change to any of them'
+        link ../../keel-web/client/src/session-controls/types.ts
       }
 
       transcriptStore = component 'Transcript store' {
@@ -26,7 +31,7 @@ model {
       }
 
       connection = component 'Session connection' {
-        description 'Opens the event stream and posts messages, permission answers and interrupts'
+        description 'Opens the event stream and posts messages, permission answers, interrupts and changes to what the session runs with'
         technology 'EventSource, fetch'
         link ../../keel-web/client/src/connection/types.ts
       }
@@ -92,7 +97,10 @@ model {
       shell -> connection 'Builds the connection the store runs on'
       chat -> transcriptStore 'Reads the transcript and sends messages, answers and interrupts'
       chat -> permissionPrompt 'Shows a held tool call in place'
+      chat -> sessionControls 'Shows what the session runs with under the input'
+      sessionControls -> connection 'Posts a change to what the session runs with'
       transcriptStore -> connection 'Opens the stream and posts commands'
+      transcriptStore -> sessionControls 'Passes on what the one stream says the session runs with'
     }
   }
 

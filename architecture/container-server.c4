@@ -32,19 +32,19 @@ model {
       }
 
       chatApi = component 'Chat API' {
-        description 'Streams session events to the browser and takes messages, permission answers and interrupts'
+        description 'Streams session events to the browser and takes messages, permission answers, interrupts and changes to what the session runs with'
         technology 'Hono, Server-Sent Events'
         link ../../keel-web/server/src/chat/types.ts
       }
 
       sessions = component 'Session registry' {
-        description 'Owns one resumable Claude Code session per workspace and ticket, its attached viewers and its pending permission requests'
+        description 'Owns one resumable Claude Code session per workspace and ticket, its attached viewers, its held tool calls and the model, mode and effort it runs with'
         technology 'Claude Agent SDK'
         link ../../keel-web/server/src/sessions/types.ts
       }
 
       permissionGate = component 'Permission gate' {
-        description 'Holds every tool call until the browser has answered, so nothing runs unapproved'
+        description 'Holds a tool call the agent asks about until the browser has answered'
         technology 'Claude Agent SDK hooks'
         link ../../keel-web/server/src/permissions/types.ts
       }
