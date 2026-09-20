@@ -25,6 +25,11 @@ model {
         link ../../keel-web/client/src/chat/types.ts
       }
 
+      questionPrompt = component 'Question prompt' {
+        description 'Shows what the agent is asking and takes the answer, one question at a time when there are several of them'
+        link ../../keel-web/client/src/questions/types.ts
+      }
+
       sessionControls = component 'Session controls' {
         description 'Holds the model, the mode, the effort and the commands a session offers, and takes the developer\'s change to any of them'
         link ../../keel-web/client/src/session-controls/types.ts
@@ -102,6 +107,7 @@ model {
       shell -> connection 'Builds the connection the store runs on'
       chat -> transcriptStore 'Reads the transcript and sends messages, answers and interrupts'
       chat -> permissionPrompt 'Shows a held tool call in place'
+      chat -> questionPrompt 'Shows a question the agent asked in place'
       chat -> composer 'Takes the message the developer writes'
       chat -> sessionControls 'Shows what the session runs with under the input'
       composer -> sessionControls 'Reads the commands a slash completion offers'

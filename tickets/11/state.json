@@ -17,7 +17,8 @@
       "tickets/11/adr/0021-what-a-session-runs-with-is-state-not-history.md",
       "tickets/11/adr/0022-the-auto-mode-is-offered-too.md",
       "tickets/11/adr/0023-the-file-index-is-what-git-lists.md",
-      "tickets/11/adr/0024-the-popup-takes-neither-the-focus-nor-the-highlight.md"
+      "tickets/11/adr/0024-the-popup-takes-neither-the-focus-nor-the-highlight.md",
+      "tickets/11/adr/0025-one-question-is-a-card-and-several-are-a-walk.md"
     ],
     "c4_views": ["server", "client"]
   },
@@ -116,8 +117,17 @@
     {
       "id": "b3",
       "title": "Questions tool: mouse-first answering, Other, decline",
-      "step": "7",
-      "status": "pending"
+      "step": "9",
+      "status": "done",
+      "claimed_components": ["keelWeb.client.questionPrompt"],
+      "claimed_stubs": [
+        {
+          "path": "client/src/questions/types.ts",
+          "symbol": "QuestionPromptProperties",
+          "fingerprint": "5cebb7ae0e263aaf1583ba680de1244cac41d459c99f1bc109020bdf7c03bf23"
+        }
+      ],
+      "adrs": ["tickets/11/adr/0025-one-question-is-a-card-and-several-are-a-walk.md"]
     }
   ],
   "consultations": [
@@ -258,6 +268,17 @@
       "status": "answered",
       "asked_at": "2026-09-20T22:10:00Z",
       "answered_at": "2026-09-20T22:20:00Z"
+    },
+    {
+      "id": "c11",
+      "block": "b3",
+      "step": "7",
+      "question": "Are the LikeC4 split, the frozen contract and ADR 0025 right for b3?",
+      "options": ["Freeze as it stands", "Change something first"],
+      "answer": "Freeze as it stands.",
+      "status": "answered",
+      "asked_at": "2026-09-20T22:55:00Z",
+      "answered_at": "2026-09-20T23:05:00Z"
     }
   ],
   "jump_log": [

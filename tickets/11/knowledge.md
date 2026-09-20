@@ -24,7 +24,7 @@
 - How do mode, "always allow" and the always-ask hook interact in detail?  `answered: the hook asks only in default mode, see ADR 0020. Always allow returns the agent's own suggestions as updatedPermissions with every destination forced to session.`
 - Does a hook that returns no decision really let acceptEdits and dontAsk resolve a call, and is permission_mode current in the hook right after setPermissionMode?  `answered: the developer ran it against a real agent on 2026-09-20 and the auto mode behaved as ADR 0020 assumed`
 - Does the SDK expand a plain `@path` in a message the way the CLI's prompt handler does?  `open: to be checked with a real turn in b2`
-- Which previewFormat does an AskUserQuestion request actually arrive with? The docs say absent when unset, the installed types say markdown is the default.  `open: to be observed on a real request in b3`
+- Which previewFormat does an AskUserQuestion request actually arrive with? The docs say absent when unset, the installed types say markdown is the default.  `answered: the installed types are right, the default is markdown rendered in a monospace box, so the existing <pre> is correct`
 - Are the selections stored per session with the last value as the workspace default?  `answered: per session, the last value is the default for new sessions in the workspace`
 - Which files does `@` offer?  `answered: tracked plus untracked and not ignored, plus directories`
 - Is bypassPermissions offered?  `answered: no. auto is offered, see ADR 0022.`
@@ -33,7 +33,7 @@
 ## Theme blocks
 - **b1** Session controls: slash command list, model, effort, mode, always allow, status line - `done`
 - **b2** Composer: slash and @ popup, file index, keyboard, input history and draft - `in_progress`
-- **b3** Questions tool: mouse-first answering, Other, decline - `pending`
+- **b3** Questions tool: mouse-first answering, Other, decline - `done`
 
 Risk: b2 consumes the command list from b1 as a wire event, so b1's contract must be settled first. `chatApi` and `protocol` are shared. The file route goes into its own component to avoid overlapping claims.
 
@@ -47,4 +47,5 @@ Risk: b2 consumes the command list from b1 as a wire event, so b1's contract mus
 - 2026-09-20 - b1 is back through 8 and 9 with the five modes: 254 tests pass, and the six contracts the jump did not touch still carry their original fingerprint. The developer ran the auto mode against a real agent, which closes the one question ADR 0020 had left for step 9, so b1 is done.
 - 2026-09-20 - Step 7 for b2: the file index and the file route are their own server components, the composer is its own client component, and three contracts are frozen. ADRs 0023 and 0024 record where the file list comes from and why the popup takes neither the focus nor the highlight.
 - 2026-09-20 - Steps 8 and 9 for b2: 307 tests pass, and the three contracts carry their fingerprints. The composer's own component is not unit tested, because this repository has no component testing library and every client test here is a logic test. What it does is covered by its parts: the trigger, the completions, the draft book and the ranking.
+- 2026-09-20 - Steps 7 to 9 for b3. The installed tool schema settled two things the step 6 research had left open: the agent is told not to offer an "Other" option because the client is expected to provide it, and the default preview format is markdown in a monospace box. ADR 0025 records the split between one question and several. 324 tests pass and the contract carries its fingerprint, so b3 is done.
 - 2026-09-20 - Jump from 8 to 7 for b2. `ComposerProperties` was frozen with the session and two callbacks only, so the composer had no way to reach the command list the LikeC4 model already has it depending on, nor the draft book. My mistake at 7.2: I wrote the contract from what the component is handed by its parent and forgot what it reads. The proposal adds both as properties.

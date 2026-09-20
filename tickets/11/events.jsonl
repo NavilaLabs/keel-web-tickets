@@ -84,3 +84,11 @@
 {"at": "2026-09-20T18:46:19.433406+00:00", "type": "consultation_closed", "consultation": "c10"}
 {"at": "2026-09-20T18:50:31.926835+00:00", "type": "step_changed", "block": "b2", "from": "7", "to": "9"}
 {"at": "2026-09-20T18:50:31.926835+00:00", "type": "block_status_changed", "block": "b2", "from": "awaiting_consultation", "to": "in_progress"}
+{"at": "2026-09-20T18:52:52.477465+00:00", "type": "block_status_changed", "block": "b3", "from": "pending", "to": "awaiting_consultation"}
+{"at": "2026-09-20T18:52:52.477465+00:00", "type": "artifact_hint", "block": "b3", "step": "7", "targets": [{"kind": "stub", "repo": "code", "path": "client/src/questions/types.ts", "symbol": "QuestionPromptProperties"}]}
+{"at": "2026-09-20T18:52:57.273351+00:00", "type": "artifact_hint", "block": null, "step": null, "targets": [{"kind": "adr", "repo": "ticket", "path": "tickets/11/adr/0025-one-question-is-a-card-and-several-are-a-walk.md"}]}
+{"at": "2026-09-20T18:53:03.267159+00:00", "type": "consultation_opened", "consultation": "c11"}
+{"at": "2026-09-20T18:53:03.267159+00:00", "type": "artifact_hint", "block": "b3", "step": "7", "consultation": "c11", "targets": [{"kind": "c4_view", "view": "server", "branch": "ticket/11"}, {"kind": "c4_view", "view": "client", "branch": "ticket/11"}, {"kind": "stub", "repo": "code", "path": "client/src/questions/types.ts", "symbol": "QuestionPromptProperties"}, {"kind": "adr", "repo": "ticket", "path": "tickets/11/adr/0025-one-question-is-a-card-and-several-are-a-walk.md"}]}
+{"at": "2026-09-20T18:53:50.245295+00:00", "type": "consultation_closed", "consultation": "c11"}
+{"at": "2026-09-20T18:55:56.649635+00:00", "type": "step_changed", "block": "b3", "from": "7", "to": "9"}
+{"at": "2026-09-20T18:55:56.649635+00:00", "type": "block_status_changed", "block": "b3", "from": "awaiting_consultation", "to": "done"}
