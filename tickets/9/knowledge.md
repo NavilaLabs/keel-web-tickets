@@ -108,6 +108,16 @@ addressed and opened. Its step 6 research is independent. b3 depends on neither.
 
 ## Log
 
+- 2026-09-20 - Found in the browser, after b3 was green: every view threw
+  `createRequire is not a function`. `likec4/model` pulls in a runtime chunk importing
+  `node:module`, and Vite stubs that in the browser. `createLikeC4Model` is one line over
+  `LikeC4Model.create` from `@likec4/core/model`, which has three dependencies and no node
+  imports, so the client builds the model from there. The lesson is the one ticket 4 already
+  wrote down about reading the installed types: a package that bundles a CLI, a Vite plugin and
+  browser components does not have browser-safe entry points throughout, and nothing short of
+  running it in a browser shows which. A boundary now catches a failing diagram, because the
+  failure took the whole page down and survived navigating away.
+
 - 2026-09-20 - Step 9, b2 done, and verified against a live stream rather than only in tests: a
   hint appended to a ticket's `events.jsonl` arrived in the browser's stream as `artifact.hint`
   with the reading position as its id, and a reconnect carrying that id delivered only what came
