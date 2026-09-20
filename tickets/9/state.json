@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "ticket_id": "9",
+  "ticket_source": "github",
+  "code_repo": "NavilaLabs/keel-web",
+  "pr": {
+    "host": "github",
+    "state": "none"
+  },
+  "phase": "blocks",
+  "artifacts": {
+    "knowledge": "tickets/9/knowledge.md",
+    "adrs": [],
+    "c4_views": []
+  },
+  "blocks": [
+    {
+      "id": "b1",
+      "title": "Artefacts served, and readable in the centre",
+      "step": "6",
+      "status": "pending"
+    },
+    {
+      "id": "b2",
+      "title": "The workflow points the centre at an artefact",
+      "step": "6",
+      "status": "pending"
+    },
+    {
+      "id": "b3",
+      "title": "LikeC4 views, rendered interactively",
+      "step": "6",
+      "status": "pending"
+    }
+  ],
+  "consultations": [
+    {
+      "id": "c1",
+      "block": null,
+      "step": "2",
+      "question": "Are these the functional goals and problems of ticket 9, and is the LikeC4 diff of the to-be model against main part of this ticket or a later one?",
+      "answer": "Goals confirmed. The centre is the main reason for the project: keel shows what is due now and what needs approving, and the developer can click through every artefact themselves. The LikeC4 diff against main is deferred to its own ticket.",
+      "status": "answered",
+      "asked_at": "2026-09-20T09:34:24+00:00",
+      "answered_at": "2026-09-20T09:41:00+00:00"
+    },
+    {
+      "id": "c2",
+      "block": null,
+      "step": "4",
+      "question": "Is this the right cut into theme blocks: b1 artefacts served and readable, b2 the hint points the centre, b3 LikeC4 rendered interactively, with b2 running after b1 rather than beside it?",
+      "options": [
+        "Three blocks as proposed, b2 after b1",
+        "Two blocks: b1 and b2 merged into one vertical, LikeC4 separate",
+        "A different cut"
+      ],
+      "answer": "Three blocks as proposed, b2 after b1.",
+      "status": "answered",
+      "asked_at": "2026-09-20T09:59:54+00:00",
+      "answered_at": "2026-09-20T10:01:00+00:00"
+    },
+    {
+      "id": "c3",
+      "block": null,
+      "step": "5",
+      "question": "Does knowledge.md hold the ticket correctly: the goals, the problems in the way, and the answers from step 3?",
+      "answer": "Confirmed as written. Whether state.json itself belongs in the artefact tree is raised again at step 6.",
+      "status": "answered",
+      "asked_at": "2026-09-20T10:01:41+00:00",
+      "answered_at": "2026-09-20T10:06:00+00:00"
+    }
+  ],
+  "jump_log": []
+}

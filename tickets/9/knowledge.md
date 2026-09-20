@@ -1,0 +1,112 @@
+# 9: Artefact views: knowledge.md, ADRs, stubs and LikeC4 in the centre
+
+The centre area is the reason the project exists: keel shows what is due now, and the developer
+clicks through every artefact themselves. This ticket fills it with the ticket's artefacts.
+
+## Goals
+
+- [x] Every artefact of the ticket is readable in the centre - `knowledge.md`, the ADRs, the
+      frozen stubs, the LikeC4 views - each rendered as its kind deserves rather than as raw
+      text  `agreed`
+- [x] The developer reaches any artefact at any time through their own navigation, without
+      asking the agent and without a matching workflow step running  `agreed`
+- [x] The centre follows the conversation: when a consultation opens on an artefact, that
+      artefact comes to the front once  `agreed`
+- [x] The developer keeps the upper hand: the hint switches once, the previous tab stays beside
+      it, and nothing pulls the view back afterwards  `agreed`
+- [x] Everything works with no hint at all. Navigation carries the feature alone; the hint is an
+      addition  `agreed`
+- [x] The open artefact is in the URL, so a deep link reopens it, and the centre remembers per
+      ticket what was open  `agreed`
+- [x] Artefacts are read-only in the browser, and keel-web keeps no store of its own for them
+      (ADR 0012)  `agreed`
+- [x] A missing artefact is explained rather than shown as an empty pane: a workspace without a
+      ticket repository, a ticket without `knowledge.md`, a branch that does not exist  `agreed`
+- [x] The outer sidebar holding workspaces and tickets collapses once a ticket is selected, so
+      the centre has room  `agreed`
+
+Deferred by decision, not forgotten: the diff of the to-be model against `main`, which step 7 of
+the keel workflow is about. It needs git reads across two branches and a diff presentation for
+diagrams, and it blocks none of the goals above. Its own ticket.
+
+## Problems
+
+- keel-web reads nothing of the ticket repository today. The only file it touches there is
+  `tickets/<id>/transcript.jsonl`, which it writes. No route serves artefact contents  `open`
+- There is no watcher and no incremental reading anywhere in the server: no `fs.watch`, no
+  chokidar, and `readEvents` in `create-transcript-log.ts` reads whole files. keel#1's consumer
+  rule needs a byte offset: a consumer acts only on hints appended after it attached, and what it
+  reads on attach is history  `open`
+- The hint has no channel to the browser. The existing SSE stream belongs to a chat session
+  (ADR 0005), and `protocol/src/events.ts` is a contract, so adding an event is a contract
+  change  `open`
+- LikeC4 is rendered nowhere in either repository: no dependency, no plugin, no build step.
+  ADR 0001 assumed the React components would work but never used them  `open`
+- A `c4_view` target names a branch, so the model to render is not the one in the working
+  directory but the one on the to-be branch  `open`
+- Stubs live in the code repository, not the ticket repository, and only in
+  `blocks[].claimed_stubs`. The centre therefore reads from two repositories  `open`
+- A stub's file drifts from its fingerprint as soon as step 8 fills it, so "the frozen stub" and
+  "the file today" are two different things  `open`
+- `artifacts.adrs` crosses tickets: ticket 7 lists an ADR from ticket 1. The current ticket's
+  directory does not define the set  `open`
+- Serving file contents over HTTP widens the surface ADR 0014 left open. `127.0.0.1` is the
+  access control, DNS rebinding defeats it, and paths that come out of a state file must be
+  closed against traversal  `open`
+- Tickets #8 (status) and #10 (ticket and pull request views) target the same centre area and
+  the same `CentreView` union. This ticket must leave room for them without building them  `open`
+
+## Open questions
+
+- Does an open view follow the file when it changes on disk?
+  `answered: yes, the content updates, without bringing anything to the front and without losing
+  the scroll position. Only what is open follows.`
+- Does "the frozen stub" show today's file or the state at step 7.2?
+  `answered: today's file, with a note in the view when the fingerprint in state.json no longer
+  matches.`
+- How far does clicking through reach: only what state.json names, or everything under the
+  ticket and architecture directories?
+  `answered: everything under those two roots, filtered by kind (.md, .c4, state.json).
+  state.json only decides order and emphasis. transcript.jsonl, events.jsonl and
+  .state-snapshot.json stay out.`
+- What does "like in an editor" mean concretely?
+  `answered: a tree in its own sidebar on the left of the centre, tabs along the top, exactly one
+  artefact visible. No split view.`
+- What happens visibly when a hint arrives while the developer is elsewhere?
+  `answered: the artefact comes to the front hard, as a new tab, and the tab that was in front
+  stays beside it. One click is back.`
+- Is the LikeC4 diagram interactive?
+  `answered: yes, as interactive as "likec4 serve" - zoom, click an element, jump between views,
+  follow the link attributes into the code repository.`
+- Does the centre remember per ticket what was open?
+  `answered: yes, per ticket, and the active artefact is in the URL.`
+- Do status and permission prompts belong in the centre too?
+  `answered: not in this ticket. The permission prompt stays in the chat column (ADR 0006) and
+  the workflow status is ticket #8.`
+- Which package renders LikeC4, and does it render at build time or at runtime?  `open`
+- Does the hint travel on the existing SSE stream or on a channel of its own?  `open`
+- Does a route that serves file contents need a request gate against DNS rebinding, which
+  ADR 0014 left open for the directory route?  `open`
+
+## Theme blocks
+
+- **b1** Artefacts served, and readable in the centre - `pending`
+- **b2** The workflow points the centre at an artefact - `pending`
+- **b3** LikeC4 views, rendered interactively - `pending`
+
+b2 runs after b1 rather than beside it: it needs b1's frozen contract for how an artefact is
+addressed and opened. Its step 6 research is independent. b3 depends on neither.
+
+## Log
+
+- 2026-09-20 - Intake. keel#1, the producer of the hint, turned out to be implemented and
+  installed already (keel 0.3.0). The `artifact_hint` contract was verified against the installed
+  `hooks/state_writer.py` rather than taken from the ticket text: targets are resolved, ordered,
+  and the first one is primary.
+- 2026-09-20 - Step 4. Cut into three blocks rather than one. A single block would put the file
+  route, the tailer, a new protocol event, the tree and the tabs into one step 7 consultation,
+  which is where the workflow's main safeguard sits. A cut by layer, server against client, was
+  rejected because neither half is independently plannable.
+- 2026-09-20 - Noted for step 7.1: if b1 and b3 end up claiming the same server component
+  because the `.c4` files travel the same route as everything else, the two were never
+  independent and b3 merges into b1.
