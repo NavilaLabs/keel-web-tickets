@@ -1,6 +1,6 @@
 # 0006. Gate every tool call in the browser with a PreToolUse hook
 
-Status: accepted
+Status: superseded by 0020
 Date: 2026-09-19
 Ticket: 4
 Block: b1

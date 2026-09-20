@@ -1,0 +1,343 @@
+{
+  "schema_version": 1,
+  "ticket_id": "11",
+  "ticket_source": "github",
+  "code_repo": "NavilaLabs/keel-web",
+  "pr": {
+    "host": "github",
+    "url": "https://github.com/NavilaLabs/keel-web/pull/15",
+    "number": 15,
+    "state": "merged"
+  },
+  "phase": "delivery",
+  "as_is_base_commit": "a362156cff5f1908b505e18011901986694c4293",
+  "to_be_branch": "ticket/11",
+  "artifacts": {
+    "knowledge": "tickets/11/knowledge.md",
+    "adrs": [
+      "tickets/11/adr/0020-the-session-mode-decides-what-the-browser-is-asked.md",
+      "tickets/11/adr/0021-what-a-session-runs-with-is-state-not-history.md",
+      "tickets/11/adr/0022-the-auto-mode-is-offered-too.md",
+      "tickets/11/adr/0023-the-file-index-is-what-git-lists.md",
+      "tickets/11/adr/0024-the-popup-takes-neither-the-focus-nor-the-highlight.md",
+      "tickets/11/adr/0025-one-question-is-a-card-and-several-are-a-walk.md"
+    ],
+    "c4_views": [
+      "server",
+      "client"
+    ]
+  },
+  "blocks": [
+    {
+      "id": "b1",
+      "title": "Session controls: slash command list, model, effort, mode, always allow, status line",
+      "step": "9",
+      "status": "done",
+      "claimed_components": [
+        "keelWeb.server.sessions",
+        "keelWeb.server.permissionGate",
+        "keelWeb.server.chatApi",
+        "keelWeb.client.sessionControls",
+        "keelWeb.client.permissionPrompt",
+        "keelWeb.client.connection",
+        "keelWeb.client.transcriptStore"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/session-controls.ts",
+          "symbol": "SessionControls",
+          "fingerprint": "b34af30f8f02011ceea541aead490aba453f13a2435b2f51a3fc42e2dd5e8878"
+        },
+        {
+          "path": "protocol/src/events.ts",
+          "symbol": "SessionControlsMessage",
+          "fingerprint": "8fade6be096f0a8793c2e7d7e553b4b5d66b6adb900d723729752d6d4b19b34d"
+        },
+        {
+          "path": "server/src/sessions/types.ts",
+          "symbol": "SessionRegistry",
+          "fingerprint": "7c144af53bfde37571d3e0f681b96a9aaba35bee6879371571f546bb0e0df92a"
+        },
+        {
+          "path": "server/src/permissions/types.ts",
+          "symbol": "PermissionGate",
+          "fingerprint": "2e8c70ddcd4eae97a71457262fe2e10e6a52ada178dd705b35611ea556a1c995"
+        },
+        {
+          "path": "server/src/chat/types.ts",
+          "symbol": "CreateChatRoutes",
+          "fingerprint": "db1f137a3cecad31766e3beb8002bcf900959762bd3dd2be95b0bc1917fedae6"
+        },
+        {
+          "path": "client/src/connection/types.ts",
+          "symbol": "Connection",
+          "fingerprint": "1b3f99091f17ff24aa6d44a757c4c5b845704417710beab72824c4bfa05b943d"
+        },
+        {
+          "path": "client/src/session-controls/types.ts",
+          "symbol": "SessionControlsStore",
+          "fingerprint": "a274ab3de8df745dc84a6721810bd8d8ebf823aae55f285fd7ad3c6a5d7d61c0"
+        }
+      ],
+      "adrs": [
+        "tickets/11/adr/0020-the-session-mode-decides-what-the-browser-is-asked.md",
+        "tickets/11/adr/0021-what-a-session-runs-with-is-state-not-history.md",
+        "tickets/11/adr/0022-the-auto-mode-is-offered-too.md"
+      ]
+    },
+    {
+      "id": "b2",
+      "title": "Composer: slash and @ popup, file index, keyboard, input history and draft",
+      "step": "9",
+      "status": "done",
+      "claimed_components": [
+        "keelWeb.server.files",
+        "keelWeb.server.fileApi",
+        "keelWeb.server.app",
+        "keelWeb.client.composer",
+        "keelWeb.client.chat"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/files.ts",
+          "symbol": "FileMatches",
+          "fingerprint": "01f678deb3232dda9074e87b931067053c1f381fec6a9cd2b57e8358ef1b13a2"
+        },
+        {
+          "path": "server/src/files/types.ts",
+          "symbol": "FileIndex",
+          "fingerprint": "3b7a4bb5d4b2216b4de9b6e2a9c2c99eec3a79d2883cbcb0b347eb80d5572e86"
+        },
+        {
+          "path": "client/src/composer/types.ts",
+          "symbol": "DraftBook",
+          "fingerprint": "1f6974524d1219a1e366b84c16192d40418898cefbf6c06ef2744e2567069417"
+        }
+      ],
+      "adrs": [
+        "tickets/11/adr/0023-the-file-index-is-what-git-lists.md",
+        "tickets/11/adr/0024-the-popup-takes-neither-the-focus-nor-the-highlight.md"
+      ]
+    },
+    {
+      "id": "b3",
+      "title": "Questions tool: mouse-first answering, Other, decline",
+      "step": "9",
+      "status": "done",
+      "claimed_components": [
+        "keelWeb.client.questionPrompt"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "client/src/questions/types.ts",
+          "symbol": "QuestionPromptProperties",
+          "fingerprint": "5cebb7ae0e263aaf1583ba680de1244cac41d459c99f1bc109020bdf7c03bf23"
+        }
+      ],
+      "adrs": [
+        "tickets/11/adr/0025-one-question-is-a-card-and-several-are-a-walk.md"
+      ]
+    }
+  ],
+  "consultations": [
+    {
+      "id": "c1",
+      "block": null,
+      "step": "2",
+      "question": "Are the functional goals and problems understood correctly, and what should 'nicely integrated' mean for the questions tool?",
+      "options": [],
+      "answer": "Scope is the ticket (slash commands, @ references, model, mode, questions tool) plus effort level, input history and draft, status line and 'always allow'. Plan approval is not included. The questions tool must be answerable with the mouse.",
+      "status": "answered",
+      "asked_at": "2026-09-20T16:30:00Z",
+      "answered_at": "2026-09-20T16:50:00Z"
+    },
+    {
+      "id": "c2",
+      "block": null,
+      "step": "4",
+      "question": "Is the cut into three theme blocks right: session controls, composer, questions tool?",
+      "options": [
+        "Three blocks as proposed",
+        "Merge session controls and composer into one block",
+        "Other cut"
+      ],
+      "answer": "Three blocks as proposed",
+      "status": "answered",
+      "asked_at": "2026-09-20T17:05:00Z",
+      "answered_at": "2026-09-20T17:10:00Z"
+    },
+    {
+      "id": "c3",
+      "block": null,
+      "step": "5",
+      "question": "Is knowledge.md correct, and may I commit and push it to the ticket repo and link it on issue #11?",
+      "options": [
+        "Correct, commit, push and link",
+        "Changes needed first"
+      ],
+      "answer": "Correct, commit, push and link (developer: 'Dann mal los mit Schritt 6')",
+      "status": "answered",
+      "asked_at": "2026-09-20T17:15:00Z",
+      "answered_at": "2026-09-20T17:25:00Z"
+    },
+    {
+      "id": "c4",
+      "block": "b1",
+      "step": "6",
+      "question": "Which approach for b1: how the registry reaches the SDK controls, who owns the mode semantics, and where always allow is enforced?",
+      "options": [
+        "Widen RunQuery with a Pick of Query, the hook follows the SDK mode after a spike, always allow via SDK suggestions",
+        "Separate SessionControl port",
+        "Server owns mode semantics"
+      ],
+      "answer": "Widen RunQuery with a Pick of Query (option 1). The SDK owns the mode semantics (variant A): the always-ask hook only asks in default mode, which supersedes ADR 0006. Always allow via the SDK suggestions as updatedPermissions with destination session, honouring suppressAlwaysAllowRule and defaultToNo. Effort via applyFlagSettings, tracked on the server. Orient on the terminal.",
+      "status": "answered",
+      "asked_at": "2026-09-20T17:40:00Z",
+      "answered_at": "2026-09-20T17:50:00Z"
+    },
+    {
+      "id": "c5",
+      "block": "b3",
+      "step": "6",
+      "question": "Which approach for b3: hybrid answer flow (one card for a single question, tabs with a review step for several), decline as deny with an optional message, Other as the answer text, previews kept as plain text?",
+      "options": [
+        "Hybrid (option C) with the sub-decisions as recommended",
+        "Single-page form (option A)",
+        "Wizard for every question set (option B)"
+      ],
+      "answer": "Hybrid (option C): one card with direct send for a single question, tabs with a review step for several. Decline is deny with an optional message and no interrupt. Other is the answer text. No annotations. Previews stay plain text, shown for the focused option. The previewFormat default is checked on a real request in step 7.",
+      "status": "answered",
+      "asked_at": "2026-09-20T18:05:00Z",
+      "answered_at": "2026-09-20T18:12:00Z"
+    },
+    {
+      "id": "c6",
+      "block": "b2",
+      "step": "6",
+      "question": "Which approach for b2: command list as a live event pushed on attach, git-based file index with refresh on open and a short TTL, a custom listbox that keeps focus in the textarea, history and draft in the browser, plain @path text. And should the popup highlight no row by default, as the terminal does?",
+      "options": [
+        "As recommended, no default highlight (terminal parity)",
+        "As recommended, first row highlighted by default",
+        "Other"
+      ],
+      "answer": "As recommended, and no row highlighted by default, so Enter sends the text as typed and Tab takes the top match.",
+      "status": "answered",
+      "asked_at": "2026-09-20T18:30:00Z",
+      "answered_at": "2026-09-20T18:35:00Z"
+    },
+    {
+      "id": "c7",
+      "block": "b1",
+      "step": "7",
+      "question": "Are the LikeC4 change, the frozen contracts and the two ADRs right for b1? Everything after this is implemented strictly against them.",
+      "options": [
+        "Freeze as they stand",
+        "Change something first",
+        "The chat seam is too close: merge b1 and b2"
+      ],
+      "answer": "Freeze as they stand, including the chat seam and the shared not_held result.",
+      "status": "answered",
+      "asked_at": "2026-09-20T19:20:00Z",
+      "answered_at": "2026-09-20T19:35:00Z"
+    },
+    {
+      "id": "c8",
+      "block": "b1",
+      "step": "7",
+      "question": "The auto mode is now offered, which changes the frozen SessionMode. Is the reopened contract right, with auto second in the ring and coloured like the other modes that let work happen unasked?",
+      "options": [
+        "Freeze again as it stands",
+        "Put auto somewhere else in the ring",
+        "Change something else first"
+      ],
+      "answer": "Freeze again as it stands, with auto second in the ring.",
+      "status": "answered",
+      "asked_at": "2026-09-20T20:55:00Z",
+      "answered_at": "2026-09-20T21:05:00Z"
+    },
+    {
+      "id": "c9",
+      "block": "b2",
+      "step": "7",
+      "question": "Are the LikeC4 change, the three frozen contracts and the two ADRs right for b2?",
+      "options": [
+        "Freeze as they stand",
+        "Change something first"
+      ],
+      "answer": "Freeze as they stand.",
+      "status": "answered",
+      "asked_at": "2026-09-20T21:30:00Z",
+      "answered_at": "2026-09-20T21:40:00Z"
+    },
+    {
+      "id": "c10",
+      "block": "b2",
+      "step": "7",
+      "question": "ComposerProperties was frozen without what the composer needs to reach. Should it take the command list and the draft book as properties?",
+      "options": [
+        "Take both as properties, as proposed",
+        "Let the composer make its own draft book and take only the commands",
+        "Something else"
+      ],
+      "answer": "Take both the commands and the draft book as properties, as proposed.",
+      "status": "answered",
+      "asked_at": "2026-09-20T22:10:00Z",
+      "answered_at": "2026-09-20T22:20:00Z"
+    },
+    {
+      "id": "c11",
+      "block": "b3",
+      "step": "7",
+      "question": "Are the LikeC4 split, the frozen contract and ADR 0025 right for b3?",
+      "options": [
+        "Freeze as it stands",
+        "Change something first"
+      ],
+      "answer": "Freeze as it stands.",
+      "status": "answered",
+      "asked_at": "2026-09-20T22:55:00Z",
+      "answered_at": "2026-09-20T23:05:00Z"
+    },
+    {
+      "id": "c12",
+      "block": null,
+      "step": "12.4",
+      "question": "The merged code and the to-be model disagree in three places. How should each be settled?",
+      "options": [
+        "Model follows the code, and the boundary crossing becomes a follow-up ticket",
+        "Model follows the code, and the crossing is fixed on main right now",
+        "Something else"
+      ],
+      "answer": "All four as recommended. The model follows the code: the composer edge goes, the chat edge says it changes things too, the session registry names the ruled tools, and the two construction edges are drawn. The boundary crossing becomes its own ticket rather than a quiet fix on main.",
+      "status": "answered",
+      "asked_at": "2026-09-20T23:40:00Z",
+      "answered_at": "2026-09-20T23:55:00Z"
+    }
+  ],
+  "jump_log": [
+    {
+      "from": "9",
+      "to": "7",
+      "block": "b1",
+      "trigger": "contract_change",
+      "reason": "The auto mode was left out of SessionMode by ADR 0020 and the developer wants it offered, which changes a frozen wire type.",
+      "at": "2026-09-20T20:40:00Z"
+    },
+    {
+      "from": "8",
+      "to": "7",
+      "block": "b2",
+      "trigger": "contract_change",
+      "reason": "ComposerProperties was frozen without the commands the slash completion reads and without the draft book, so the composer could not reach what the LikeC4 model already says it depends on.",
+      "at": "2026-09-20T22:05:00Z"
+    },
+    {
+      "from": "12",
+      "to": "12",
+      "block": "b2",
+      "trigger": "as_is_drift",
+      "reason": "The model still declared composer -> sessionControls after the 8 to 7 jump settled that the composer is handed the commands instead of reading them. The contract was corrected and the diagram was not, so main follows the code. Two construction edges the client model never drew were added, and the session registry's description now names the tools a session rule covers, which is the mechanism behind always allow. A boundary crossing found at the same time, the file index importing UnknownWorkspaceError from the session registry, is left to its own ticket.",
+      "at": "2026-09-21T00:00:00Z"
+    }
+  ]
+}

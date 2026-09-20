@@ -15,9 +15,24 @@ model {
         link ../../keel-web/client/src/chat/types.ts
       }
 
+      composer = component 'Composer' {
+        description 'Takes the message the developer writes, completes a slash command or a file reference in it, and keeps the unsent draft and what was sent before'
+        link ../../keel-web/client/src/composer/types.ts
+      }
+
       permissionPrompt = component 'Permission prompt' {
-        description 'Shows a held tool call with its input and takes the developer answer'
+        description 'Shows a held tool call with its input and takes the developer answer, for this one call or for the rest of the session'
         link ../../keel-web/client/src/chat/types.ts
+      }
+
+      questionPrompt = component 'Question prompt' {
+        description 'Shows what the agent is asking and takes the answer, one question at a time when there are several of them'
+        link ../../keel-web/client/src/questions/types.ts
+      }
+
+      sessionControls = component 'Session controls' {
+        description 'Holds the model, the mode, the effort and the commands a session offers, and takes the developer\'s change to any of them'
+        link ../../keel-web/client/src/session-controls/types.ts
       }
 
       transcriptStore = component 'Transcript store' {
@@ -26,7 +41,7 @@ model {
       }
 
       connection = component 'Session connection' {
-        description 'Opens the event stream and posts messages, permission answers and interrupts'
+        description 'Opens the event stream and posts messages, permission answers, interrupts and changes to what the session runs with'
         technology 'EventSource, fetch'
         link ../../keel-web/client/src/connection/types.ts
       }
@@ -92,13 +107,21 @@ model {
       shell -> connection 'Builds the connection the store runs on'
       chat -> transcriptStore 'Reads the transcript and sends messages, answers and interrupts'
       chat -> permissionPrompt 'Shows a held tool call in place'
+      chat -> questionPrompt 'Shows a question the agent asked in place'
+      chat -> composer 'Takes the message the developer writes, and hands it the commands to complete'
+      chat -> sessionControls 'Shows what the session runs with under the input, and changes it'
+      shell -> sessionControls 'Builds the store the one stream feeds'
+      shell -> composer 'Builds the book the unsent draft and the history live in'
+      sessionControls -> connection 'Posts a change to what the session runs with'
       transcriptStore -> connection 'Opens the stream and posts commands'
+      transcriptStore -> sessionControls 'Passes on what the one stream says the session runs with'
     }
   }
 
   keelWeb.client.connection -> keelWeb.server.chatApi 'Streams events and posts commands'
   keelWeb.client.workspaceList -> keelWeb.server.workspaceApi 'Reads the workspaces and adds or removes one'
   keelWeb.client.directoryPicker -> keelWeb.server.directories 'Reads the subdirectories of a path'
+  keelWeb.client.composer -> keelWeb.server.fileApi 'Reads the files and directories an @ query matches'
   keelWeb.client.centre -> keelWeb.server.artifactApi 'Reads the artefact tree and the open artefact, and asks again with its entity tag'
   keelWeb.client.architecturePane -> keelWeb.server.architecture 'Reads the laid-out model of a view on a branch'
   keelWeb.client.hintListener -> keelWeb.server.hints 'Subscribes to the hints of a ticket, from now on'

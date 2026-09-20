@@ -1,0 +1,52 @@
+# 11: The Claude Code experience: autocomplete and model selection
+
+## Goals
+- [x] Typing `/` in the chat offers slash commands with description and argument hint, and the list stays current when the SDK reports a change.  `agreed`
+- [x] Typing `@` offers files and directories of the workspace: tracked files plus untracked files that are not ignored, cached per workspace and filtered on the server.  `agreed`
+- [x] The model can be chosen and changed mid-session, together with the effort level.  `agreed`
+- [x] The permission mode can be switched in the chat: default, acceptEdits, plan, dontAsk. bypassPermissions is not offered.  `agreed`
+- [x] A status line under the input shows model, mode and effort and lets the developer change them.  `agreed`
+- [x] The developer can allow a tool for the rest of the session ("always allow").  `agreed`
+- [x] The input keeps a history (arrow up) and a draft per ticket.  `agreed`
+- [x] The questions tool is answered with the mouse: larger click areas, a free text "Other", direct send on a single choice, and a way to decline.  `agreed`
+- Out of scope: plan approval, todo list, context and cost display, image and file paste, rewind.
+
+## Problems
+- The chat input is a plain textarea without popup, completion, model or mode control.  `open`
+- `RunQuery` is deliberately narrower than the SDK `query`, so `supportedCommands`, `supportedModels`, `setModel` and `setPermissionMode` are not reachable.  `open`
+- The wire contract has no types for command lists, model, mode or file references.  `open`
+- The server has no file listing. `directories` lists subdirectories only and skips dotfiles.  `open`
+- The `PreToolUse` hook always returns `ask`, so a mode switch would have no effect on the gate.  `open`
+- Two contracts frozen from documentation in ticket 4 were wrong against the installed types.  `open: read the .d.ts before freezing anything in this ticket`
+
+## Open questions
+- Can `supportedCommands()` be called before the first turn, or only after the SDK's `init`?  `answered: yes, it awaits the initialisation started in the Query constructor. The registry's comment about the agent announcing itself applies to system/init only.`
+- How do mode, "always allow" and the always-ask hook interact in detail?  `answered: the hook asks only in default mode, see ADR 0020. Always allow returns the agent's own suggestions as updatedPermissions with every destination forced to session.`
+- Does a hook that returns no decision really let acceptEdits and dontAsk resolve a call, and is permission_mode current in the hook right after setPermissionMode?  `answered: the developer ran it against a real agent on 2026-09-20 and the auto mode behaved as ADR 0020 assumed`
+- Does the SDK expand a plain `@path` in a message the way the CLI's prompt handler does?  `open: never checked against a real agent. The developer chose to open the pull request without it, so b2 was marked done with this outstanding. If it turns out the SDK does not expand it, the composer inserts the right text and only the agent's reading of it is wrong, which is a fix in the session registry rather than in the composer.`
+- Which previewFormat does an AskUserQuestion request actually arrive with? The docs say absent when unset, the installed types say markdown is the default.  `answered: the installed types are right, the default is markdown rendered in a monospace box, so the existing <pre> is correct`
+- Are the selections stored per session with the last value as the workspace default?  `answered: per session, the last value is the default for new sessions in the workspace`
+- Which files does `@` offer?  `answered: tracked plus untracked and not ignored, plus directories`
+- Is bypassPermissions offered?  `answered: no. auto is offered, see ADR 0022.`
+- What does "questions tool nicely integrated" mean?  `answered: mouse first, Other, direct send on a single choice, decline`
+
+## Theme blocks
+- **b1** Session controls: slash command list, model, effort, mode, always allow, status line - `done`
+- **b2** Composer: slash and @ popup, file index, keyboard, input history and draft - `done`
+- **b3** Questions tool: mouse-first answering, Other, decline - `done`
+
+Risk: b2 consumes the command list from b1 as a wire event, so b1's contract must be settled first. `chatApi` and `protocol` are shared. The file route goes into its own component to avoid overlapping claims.
+
+## Log
+- 2026-09-20 - Scope agreed in step 2, blocks cut in step 4 (three blocks).
+- 2026-09-20 - Step 6 for all three blocks. b1: the agent's own mode decides what the browser is asked, which supersedes ADR 0006. b2: git-based file index, custom listbox, no row highlighted by default. b3: hybrid answer flow with no protocol change.
+- 2026-09-20 - Step 7 for b1: contracts frozen in seven declaration files, ADRs 0020 and 0021 written. `chat` is the seam between b1 and b2: neither claims it, because its own responsibility does not change, and each adds one edge into it.
+- 2026-09-20 - Step 8 for b1 found that ADR 0020's mechanism for "always allow" is not enough on its own: in the default mode the always-ask hook runs before the permission rules, so the agent's session rule would never be reached and the developer would keep being asked. The registry therefore also remembers the tool names a rule now covers and has the hook step aside for them, leaving the matching to the agent. No contract changed, so this is not a jump.
+- 2026-09-20 - Step 9 for b1: 253 tests pass, and all seven frozen contracts still carry their step 7 fingerprint. What cannot be tested without a real agent is still open: whether a hook that returns no decision really lets acceptEdits and dontAsk resolve a call.
+- 2026-09-20 - Jump from 9 to 7 for b1: the developer asked for the auto mode, which ADR 0020 had left out on my own reasoning rather than theirs. `SessionMode` gains it, so a frozen contract changed. ADR 0022 records the change and why auto is not the same kind of decision as bypassPermissions: a call the classifier is unsure about still reaches the browser.
+- 2026-09-20 - b1 is back through 8 and 9 with the five modes: 254 tests pass, and the six contracts the jump did not touch still carry their original fingerprint. The developer ran the auto mode against a real agent, which closes the one question ADR 0020 had left for step 9, so b1 is done.
+- 2026-09-20 - Step 7 for b2: the file index and the file route are their own server components, the composer is its own client component, and three contracts are frozen. ADRs 0023 and 0024 record where the file list comes from and why the popup takes neither the focus nor the highlight.
+- 2026-09-20 - Steps 8 and 9 for b2: 307 tests pass, and the three contracts carry their fingerprints. The composer's own component is not unit tested, because this repository has no component testing library and every client test here is a logic test. What it does is covered by its parts: the trigger, the completions, the draft book and the ranking.
+- 2026-09-20 - Steps 7 to 9 for b3. The installed tool schema settled two things the step 6 research had left open: the agent is told not to offer an "Other" option because the client is expected to provide it, and the default preview format is markdown in a monospace box. ADR 0025 records the split between one question and several. 324 tests pass and the contract carries its fingerprint, so b3 is done.
+- 2026-09-21 - Step 12 found drift the extractor named and the developer settled. The model still declared `composer -> sessionControls` although the 8 to 7 jump had decided the commands are handed over rather than read: the contract was corrected then and the diagram was not. `main` now follows the code. What this teaches the next step 7: a jump that reopens a contract has to reopen the diagram in the same breath, because the two were agreed together. Separately, the file index imports `UnknownWorkspaceError` from the session registry at runtime, which the model shows no edge for. The class belongs to the workspace registry rather than to sessions, so that is a follow-up ticket rather than an edge.
+- 2026-09-20 - Jump from 8 to 7 for b2. `ComposerProperties` was frozen with the session and two callbacks only, so the composer had no way to reach the command list the LikeC4 model already has it depending on, nor the draft book. My mistake at 7.2: I wrote the contract from what the component is handed by its parent and forgot what it reads. The proposal adds both as properties.
