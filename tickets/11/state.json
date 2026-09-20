@@ -15,7 +15,9 @@
     "adrs": [
       "tickets/11/adr/0020-the-session-mode-decides-what-the-browser-is-asked.md",
       "tickets/11/adr/0021-what-a-session-runs-with-is-state-not-history.md",
-      "tickets/11/adr/0022-the-auto-mode-is-offered-too.md"
+      "tickets/11/adr/0022-the-auto-mode-is-offered-too.md",
+      "tickets/11/adr/0023-the-file-index-is-what-git-lists.md",
+      "tickets/11/adr/0024-the-popup-takes-neither-the-focus-nor-the-highlight.md"
     ],
     "c4_views": ["server", "client"]
   },
@@ -24,7 +26,7 @@
       "id": "b1",
       "title": "Session controls: slash command list, model, effort, mode, always allow, status line",
       "step": "9",
-      "status": "in_progress",
+      "status": "done",
       "claimed_components": [
         "keelWeb.server.sessions",
         "keelWeb.server.permissionGate",
@@ -80,8 +82,36 @@
     {
       "id": "b2",
       "title": "Composer: slash and @ popup, file index, keyboard, input history and draft",
-      "step": "7",
-      "status": "pending"
+      "step": "9",
+      "status": "in_progress",
+      "claimed_components": [
+        "keelWeb.server.files",
+        "keelWeb.server.fileApi",
+        "keelWeb.server.app",
+        "keelWeb.client.composer",
+        "keelWeb.client.chat"
+      ],
+      "claimed_stubs": [
+        {
+          "path": "protocol/src/files.ts",
+          "symbol": "FileMatches",
+          "fingerprint": "01f678deb3232dda9074e87b931067053c1f381fec6a9cd2b57e8358ef1b13a2"
+        },
+        {
+          "path": "server/src/files/types.ts",
+          "symbol": "FileIndex",
+          "fingerprint": "3b7a4bb5d4b2216b4de9b6e2a9c2c99eec3a79d2883cbcb0b347eb80d5572e86"
+        },
+        {
+          "path": "client/src/composer/types.ts",
+          "symbol": "DraftBook",
+          "fingerprint": "1f6974524d1219a1e366b84c16192d40418898cefbf6c06ef2744e2567069417"
+        }
+      ],
+      "adrs": [
+        "tickets/11/adr/0023-the-file-index-is-what-git-lists.md",
+        "tickets/11/adr/0024-the-popup-takes-neither-the-focus-nor-the-highlight.md"
+      ]
     },
     {
       "id": "b3",
@@ -202,6 +232,32 @@
       "status": "answered",
       "asked_at": "2026-09-20T20:55:00Z",
       "answered_at": "2026-09-20T21:05:00Z"
+    },
+    {
+      "id": "c9",
+      "block": "b2",
+      "step": "7",
+      "question": "Are the LikeC4 change, the three frozen contracts and the two ADRs right for b2?",
+      "options": ["Freeze as they stand", "Change something first"],
+      "answer": "Freeze as they stand.",
+      "status": "answered",
+      "asked_at": "2026-09-20T21:30:00Z",
+      "answered_at": "2026-09-20T21:40:00Z"
+    },
+    {
+      "id": "c10",
+      "block": "b2",
+      "step": "7",
+      "question": "ComposerProperties was frozen without what the composer needs to reach. Should it take the command list and the draft book as properties?",
+      "options": [
+        "Take both as properties, as proposed",
+        "Let the composer make its own draft book and take only the commands",
+        "Something else"
+      ],
+      "answer": "Take both the commands and the draft book as properties, as proposed.",
+      "status": "answered",
+      "asked_at": "2026-09-20T22:10:00Z",
+      "answered_at": "2026-09-20T22:20:00Z"
     }
   ],
   "jump_log": [
@@ -212,6 +268,14 @@
       "trigger": "contract_change",
       "reason": "The auto mode was left out of SessionMode by ADR 0020 and the developer wants it offered, which changes a frozen wire type.",
       "at": "2026-09-20T20:40:00Z"
+    },
+    {
+      "from": "8",
+      "to": "7",
+      "block": "b2",
+      "trigger": "contract_change",
+      "reason": "ComposerProperties was frozen without the commands the slash completion reads and without the draft book, so the composer could not reach what the LikeC4 model already says it depends on.",
+      "at": "2026-09-20T22:05:00Z"
     }
   ]
 }

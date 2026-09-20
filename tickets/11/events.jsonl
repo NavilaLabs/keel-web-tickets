@@ -64,3 +64,23 @@
 {"at": "2026-09-20T18:34:05.985457+00:00", "type": "consultation_closed", "consultation": "c8"}
 {"at": "2026-09-20T18:34:20.850336+00:00", "type": "step_changed", "block": "b1", "from": "7", "to": "9"}
 {"at": "2026-09-20T18:34:20.850336+00:00", "type": "block_status_changed", "block": "b1", "from": "awaiting_consultation", "to": "in_progress"}
+{"at": "2026-09-20T18:37:43.217152+00:00", "type": "block_status_changed", "block": "b1", "from": "in_progress", "to": "done"}
+{"at": "2026-09-20T18:37:47.388221+00:00", "type": "step_changed", "block": "b2", "from": "7", "to": "7.1"}
+{"at": "2026-09-20T18:37:47.388221+00:00", "type": "block_status_changed", "block": "b2", "from": "pending", "to": "in_progress"}
+{"at": "2026-09-20T18:40:18.785118+00:00", "type": "step_changed", "block": "b2", "from": "7.1", "to": "7"}
+{"at": "2026-09-20T18:40:18.785118+00:00", "type": "block_status_changed", "block": "b2", "from": "in_progress", "to": "awaiting_consultation"}
+{"at": "2026-09-20T18:40:18.785118+00:00", "type": "artifact_hint", "block": "b2", "step": "7", "targets": [{"kind": "stub", "repo": "code", "path": "protocol/src/files.ts", "symbol": "FileMatches"}, {"kind": "stub", "repo": "code", "path": "server/src/files/types.ts", "symbol": "FileIndex"}, {"kind": "stub", "repo": "code", "path": "client/src/composer/types.ts", "symbol": "DraftBook"}]}
+{"at": "2026-09-20T18:40:23.880077+00:00", "type": "artifact_hint", "block": null, "step": null, "targets": [{"kind": "adr", "repo": "ticket", "path": "tickets/11/adr/0023-the-file-index-is-what-git-lists.md"}, {"kind": "adr", "repo": "ticket", "path": "tickets/11/adr/0024-the-popup-takes-neither-the-focus-nor-the-highlight.md"}]}
+{"at": "2026-09-20T18:40:29.341415+00:00", "type": "consultation_opened", "consultation": "c9"}
+{"at": "2026-09-20T18:40:29.341415+00:00", "type": "artifact_hint", "block": "b2", "step": "7", "consultation": "c9", "targets": [{"kind": "c4_view", "view": "server", "branch": "ticket/11"}, {"kind": "c4_view", "view": "client", "branch": "ticket/11"}, {"kind": "stub", "repo": "code", "path": "protocol/src/files.ts", "symbol": "FileMatches"}, {"kind": "stub", "repo": "code", "path": "server/src/files/types.ts", "symbol": "FileIndex"}, {"kind": "stub", "repo": "code", "path": "client/src/composer/types.ts", "symbol": "DraftBook"}, {"kind": "adr", "repo": "ticket", "path": "tickets/11/adr/0023-the-file-index-is-what-git-lists.md"}, {"kind": "adr", "repo": "ticket", "path": "tickets/11/adr/0024-the-popup-takes-neither-the-focus-nor-the-highlight.md"}]}
+{"at": "2026-09-20T18:41:49.740584+00:00", "type": "consultation_closed", "consultation": "c9"}
+{"at": "2026-09-20T18:41:54.172535+00:00", "type": "step_changed", "block": "b2", "from": "7", "to": "8"}
+{"at": "2026-09-20T18:41:54.172535+00:00", "type": "block_status_changed", "block": "b2", "from": "awaiting_consultation", "to": "in_progress"}
+{"at": "2026-09-20T18:43:45.654150+00:00", "type": "step_changed", "block": "b2", "from": "8", "to": "7"}
+{"at": "2026-09-20T18:43:45.654150+00:00", "type": "block_status_changed", "block": "b2", "from": "in_progress", "to": "awaiting_consultation"}
+{"at": "2026-09-20T18:43:51.992702+00:00", "type": "jump_recorded", "total": 2}
+{"at": "2026-09-20T18:44:14.737790+00:00", "type": "consultation_opened", "consultation": "c10"}
+{"at": "2026-09-20T18:44:14.737790+00:00", "type": "artifact_hint", "block": "b2", "step": "7", "consultation": "c10", "targets": [{"kind": "c4_view", "view": "server", "branch": "ticket/11"}, {"kind": "c4_view", "view": "client", "branch": "ticket/11"}, {"kind": "stub", "repo": "code", "path": "protocol/src/files.ts", "symbol": "FileMatches"}, {"kind": "stub", "repo": "code", "path": "server/src/files/types.ts", "symbol": "FileIndex"}, {"kind": "stub", "repo": "code", "path": "client/src/composer/types.ts", "symbol": "DraftBook"}, {"kind": "adr", "repo": "ticket", "path": "tickets/11/adr/0023-the-file-index-is-what-git-lists.md"}, {"kind": "adr", "repo": "ticket", "path": "tickets/11/adr/0024-the-popup-takes-neither-the-focus-nor-the-highlight.md"}]}
+{"at": "2026-09-20T18:46:19.433406+00:00", "type": "consultation_closed", "consultation": "c10"}
+{"at": "2026-09-20T18:50:31.926835+00:00", "type": "step_changed", "block": "b2", "from": "7", "to": "9"}
+{"at": "2026-09-20T18:50:31.926835+00:00", "type": "block_status_changed", "block": "b2", "from": "awaiting_consultation", "to": "in_progress"}

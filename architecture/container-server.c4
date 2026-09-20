@@ -20,6 +20,18 @@ model {
         link ../../keel-web/server/src/workspaces/types.ts
       }
 
+      files = component 'File index' {
+        description 'Holds the files and directories of a workspace that an @ reference can name, and answers the ones a query matches'
+        technology 'git'
+        link ../../keel-web/server/src/files/types.ts
+      }
+
+      fileApi = component 'File API' {
+        description 'Serves the entries an @ query matches, filtered before it answers so a repository never travels to the browser'
+        technology 'Hono'
+        link ../../keel-web/server/src/files/types.ts
+      }
+
       directories = component 'Directory browser' {
         description 'Lists the subdirectories of a path on this machine, so a repository can be picked instead of typed'
         link ../../keel-web/server/src/directories/types.ts
@@ -100,6 +112,10 @@ model {
       app -> artifactApi 'Mounts the artefact routes'
       app -> architecture 'Mounts the architecture route'
       app -> hints 'Mounts the hint stream'
+      app -> fileApi 'Mounts the file routes'
+      fileApi -> workspaces 'Resolves the workspace a request names'
+      fileApi -> files 'Reads the entries a query matches'
+      files -> workspaces 'Reads the repository the index is built from'
       hints -> workspaces 'Resolves the ticket repository the event stream is read from'
       artifactApi -> workspaces 'Resolves the workspace a request names'
       artifactApi -> artifacts 'Lists the artefacts of a ticket and reads one'
