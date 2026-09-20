@@ -92,3 +92,8 @@
 {"at": "2026-09-20T18:53:50.245295+00:00", "type": "consultation_closed", "consultation": "c11"}
 {"at": "2026-09-20T18:55:56.649635+00:00", "type": "step_changed", "block": "b3", "from": "7", "to": "9"}
 {"at": "2026-09-20T18:55:56.649635+00:00", "type": "block_status_changed", "block": "b3", "from": "awaiting_consultation", "to": "done"}
+{"at": "2026-09-20T18:59:50.321037+00:00", "type": "phase_changed", "from": "blocks", "to": "delivery"}
+{"at": "2026-09-20T18:59:50.321037+00:00", "type": "block_status_changed", "block": "b2", "from": "in_progress", "to": "done"}
+{"at": "2026-09-20T19:05:57.767917+00:00", "type": "consultation_opened", "consultation": "c12"}
+{"at": "2026-09-20T19:07:37.495017+00:00", "type": "consultation_closed", "consultation": "c12"}
+{"at": "2026-09-20T19:07:57.609244+00:00", "type": "jump_recorded", "total": 3}

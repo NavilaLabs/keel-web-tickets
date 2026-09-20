@@ -50,7 +50,7 @@ model {
       }
 
       sessions = component 'Session registry' {
-        description 'Owns one resumable Claude Code session per workspace and ticket, its attached viewers, its held tool calls and the model, mode and effort it runs with'
+        description 'Owns one resumable Claude Code session per workspace and ticket, its attached viewers, its held tool calls, the tools a session rule now covers and the model, mode and effort it runs with'
         technology 'Claude Agent SDK'
         link ../../keel-web/server/src/sessions/types.ts
       }

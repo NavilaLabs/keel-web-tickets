@@ -5,9 +5,11 @@
   "code_repo": "NavilaLabs/keel-web",
   "pr": {
     "host": "github",
-    "state": "none"
+    "url": "https://github.com/NavilaLabs/keel-web/pull/15",
+    "number": 15,
+    "state": "merged"
   },
-  "phase": "blocks",
+  "phase": "delivery",
   "as_is_base_commit": "a362156cff5f1908b505e18011901986694c4293",
   "to_be_branch": "ticket/11",
   "artifacts": {
@@ -20,7 +22,10 @@
       "tickets/11/adr/0024-the-popup-takes-neither-the-focus-nor-the-highlight.md",
       "tickets/11/adr/0025-one-question-is-a-card-and-several-are-a-walk.md"
     ],
-    "c4_views": ["server", "client"]
+    "c4_views": [
+      "server",
+      "client"
+    ]
   },
   "blocks": [
     {
@@ -84,7 +89,7 @@
       "id": "b2",
       "title": "Composer: slash and @ popup, file index, keyboard, input history and draft",
       "step": "9",
-      "status": "in_progress",
+      "status": "done",
       "claimed_components": [
         "keelWeb.server.files",
         "keelWeb.server.fileApi",
@@ -119,7 +124,9 @@
       "title": "Questions tool: mouse-first answering, Other, decline",
       "step": "9",
       "status": "done",
-      "claimed_components": ["keelWeb.client.questionPrompt"],
+      "claimed_components": [
+        "keelWeb.client.questionPrompt"
+      ],
       "claimed_stubs": [
         {
           "path": "client/src/questions/types.ts",
@@ -127,7 +134,9 @@
           "fingerprint": "5cebb7ae0e263aaf1583ba680de1244cac41d459c99f1bc109020bdf7c03bf23"
         }
       ],
-      "adrs": ["tickets/11/adr/0025-one-question-is-a-card-and-several-are-a-walk.md"]
+      "adrs": [
+        "tickets/11/adr/0025-one-question-is-a-card-and-several-are-a-walk.md"
+      ]
     }
   ],
   "consultations": [
@@ -162,7 +171,10 @@
       "block": null,
       "step": "5",
       "question": "Is knowledge.md correct, and may I commit and push it to the ticket repo and link it on issue #11?",
-      "options": ["Correct, commit, push and link", "Changes needed first"],
+      "options": [
+        "Correct, commit, push and link",
+        "Changes needed first"
+      ],
       "answer": "Correct, commit, push and link (developer: 'Dann mal los mit Schritt 6')",
       "status": "answered",
       "asked_at": "2026-09-20T17:15:00Z",
@@ -248,7 +260,10 @@
       "block": "b2",
       "step": "7",
       "question": "Are the LikeC4 change, the three frozen contracts and the two ADRs right for b2?",
-      "options": ["Freeze as they stand", "Change something first"],
+      "options": [
+        "Freeze as they stand",
+        "Change something first"
+      ],
       "answer": "Freeze as they stand.",
       "status": "answered",
       "asked_at": "2026-09-20T21:30:00Z",
@@ -274,11 +289,29 @@
       "block": "b3",
       "step": "7",
       "question": "Are the LikeC4 split, the frozen contract and ADR 0025 right for b3?",
-      "options": ["Freeze as it stands", "Change something first"],
+      "options": [
+        "Freeze as it stands",
+        "Change something first"
+      ],
       "answer": "Freeze as it stands.",
       "status": "answered",
       "asked_at": "2026-09-20T22:55:00Z",
       "answered_at": "2026-09-20T23:05:00Z"
+    },
+    {
+      "id": "c12",
+      "block": null,
+      "step": "12.4",
+      "question": "The merged code and the to-be model disagree in three places. How should each be settled?",
+      "options": [
+        "Model follows the code, and the boundary crossing becomes a follow-up ticket",
+        "Model follows the code, and the crossing is fixed on main right now",
+        "Something else"
+      ],
+      "answer": "All four as recommended. The model follows the code: the composer edge goes, the chat edge says it changes things too, the session registry names the ruled tools, and the two construction edges are drawn. The boundary crossing becomes its own ticket rather than a quiet fix on main.",
+      "status": "answered",
+      "asked_at": "2026-09-20T23:40:00Z",
+      "answered_at": "2026-09-20T23:55:00Z"
     }
   ],
   "jump_log": [
@@ -297,6 +330,14 @@
       "trigger": "contract_change",
       "reason": "ComposerProperties was frozen without the commands the slash completion reads and without the draft book, so the composer could not reach what the LikeC4 model already says it depends on.",
       "at": "2026-09-20T22:05:00Z"
+    },
+    {
+      "from": "12",
+      "to": "12",
+      "block": "b2",
+      "trigger": "as_is_drift",
+      "reason": "The model still declared composer -> sessionControls after the 8 to 7 jump settled that the composer is handed the commands instead of reading them. The contract was corrected and the diagram was not, so main follows the code. Two construction edges the client model never drew were added, and the session registry's description now names the tools a session rule covers, which is the mechanism behind always allow. A boundary crossing found at the same time, the file index importing UnknownWorkspaceError from the session registry, is left to its own ticket.",
+      "at": "2026-09-21T00:00:00Z"
     }
   ]
 }
