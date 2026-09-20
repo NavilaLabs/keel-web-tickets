@@ -60,6 +60,9 @@ model {
         link ../../keel-web/server/src/logging/types.ts
       }
 
+      // Edges from app are what it mounts. It also constructs every component
+      // below, being the composition root, and that is deliberately not drawn:
+      // eight edges from one element would say less than four.
       app -> logger 'Mounts request logging and logs startup'
       app -> chatApi 'Mounts the chat routes'
       app -> workspaceApi 'Mounts the workspace routes'

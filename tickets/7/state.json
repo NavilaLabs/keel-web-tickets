@@ -267,6 +267,14 @@
       "trigger": "design_flaw",
       "reason": "Adding a repository by typing its path into a text field meets the ticket's goal only in the letter. The developer asked for an explorer-style picker, and pointing at a path is what the ticket actually says. A browser cannot hand over an absolute path, so this is a server-side directory listing: a new route, a new wire type and a change to the client contract.",
       "at": "2026-09-20T08:10:04.220213Z"
+    },
+    {
+      "from": "12",
+      "to": "12",
+      "block": "b2",
+      "trigger": "as_is_drift",
+      "reason": "The to-be model declared `directoryPicker -> workspaceList`, which the code does not have: directory-picker.tsx imports nothing from ../workspaces, and the shell passes the chosen path on through onChoose. The conceptual direction of the flow was drawn where the dependency direction belongs. The code is right and main follows it. This is the third time in this project, after ticket 4 recorded the same lesson twice.",
+      "at": "2026-09-20T08:37:52.774240Z"
     }
   ],
   "artifacts": {

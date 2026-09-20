@@ -51,7 +51,7 @@ model {
       shell -> workspaceList 'Lists the repositories to pick from, and adds or removes one'
       shell -> directoryPicker 'Opens the picker and takes the directory it returns'
       shell -> transcriptStore 'Points the store at the selected ticket'
-      directoryPicker -> workspaceList 'Hands over the directory the developer chose'
+      shell -> connection 'Builds the connection the store runs on'
       chat -> transcriptStore 'Reads the transcript and sends messages, answers and interrupts'
       chat -> permissionPrompt 'Shows a held tool call in place'
       transcriptStore -> connection 'Opens the stream and posts commands'
