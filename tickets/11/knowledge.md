@@ -27,7 +27,7 @@
 - Which previewFormat does an AskUserQuestion request actually arrive with? The docs say absent when unset, the installed types say markdown is the default.  `open: to be observed on a real request in b3`
 - Are the selections stored per session with the last value as the workspace default?  `answered: per session, the last value is the default for new sessions in the workspace`
 - Which files does `@` offer?  `answered: tracked plus untracked and not ignored, plus directories`
-- Is bypassPermissions offered?  `answered: no`
+- Is bypassPermissions offered?  `answered: no. auto is offered, see ADR 0022.`
 - What does "questions tool nicely integrated" mean?  `answered: mouse first, Other, direct send on a single choice, decline`
 
 ## Theme blocks
@@ -43,3 +43,5 @@ Risk: b2 consumes the command list from b1 as a wire event, so b1's contract mus
 - 2026-09-20 - Step 7 for b1: contracts frozen in seven declaration files, ADRs 0020 and 0021 written. `chat` is the seam between b1 and b2: neither claims it, because its own responsibility does not change, and each adds one edge into it.
 - 2026-09-20 - Step 8 for b1 found that ADR 0020's mechanism for "always allow" is not enough on its own: in the default mode the always-ask hook runs before the permission rules, so the agent's session rule would never be reached and the developer would keep being asked. The registry therefore also remembers the tool names a rule now covers and has the hook step aside for them, leaving the matching to the agent. No contract changed, so this is not a jump.
 - 2026-09-20 - Step 9 for b1: 253 tests pass, and all seven frozen contracts still carry their step 7 fingerprint. What cannot be tested without a real agent is still open: whether a hook that returns no decision really lets acceptEdits and dontAsk resolve a call.
+- 2026-09-20 - Jump from 9 to 7 for b1: the developer asked for the auto mode, which ADR 0020 had left out on my own reasoning rather than theirs. `SessionMode` gains it, so a frozen contract changed. ADR 0022 records the change and why auto is not the same kind of decision as bypassPermissions: a call the classifier is unsure about still reaches the browser.
+- 2026-09-20 - b1 is back through 8 and 9 with the five modes: 254 tests pass, and the six contracts the jump did not touch still carry their original fingerprint.

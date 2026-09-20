@@ -14,7 +14,8 @@
     "knowledge": "tickets/11/knowledge.md",
     "adrs": [
       "tickets/11/adr/0020-the-session-mode-decides-what-the-browser-is-asked.md",
-      "tickets/11/adr/0021-what-a-session-runs-with-is-state-not-history.md"
+      "tickets/11/adr/0021-what-a-session-runs-with-is-state-not-history.md",
+      "tickets/11/adr/0022-the-auto-mode-is-offered-too.md"
     ],
     "c4_views": ["server", "client"]
   },
@@ -37,7 +38,7 @@
         {
           "path": "protocol/src/session-controls.ts",
           "symbol": "SessionControls",
-          "fingerprint": "d6bd31dbbbaf2c7c3e39d69ec54f4af59deb2504a03138903c5bda30b0a70f5f"
+          "fingerprint": "b34af30f8f02011ceea541aead490aba453f13a2435b2f51a3fc42e2dd5e8878"
         },
         {
           "path": "protocol/src/events.ts",
@@ -72,7 +73,8 @@
       ],
       "adrs": [
         "tickets/11/adr/0020-the-session-mode-decides-what-the-browser-is-asked.md",
-        "tickets/11/adr/0021-what-a-session-runs-with-is-state-not-history.md"
+        "tickets/11/adr/0021-what-a-session-runs-with-is-state-not-history.md",
+        "tickets/11/adr/0022-the-auto-mode-is-offered-too.md"
       ]
     },
     {
@@ -185,7 +187,31 @@
       "status": "answered",
       "asked_at": "2026-09-20T19:20:00Z",
       "answered_at": "2026-09-20T19:35:00Z"
+    },
+    {
+      "id": "c8",
+      "block": "b1",
+      "step": "7",
+      "question": "The auto mode is now offered, which changes the frozen SessionMode. Is the reopened contract right, with auto second in the ring and coloured like the other modes that let work happen unasked?",
+      "options": [
+        "Freeze again as it stands",
+        "Put auto somewhere else in the ring",
+        "Change something else first"
+      ],
+      "answer": "Freeze again as it stands, with auto second in the ring.",
+      "status": "answered",
+      "asked_at": "2026-09-20T20:55:00Z",
+      "answered_at": "2026-09-20T21:05:00Z"
     }
   ],
-  "jump_log": []
+  "jump_log": [
+    {
+      "from": "9",
+      "to": "7",
+      "block": "b1",
+      "trigger": "contract_change",
+      "reason": "The auto mode was left out of SessionMode by ADR 0020 and the developer wants it offered, which changes a frozen wire type.",
+      "at": "2026-09-20T20:40:00Z"
+    }
+  ]
 }
