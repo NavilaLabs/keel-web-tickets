@@ -95,7 +95,6 @@ model {
       app -> architecture 'Mounts the architecture route'
       artifactApi -> workspaces 'Resolves the workspace a request names'
       artifactApi -> artifacts 'Lists the artefacts of a ticket and reads one'
-      artifacts -> workspaces 'Reads the two repositories an artefact may come from'
       artifacts -> architecture 'Asks which views the model of a branch defines'
       architecture -> workspaces 'Reads the ticket repository the architecture sources live in'
       workspaceApi -> workspaces 'Lists the workspaces and adds or removes one'

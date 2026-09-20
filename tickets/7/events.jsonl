@@ -1,0 +1,6 @@
+{"at": "2026-09-20T09:28:28.838469+00:00", "type": "phase_changed", "from": null, "to": "done"}
+{"at": "2026-09-20T09:28:28.838469+00:00", "type": "step_changed", "block": "b1", "from": null, "to": "9"}
+{"at": "2026-09-20T09:28:28.838469+00:00", "type": "block_status_changed", "block": "b1", "from": null, "to": "done"}
+{"at": "2026-09-20T09:28:28.838469+00:00", "type": "step_changed", "block": "b2", "from": null, "to": "9"}
+{"at": "2026-09-20T09:28:28.838469+00:00", "type": "block_status_changed", "block": "b2", "from": null, "to": "done"}
+{"at": "2026-09-20T09:28:28.838469+00:00", "type": "jump_recorded", "total": 4}

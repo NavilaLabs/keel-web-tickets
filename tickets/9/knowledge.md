@@ -91,9 +91,9 @@ diagrams, and it blocks none of the goals above. Its own ticket.
 
 ## Theme blocks
 
-- **b1** Artefacts served, and readable in the centre - `in_progress`
+- **b1** Artefacts served, and readable in the centre - `done`
 - **b2** The workflow points the centre at an artefact - `pending`
-- **b3** LikeC4 views, rendered interactively - `pending`
+- **b3** LikeC4 views, rendered interactively - `done`
 
 b2 runs after b1 rather than beside it: it needs b1's frozen contract for how an artefact is
 addressed and opened. Its step 6 research is independent. b3 depends on neither.
@@ -120,6 +120,24 @@ addressed and opened. Its step 6 research is independent. b3 depends on neither.
   this model in 176 ms, lays it out in 103 ms with Graphviz as WebAssembly, and `$data`
   serialises to 59 kB that `createLikeC4Model` rebuilds intact. Playwright, feared as a
   several-hundred-megabyte install, has no install script in the version `likec4` depends on.
+- 2026-09-20 - Jump from 8 back to 7.2, block b1, on the first attempt to implement the reader.
+  `read` was to report whether a stub still matches the hash frozen at 7.2, but its signature
+  carried no ticket, and that hash lives in a ticket's `state.json`. Searching for the path across
+  tickets would have reported whichever ticket was read first, so the ticket is now a parameter.
+  The reader's unused dependency on the workspace registry went with it, and the model edge that
+  claimed the same thing.
+- 2026-09-20 - Step 9, b3 done. The production build, not the tests, found two defects that
+  every green check had missed: importing `shiki` rather than its fine-grained entry points
+  pulled every grammar it knows into the bundle, and likec4 sat in the main chunk instead of
+  being loaded when a diagram is opened. Fixed, and the main chunk fell from 2.7 MB to 505 kB.
+  Worth remembering: a passing test suite says nothing about what ships.
+- 2026-09-20 - Jump from 9 back to 7.1, block b1. Verification found the model claiming an edge
+  the code does not have, `centre -> router`: the shell owns navigation and hands the centre a
+  callback, which keeps navigation in one place and leaves the centre a view that reports. The
+  edge was dropped rather than the code changed to match it.
+- 2026-09-20 - Step 9, b1 done. Also worth recording: the formatter removed a blank line from a
+  frozen contract file, so its fingerprint was renewed deliberately and in the open. A
+  fingerprint quietly renewed is a drift display that has stopped meaning anything.
 - 2026-09-20 - Step 7. The overlap predicted at step 4 did appear, in the contracts rather than
   in the model: one protocol file and one route carried both blocks. Resolved by splitting the
   protocol file and reducing b1's knowledge of the architecture to a narrow port that returns

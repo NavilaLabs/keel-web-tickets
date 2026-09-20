@@ -24,8 +24,8 @@
     {
       "id": "b1",
       "title": "Artefacts served, and readable in the centre",
-      "step": "8",
-      "status": "in_progress",
+      "step": "9",
+      "status": "done",
       "claimed_components": [
         "keelWeb.server.hostGuard",
         "keelWeb.server.artifacts",
@@ -41,7 +41,7 @@
         {
           "path": "protocol/src/artifacts.ts",
           "symbol": "ArtifactRef",
-          "fingerprint": "4f42f95c174c75f648fcfe1075f937902229b84240b30694deff1ca8c735ab6d"
+          "fingerprint": "ee344100e476f03a8d9d28ccde2c3b33196698604625547f5415cd65f5c285a0"
         },
         {
           "path": "server/src/security/types.ts",
@@ -51,7 +51,7 @@
         {
           "path": "server/src/artifacts/types.ts",
           "symbol": "ArtifactReader",
-          "fingerprint": "3d15c5fe3d9df19cb70fb37ad647760393c41a605e17bc6cd1076f1857ab28ff"
+          "fingerprint": "7b7fc516920e89b564af025d145ebc3ad0a3c1870750fa51afe1e31c80ab3094"
         },
         {
           "path": "client/src/artifacts/types.ts",
@@ -79,8 +79,8 @@
     {
       "id": "b3",
       "title": "LikeC4 views, rendered interactively",
-      "step": "8",
-      "status": "pending",
+      "step": "9",
+      "status": "done",
       "claimed_components": [
         "keelWeb.server.architecture",
         "keelWeb.client.diagramView"
@@ -206,7 +206,48 @@
       "status": "answered",
       "asked_at": "2026-09-20T13:09:33+00:00",
       "answered_at": "2026-09-20T13:18:00+00:00"
+    },
+    {
+      "id": "c9",
+      "block": "b1",
+      "step": "7.2",
+      "question": "Two corrections to b1's frozen contract, found while implementing: ArtifactReader.read takes the ticket id so a stub's fingerprint can be looked up, and the reader drops its unused dependency on the workspace registry. Does that go in?",
+      "answer": "Both corrections go in.",
+      "status": "answered",
+      "asked_at": "2026-09-20T13:31:20+00:00",
+      "answered_at": "2026-09-20T13:34:00+00:00"
+    },
+    {
+      "id": "c10",
+      "block": "b1",
+      "step": "7.1",
+      "question": "Verification found the model claiming an edge the code does not have: centre -> router. The shell owns navigation and hands the centre a callback. Drop the edge from the model, or move navigation into the centre?",
+      "options": [
+        "Drop the edge, the shell keeps navigating",
+        "Give the centre the router and keep the edge"
+      ],
+      "answer": "Drop the edge. The shell keeps navigating, the centre stays a view that reports.",
+      "status": "answered",
+      "asked_at": "2026-09-20T13:58:06+00:00",
+      "answered_at": "2026-09-20T14:00:00+00:00"
     }
   ],
-  "jump_log": []
+  "jump_log": [
+    {
+      "from": "8",
+      "to": "7.2",
+      "block": "b1",
+      "trigger": "contract_change",
+      "reason": "ArtifactReader.read cannot produce a stub's fingerprint: the frozen hash lives in a ticket's state.json and the signature carries no ticket. The reader's dependency on the workspace registry is unused for the same reason the methods take a workspace.",
+      "at": "2026-09-20T13:31:20+00:00"
+    },
+    {
+      "from": "9",
+      "to": "7.1",
+      "block": "b1",
+      "trigger": "design_flaw",
+      "reason": "The model has the centre talking to the router, but the shell owns navigation and hands the centre a callback. One of the two is wrong, and the code is the better of the two.",
+      "at": "2026-09-20T13:58:06+00:00"
+    }
+  ]
 }

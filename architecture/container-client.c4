@@ -71,7 +71,6 @@ model {
       shell -> centre 'Gives the centre the room the sidebar leaves once a ticket is selected'
       centre -> artifactTree 'Lists what can be opened and takes what the developer picked'
       centre -> artifactView 'Shows the artefact of the active tab'
-      centre -> router 'Keeps the open artefact in the URL and reads it back on a deep link'
       artifactView -> diagramView 'Hands an architecture view over to be drawn'
       shell -> router 'Reads the selected workspace and ticket, and navigates'
       shell -> workspaceList 'Lists the repositories to pick from, and adds or removes one'

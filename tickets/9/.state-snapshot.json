@@ -20,8 +20,8 @@
   },
   "blocks": {
     "b1": {
-      "step": "8",
-      "status": "in_progress",
+      "step": "9",
+      "status": "done",
       "stubs": [
         {
           "path": "protocol/src/artifacts.ts",
@@ -57,8 +57,8 @@
       "adrs": []
     },
     "b3": {
-      "step": "8",
-      "status": "pending",
+      "step": "9",
+      "status": "done",
       "stubs": [
         {
           "path": "protocol/src/architecture.ts",
@@ -80,5 +80,5 @@
   },
   "open_consultations": [],
   "consultations": {},
-  "jumps": 0
+  "jumps": 2
 }
